@@ -38,4 +38,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    // FAB Speed Dial
+    implementation "com.leinardi.android:speed-dial:3.0.0"
 }
