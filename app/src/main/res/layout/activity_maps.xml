@@ -12,21 +12,52 @@
         android:layout_height="match_parent"
         tools:context=".MapsActivity" />
 
-    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
-        android:id="@+id/overlay"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_above_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    </com.leinardi.android.speeddial.SpeedDialOverlayLayout>
-    <com.leinardi.android.speeddial.SpeedDialView
-        android:id="@+id/speedDialView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        map:sdMainFabClosedSrc="@drawable/ic_marker_lv1"
-        map:sdOverlayLayout="@id/overlay"
-        >
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_qrcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/light_green_A7D86D"
+            android:clickable="true"
+            android:src="@drawable/ic_qrcode_scan"
+            map:fabCustomSize="@dimen/fab_72dp"
+            map:layout_constraintBottom_toBottomOf="parent"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintStart_toStartOf="parent" />
 
-    </com.leinardi.android.speeddial.SpeedDialView>
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/sv_location_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_searchbar"
+            android:elevation="5dp"
+            map:iconifiedByDefault="false"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="parent"
+            map:queryHint="@string/serach_title"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    <com.leinardi.android.speeddial.SpeedDialOverlayLayout-->
+<!--        android:id="@+id/overlay"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="wrap_content">-->
+
+<!--    </com.leinardi.android.speeddial.SpeedDialOverlayLayout>-->
+<!--    <com.leinardi.android.speeddial.SpeedDialView-->
+<!--        android:id="@+id/speedDialView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom|end"-->
+<!--        map:sdMainFabClosedSrc="@drawable/ic_marker_lv1"-->
+<!--        map:sdOverlayLayout="@id/overlay"-->
+<!--        >-->
+
+<!--    </com.leinardi.android.speeddial.SpeedDialView>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

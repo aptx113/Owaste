@@ -41,4 +41,8 @@ dependencies {
 
     // FAB Speed Dial
     implementation "com.leinardi.android:speed-dial:3.0.0"
+
+    // Constraint layout
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
 }

@@ -1,8 +1,12 @@
 package com.epoch.owaste
 
 import android.content.res.Resources
+import android.location.Address
+import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -12,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import java.io.IOException
 
 class MapsActivity :
     AppCompatActivity(),
@@ -24,6 +29,7 @@ class MapsActivity :
 
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var searchView : SearchView
 
     /**
      * map to store place names and locations
@@ -62,6 +68,34 @@ class MapsActivity :
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_location_widget)
+        searchView.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val location = searchView.query?.toString()
+                val addressList: List<Address>?
+
+                if (location != null || location != "") {
+                    val geocoder = Geocoder(this@MapsActivity)
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1)
+                        val address = addressList?.get(0)
+                        val latLng = LatLng(address!!.latitude, address.longitude)
+                        map.addMarker(MarkerOptions().position(latLng).title(location))
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+
+        })
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
     }
@@ -90,7 +124,8 @@ class MapsActivity :
 
         map = googleMap
 
-        map.uiSettings.isZoomControlsEnabled = true
+//        map.uiSettings.isZoomControlsEnabled = true
+        map.uiSettings.isZoomGesturesEnabled= true
         map.setOnMarkerClickListener(this)
 
         // create bounds that encompass every location we reference
