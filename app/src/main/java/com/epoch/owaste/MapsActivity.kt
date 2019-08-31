@@ -1,16 +1,17 @@
 package com.epoch.owaste
 
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Address
 import android.location.Geocoder
-import androidx.appcompat.app.AppCompatActivity
+import android.location.Location
 import android.os.Bundle
 import android.view.View
-import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -29,7 +30,9 @@ class MapsActivity :
 
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var searchView : SearchView
+    private lateinit var searchView: androidx.appcompat.widget.SearchView
+    private lateinit var lastLocation: Location
+    private var mapView: View? = null
 
     /**
      * map to store place names and locations
@@ -68,36 +71,11 @@ class MapsActivity :
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.sv_location_widget)
-        searchView.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                val location = searchView.query?.toString()
-                val addressList: List<Address>?
-
-                if (location != null || location != "") {
-                    val geocoder = Geocoder(this@MapsActivity)
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1)
-                        val address = addressList?.get(0)
-                        val latLng = LatLng(address!!.latitude, address.longitude)
-                        map.addMarker(MarkerOptions().position(latLng).title(location))
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-
-        })
+        mapView = mapFragment.view
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        searchRestaurants()
     }
 
     /**
@@ -125,7 +103,8 @@ class MapsActivity :
         map = googleMap
 
 //        map.uiSettings.isZoomControlsEnabled = true
-        map.uiSettings.isZoomGesturesEnabled= true
+        map.uiSettings.isZoomGesturesEnabled = true
+        map.uiSettings.isMyLocationButtonEnabled = false
         map.setOnMarkerClickListener(this)
 
         // create bounds that encompass every location we reference
@@ -150,6 +129,8 @@ class MapsActivity :
 
         // Add lots of markers to the GoogleMap.
         addMarkerToMap()
+
+        setUpMap()
     }
 
     /**
@@ -242,6 +223,61 @@ class MapsActivity :
                     .infoWindowAnchor(infoWindowAnchorX, infoWindowAnchorY)
                     .draggable(draggable)
                     .zIndex(zIndex))
+            }
+        }
+    }
+
+    private fun searchRestaurants() {
+
+        searchView = findViewById(R.id.sv_location_widget)
+        searchView.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val location = searchView.query?.toString()
+                val addressList: List<Address>?
+
+                if (location != null || location != "") {
+                    val geocoder = Geocoder(this@MapsActivity)
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1)
+                        val address = addressList?.get(0)
+                        val latLng = LatLng(address!!.latitude, address.longitude)
+                        map.addMarker(MarkerOptions().position(latLng).title(location))
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+
+        })
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+    private fun setUpMap() {
+        if (ActivityCompat.checkSelfPermission(this,
+            android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE)
+            return
+        }
+        map.isMyLocationEnabled = true
+
+        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+
+            if (location != null) {
+                lastLocation = location
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
     }

@@ -18,6 +18,21 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/white_FFFFFF"
+            android:clickable="true"
+            map:borderWidth="0dp"
+            map:fabSize="mini"
+            map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
+            map:layout_constraintEnd_toEndOf="parent"
+            map:layout_constraintTop_toTopOf="@+id/fab_qrcode"
+            map:maxImageSize="24dp"
+            map:srcCompat="@drawable/ic_current_location" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_qrcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,10 +40,12 @@
             android:backgroundTint="@color/light_green_A7D86D"
             android:clickable="true"
             android:src="@drawable/ic_qrcode_scan"
+            map:borderWidth="0dp"
             map:fabCustomSize="@dimen/fab_72dp"
             map:layout_constraintBottom_toBottomOf="parent"
             map:layout_constraintEnd_toEndOf="parent"
-            map:layout_constraintStart_toStartOf="parent" />
+            map:layout_constraintStart_toStartOf="parent"
+            map:maxImageSize="36dp" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/sv_location_widget"
@@ -40,7 +57,21 @@
             map:iconifiedByDefault="false"
             map:layout_constraintStart_toStartOf="parent"
             map:layout_constraintTop_toTopOf="parent"
-            map:queryHint="@string/serach_title"/>
+            map:queryHint="@string/serach_title" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_restaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/white_FFFFFF"
+            android:clickable="true"
+            map:borderWidth="0dp"
+            map:fabSize="mini"
+            map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
+            map:layout_constraintStart_toStartOf="parent"
+            map:layout_constraintTop_toTopOf="@+id/fab_qrcode"
+            map:srcCompat="@drawable/ic_add" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!--    <com.leinardi.android.speeddial.SpeedDialOverlayLayout-->
