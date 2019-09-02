@@ -17,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
 
 class MapsActivity :
@@ -131,6 +132,10 @@ class MapsActivity :
         addMarkerToMap()
 
         setUpMap()
+
+        fab_current_location.setOnClickListener {
+            setUpMap()
+        }
     }
 
     /**
@@ -270,15 +275,37 @@ class MapsActivity :
                 LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
-        map.isMyLocationEnabled = true
 
+        map.isMyLocationEnabled = true
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
 
             if (location != null) {
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
             }
         }
     }
+
+//    private fun onCurrentLocationClick() {
+//        fab_current_location.setOnClickListener {
+//
+//            if (ActivityCompat.checkSelfPermission(this,
+//                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this,
+//                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+//                    LOCATION_PERMISSION_REQUEST_CODE)
+//            }
+//
+//            map.isMyLocationEnabled = true
+//            fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+//
+//                if (location != null) {
+//                    lastLocation = location
+//                    val currentLatLng = LatLng(location.latitude, location.longitude)
+//                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
+//                }
+//            }
+//        }
+//    }
 }

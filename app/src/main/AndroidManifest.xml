@@ -32,8 +32,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.epoch.owaste.MapsActivity"
-            android:label="@string/title_activity_maps">
+            android:name="com.epoch.owaste.MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

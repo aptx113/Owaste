@@ -36,7 +36,7 @@
             android:id="@+id/fab_qrcode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="64dp"
             android:backgroundTint="@color/light_green_A7D86D"
             android:clickable="true"
             android:src="@drawable/ic_qrcode_scan"
