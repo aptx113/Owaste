@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -58,4 +60,16 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-firestore:21.0.0'
     implementation 'com.google.firebase:firebase-core:17.2.0'
+
+    // Firebase Authentication (帳號驗證模組)
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+
+    // Firebase Auth UI (第三方登入畫面模組)
+    implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+
+    implementation 'androidx.fragment:fragment:1.2.0-alpha02'
 }
