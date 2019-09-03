@@ -17,7 +17,6 @@
             <Layout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:elevation="5dp"
                 motion:layout_constraintBottom_toBottomOf="parent"
                 motion:layout_constraintStart_toStartOf="parent"/>
 <!--            <Layout-->
@@ -31,10 +30,33 @@
 <!--                motion:layout_constraintStart_toStartOf="parent"-->
 <!--                motion:layout_constraintTop_toBottomOf="@+id/fab_qrcode"/>-->
         </Constraint>
-        <Constraint android:id="@+id/cv_profile_img">
+        <Constraint android:id="@+id/img_profile">
             <Layout
                 android:layout_width="36dp"
-                android:layout_height="36dp"/>
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:scaleType="centerCrop"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:srcCompat="@android:drawable/sym_def_app_icon"/>
+        </Constraint>
+        <Constraint android:id="@+id/img_profile_frame">
+            <Layout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:scaleType="centerCrop"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:srcCompat="@android:drawable/sym_def_app_icon"/>
         </Constraint>
     </ConstraintSet>
 
@@ -45,7 +67,6 @@
             <Layout
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
-                android:elevation="5dp"
                 motion:layout_constraintBottom_toBottomOf="parent"
                 motion:layout_constraintStart_toStartOf="parent"/>
 <!--            <Layout-->
@@ -59,14 +80,33 @@
 <!--                motion:layout_constraintStart_toStartOf="parent"-->
 <!--                motion:layout_constraintTop_toBottomOf="@+id/fab_qrcode"/>-->
         </Constraint>
-        <Constraint android:id="@+id/cv_profile_img">
+        <Constraint android:id="@+id/img_profile">
             <Layout
-                android:layout_height="56dp"
                 android:layout_width="56dp"
-                android:layout_marginTop="16dp"
-                motion:layout_constraintBottom_toBottomOf="@+id/cv_profile_img"
-                motion:layout_constraintStart_toEndOf="@+id/cv_profile_img"
-                motion:layout_constraintTop_toTopOf="@+id/cv_profile_img"/>
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:scaleType="centerCrop"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:srcCompat="@android:drawable/sym_def_app_icon"/>
+        </Constraint>
+        <Constraint android:id="@+id/img_profile_frame">
+            <Layout
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:scaleType="centerCrop"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:srcCompat="@android:drawable/sym_def_app_icon"/>
         </Constraint>
     </ConstraintSet>
 </MotionScene>
