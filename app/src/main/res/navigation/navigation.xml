@@ -3,11 +3,10 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/navigation"
-            app:startDestination="@id/mapsActivity">
-
-    <activity
-        android:id="@+id/mapsActivity"
-        android:name="com.epoch.owaste.MapsActivity"
-        android:label="MapsActivity"
-        tools:layout="@layout/activity_maps"/>
+            app:startDestination="@id/mapsFragment">
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.epoch.owaste.MapsFragment"
+        android:label="MapsFragment"
+        tools:layout="@layout/fragment_maps"/>
 </navigation>
