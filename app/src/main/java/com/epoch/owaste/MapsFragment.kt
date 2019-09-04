@@ -81,7 +81,19 @@ class MapsFragment :
         savedInstanceState: Bundle?
     ): View? {
 
-//        val firestoreViewModel = ViewModelProviders.of(appContext).get(FirestoreViewModel::class.java)
+        val firestoreViewModel =
+            ViewModelProviders.of(this.requireParentFragment())
+                              .get(FirestoreViewModel::class.java)
+        val restaurant = Restaurants(
+            id = 2,
+            cardId = 5555,
+            level = 3,
+            lat = 25.042044,
+            lng = 121.564699,
+            placeId = "BBB"
+        )
+        firestoreViewModel.saveRestaurantToFirestore(restaurant)
+
         binding = FragmentMapsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -107,7 +119,7 @@ class MapsFragment :
 
         binding.fabGoogleSignIn.setOnClickListener {
 
-            i("EltinMapsF", "profile clicked")
+            i("EltinMapsF", "Sign In clicked")
             showSignInOptions()
         }
 
@@ -123,7 +135,12 @@ class MapsFragment :
                 val user = FirebaseAuth.getInstance().currentUser // get current User
                 i("EltinMapsF", "" + user?.photoUrl)
                 Glide.with(this).load(user?.photoUrl).into(img_profile)
-                txt_profile_name.text = user?.displayName
+//                txt_profile_name.text = user?.displayName
+//                cl_profile.visibility = View.VISIBLE
+//                img_profile.visibility = View.VISIBLE
+//                img_profile_frame.visibility = View.VISIBLE
+//                txt_profile_name.
+                ml_above_map.visibility = View.VISIBLE
 
             } else {
                 Toast.makeText(this.context, "" + response?.error?.message, Toast.LENGTH_SHORT)

@@ -1,23 +1,29 @@
 package com.epoch.owaste
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
 
 class FirestoreRepository {
 
     val TAG = "FIRESTORE_REPOSITORY"
     var firestoreDb = FirebaseFirestore.getInstance()
-    var user = FirebaseAuth.getInstance().currentUser
+    var uid = UUID.randomUUID().toString()
+    val restaurant = "Restaurant"
 
-    //save restaurants to firebase
-    fun saveRestaurantItem (restaurants: Restaurants): Task<Void> {
+    //save restaurant to Firestore
+    fun saveRestaurantItem (restaurantsItem: Restaurants): Task<Void> {
 
         var documentReference =
-            firestoreDb.collection("Restaurant")
-                       .document()
-
-        return documentReference.set(restaurants)
+            firestoreDb.collection(restaurant)
+                       .document(uid)
+        return documentReference.set(restaurantsItem)
     }
 
+    //get saved restaurant from Firestore
+    fun getSavedRestaurant(): CollectionReference {
+
+        return firestoreDb.collection(restaurant)
+    }
 }
