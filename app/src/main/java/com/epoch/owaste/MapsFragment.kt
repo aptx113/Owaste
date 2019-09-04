@@ -15,7 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.epoch.owaste.databinding.FragmentMapsBinding
@@ -81,21 +81,14 @@ class MapsFragment :
         savedInstanceState: Bundle?
     ): View? {
 
-        val firestoreViewModel =
+        val viewModel =
             ViewModelProviders.of(this.requireParentFragment())
-                              .get(FirestoreViewModel::class.java)
-        val restaurant = Restaurants(
-            id = 2,
-            cardId = 5555,
-            level = 3,
-            lat = 25.042044,
-            lng = 121.564699,
-            placeId = "BBB"
-        )
-        firestoreViewModel.saveRestaurantToFirestore(restaurant)
+                              .get(MapsViewModel::class.java)
 
-        binding = FragmentMapsBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
+        viewModel.getSavedRestaurants().observe(this, Observer {
+
+        })
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -105,8 +98,24 @@ class MapsFragment :
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
 
+        binding = FragmentMapsBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+
         binding.fabCurrentLocation.setOnClickListener {
 //            setUpMap()
+        }
+
+        binding.fabAddRestaurant.setOnClickListener {
+            //add restaurant to Firestore
+            val restaurant = Restaurants(
+                id = 2,
+                cardId = 5555,
+                level = 3,
+                lat = 25.042044,
+                lng = 121.564699,
+                placeId = "BBB"
+            )
+            viewModel.addRestaurant(restaurant)
         }
 
         searchRestaurants()
@@ -139,7 +148,7 @@ class MapsFragment :
 //                cl_profile.visibility = View.VISIBLE
 //                img_profile.visibility = View.VISIBLE
 //                img_profile_frame.visibility = View.VISIBLE
-//                txt_profile_name.
+                txt_profile_name.text = user?.displayName
                 ml_above_map.visibility = View.VISIBLE
 
             } else {

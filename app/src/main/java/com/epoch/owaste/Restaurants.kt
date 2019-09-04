@@ -2,9 +2,10 @@ package com.epoch.owaste
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 @Parcelize
-class Restaurants (
+data class Restaurants (
 
     val id: Long,
     val cardId: Long,
@@ -12,4 +13,6 @@ class Restaurants (
     val lat: Double,
     val lng: Double,
     val placeId: String
-) : Parcelable
+) : Parcelable {
+    constructor(): this(0,0,0, 0.0,0.0,"")
+}
