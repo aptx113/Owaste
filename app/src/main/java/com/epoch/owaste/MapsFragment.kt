@@ -3,7 +3,6 @@ package com.epoch.owaste
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Address
 import android.location.Geocoder
@@ -16,8 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
@@ -40,10 +37,7 @@ import java.io.IOException
 class MapsFragment :
     Fragment(),
     OnMapReadyCallback,
-    GoogleMap.OnMarkerClickListener,
-    GoogleMap.OnInfoWindowClickListener,
-    GoogleMap.OnInfoWindowCloseListener,
-    GoogleMap.OnInfoWindowLongClickListener
+    GoogleMap.OnMarkerClickListener
 {
 
     companion object {
@@ -80,20 +74,6 @@ class MapsFragment :
         "TAIWAN_A_CHENG" to LatLng(25.042451, 121.564005)
     )
 
-    override fun onMarkerClick(p0: Marker?) = false
-
-    override fun onInfoWindowClick(p0: Marker?) {
-        Toast.makeText(this.context,"Info Window Clicked", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onInfoWindowClose(p0: Marker?) {
-        Toast.makeText(this.context,"Info Window Closed", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onInfoWindowLongClick(p0: Marker?) {
-        Toast.makeText(this.context,"Info Window Long Clicked", Toast.LENGTH_SHORT).show()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -120,7 +100,13 @@ class MapsFragment :
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
-        showSignInOptions()
+//        (view as? MotionLayout)?.getTransition(R.id.ml_above_map)?.setEnable(false)
+
+        binding.fabGoogleSignIn.setOnClickListener {
+
+            i("EltinMapsF", "profile clicked")
+            showSignInOptions()
+        }
 
         // Inflate the layout for this fragment
         return binding.root
@@ -142,6 +128,8 @@ class MapsFragment :
             }
         }
     }
+
+    override fun onMarkerClick(p0: Marker?) = false
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -205,70 +193,70 @@ class MapsFragment :
         val placeDetailsMap = mutableMapOf(
 
             // Uses a custom icon
-            "WE_ME_CAFE" to PlaceDetails(
+            "WE_ME_CAFE" to PlacesDetails(
                 position = places.getValue("WE_ME_CAFE"),
                 title = "好好文化創意 We & Me Cafe",
                 snippet = "02 2763 8767",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
             ),
 
-            "AWESOME_BURGER" to PlaceDetails(
+            "AWESOME_BURGER" to PlacesDetails(
                 position = places.getValue("AWESOME_BURGER"),
                 title = "AWESOME BURGER",
                 snippet = "02 2764 2906",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
             ),
 
-            "MR_BAI_MU" to PlaceDetails(
+            "MR_BAI_MU" to PlacesDetails(
                 position = places.getValue("MR_BAI_MU"),
                 title = "白暮蛋餅先生2號店松菸",
                 snippet = "0979 949 848",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
             ),
 
-            "KOREA_HOUSE" to PlaceDetails(
+            "KOREA_HOUSE" to PlacesDetails(
                 position = places.getValue("KOREA_HOUSE"),
                 title = "韓明屋",
                 snippet = "02 2746 8317",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
             ),
 
-            "GOOD_COFFEE" to PlaceDetails(
+            "GOOD_COFFEE" to PlacesDetails(
                 position = places.getValue("GOOD_COFFEE"),
                 title = "好咖啡拿鐵專賣店",
                 snippet = "02 2749 5567",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
             ),
 
-            "BELGIUM_COFFEE" to PlaceDetails(
+            "BELGIUM_COFFEE" to PlacesDetails(
                 position = places.getValue("BELGIUM_COFFEE"),
                 title = "比利時咖啡",
                 snippet = "02 2761 3600",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
             ),
 
-            "ONE_DUMPLING" to PlaceDetails(
+            "ONE_DUMPLING" to PlacesDetails(
                 position = places.getValue("ONE_DUMPLING"),
                 title = "一記水餃牛肉麵店",
                 snippet = "02 2747 1433",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
             ),
 
-            "JI_MAN_WU" to PlaceDetails(
+            "JI_MAN_WU" to PlacesDetails(
                 position = places.getValue("JI_MAN_WU"),
                 title = "吉滿屋食坊",
                 snippet = "02 2768 3251",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
             ),
 
-            "DU_LAO_DA" to PlaceDetails(
+            "DU_LAO_DA" to PlacesDetails(
                 position = places.getValue("DU_LAO_DA"),
                 title = "杜佬大手作弁當",
                 snippet = "02 2765 1127",
                 icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
             ),
 
-            "TAIWAN_A_CHENG" to PlaceDetails(
+            "TAIWAN_A_CHENG" to PlacesDetails(
                 position = places.getValue("TAIWAN_A_CHENG"),
                 title = "台灣阿誠現炒菜",
                 snippet = "02 2745 8198",

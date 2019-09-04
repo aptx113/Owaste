@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.LatLng
 /**
  * This stores the details of a place that used to draw a marker
  */
-class PlaceDetails (
+data class PlacesDetails (
     val position: LatLng,
     val title: String = "Marker",
     val snippet: String? = null,

@@ -1,26 +1,9 @@
 package com.epoch.owaste
 
-import android.content.pm.PackageManager
-import android.content.res.Resources
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.activity_maps.*
-import java.io.IOException
 
-class MapsActivity :
+class MainActivity :
     AppCompatActivity()
 //    OnMapReadyCallback,
 //    GoogleMap.OnMarkerClickListener,
@@ -66,7 +49,7 @@ class MapsActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.activity_main)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        val mapFragment = supportFragmentManager
 //            .findFragmentById(R.id.map) as SupportMapFragment
@@ -146,70 +129,70 @@ class MapsActivity :
 //        val placeDetailsMap = mutableMapOf(
 //
 //            // Uses a custom icon
-//            "WE_ME_CAFE" to PlaceDetails(
+//            "WE_ME_CAFE" to PlacesDetails(
 //                position = places.getValue("WE_ME_CAFE"),
 //                title = "好好文化創意 We & Me Cafe",
 //                snippet = "02 2763 8767",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
 //            ),
 //
-//            "AWESOME_BURGER" to PlaceDetails(
+//            "AWESOME_BURGER" to PlacesDetails(
 //                position = places.getValue("AWESOME_BURGER"),
 //                title = "AWESOME BURGER",
 //                snippet = "02 2764 2906",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
 //            ),
 //
-//            "MR_BAI_MU" to PlaceDetails(
+//            "MR_BAI_MU" to PlacesDetails(
 //                position = places.getValue("MR_BAI_MU"),
 //                title = "白暮蛋餅先生2號店松菸",
 //                snippet = "0979 949 848",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
 //            ),
 //
-//            "KOREA_HOUSE" to PlaceDetails(
+//            "KOREA_HOUSE" to PlacesDetails(
 //                position = places.getValue("KOREA_HOUSE"),
 //                title = "韓明屋",
 //                snippet = "02 2746 8317",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
 //            ),
 //
-//            "GOOD_COFFEE" to PlaceDetails(
+//            "GOOD_COFFEE" to PlacesDetails(
 //                position = places.getValue("GOOD_COFFEE"),
 //                title = "好咖啡拿鐵專賣店",
 //                snippet = "02 2749 5567",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
 //            ),
 //
-//            "BELGIUM_COFFEE" to PlaceDetails(
+//            "BELGIUM_COFFEE" to PlacesDetails(
 //                position = places.getValue("BELGIUM_COFFEE"),
 //                title = "比利時咖啡",
 //                snippet = "02 2761 3600",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
 //            ),
 //
-//            "ONE_DUMPLING" to PlaceDetails(
+//            "ONE_DUMPLING" to PlacesDetails(
 //                position = places.getValue("ONE_DUMPLING"),
 //                title = "一記水餃牛肉麵店",
 //                snippet = "02 2747 1433",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
 //            ),
 //
-//            "JI_MAN_WU" to PlaceDetails(
+//            "JI_MAN_WU" to PlacesDetails(
 //                position = places.getValue("JI_MAN_WU"),
 //                title = "吉滿屋食坊",
 //                snippet = "02 2768 3251",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
 //            ),
 //
-//            "DU_LAO_DA" to PlaceDetails(
+//            "DU_LAO_DA" to PlacesDetails(
 //                position = places.getValue("DU_LAO_DA"),
 //                title = "杜佬大手作弁當",
 //                snippet = "02 2765 1127",
 //                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
 //            ),
 //
-//            "TAIWAN_A_CHENG" to PlaceDetails(
+//            "TAIWAN_A_CHENG" to PlacesDetails(
 //                position = places.getValue("TAIWAN_A_CHENG"),
 //                title = "台灣阿誠現炒菜",
 //                snippet = "02 2745 8198",
@@ -242,7 +225,7 @@ class MapsActivity :
 //                val addressList: List<Address>?
 //
 //                if (location != null || location != "") {
-//                    val geocoder = Geocoder(this@MapsActivity)
+//                    val geocoder = Geocoder(this@MainActivity)
 //                    try {
 //                        addressList = geocoder.getFromLocationName(location, 1)
 //                        val address = addressList?.get(0)
