@@ -14,4 +14,8 @@
         <item name="queryBackground">@android:color/transparent</item>
     </style>
 
+    <style name="SingIn" parent="AppTheme">
+        <item name="android:windowBackground">@color/light_green_A7D86D</item>
+    </style>
+
 </resources>

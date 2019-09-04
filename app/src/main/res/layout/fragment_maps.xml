@@ -129,10 +129,11 @@
                 android:clickable="true"
                 map:borderWidth="0dp"
                 map:fabSize="mini"
+                map:maxImageSize="26dp"
                 map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
                 map:layout_constraintStart_toStartOf="parent"
                 map:layout_constraintTop_toTopOf="@+id/fab_qrcode"
-                map:srcCompat="@drawable/ic_add_store" />
+                map:srcCompat="@drawable/ic_loyalty_card" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_qrcode"

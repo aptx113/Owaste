@@ -1,19 +1,27 @@
 package com.epoch.owaste
 
 
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.util.Log.i
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 import com.epoch.owaste.databinding.FragmentMapsBinding
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,6 +29,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.fragment_maps.*
 import java.io.IOException
 
 /**
@@ -35,12 +46,23 @@ class MapsFragment :
     GoogleMap.OnInfoWindowLongClickListener
 {
 
+    companion object {
+        const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        const val RC_SIGN_IN: Int = 101
+    }
+
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var searchView: androidx.appcompat.widget.SearchView
     private lateinit var lastLocation: Location
     private var mapView: View? = null
     private lateinit var binding: FragmentMapsBinding
+
+    /**
+     * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
+     * 此處加入Google組態。
+     */
+    lateinit var authProvider: List<AuthUI.IdpConfig>
 
     /**
      * map to store place names and locations
@@ -94,10 +116,32 @@ class MapsFragment :
 
         searchRestaurants()
 
+        authProvider = listOf (
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        showSignInOptions()
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val response = IdpResponse.fromResultIntent(data)
+            if (resultCode == Activity.RESULT_OK) {
+                val user = FirebaseAuth.getInstance().currentUser // get current User
+                i("EltinMapsF", "" + user?.photoUrl)
+                Glide.with(this).load(user?.photoUrl).into(img_profile)
+                txt_profile_name.text = user?.displayName
+
+            } else {
+                Toast.makeText(this.context, "" + response?.error?.message, Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -278,10 +322,6 @@ class MapsFragment :
         })
     }
 
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
-    }
-
 //    private fun setUpMap() {
 //        if (ActivityCompat.checkSelfPermission(context,
 //                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -299,6 +339,54 @@ class MapsFragment :
 //                val currentLatLng = LatLng(location.latitude, location.longitude)
 //                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
 //            }
+//        }
+//    }
+
+//    /**
+//     * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
+//     * 此處加入Google組態。
+//     */
+//    val authProvider: List<AuthUI.IdpConfig> = listOf(
+//        AuthUI.IdpConfig.GoogleBuilder().build()
+//    )
+
+    val authListener: FirebaseAuth.AuthStateListener =
+        FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
+            val user: FirebaseUser? = auth.currentUser
+            if (user == null) {
+                val intent = AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(authProvider)
+                    .setAlwaysShowSignInMethodScreen(true)
+                    .setIsSmartLockEnabled(false)
+                    .build()
+                startActivityForResult(intent, RC_SIGN_IN)
+            } else {
+
+            }
+        }
+
+    private fun showSignInOptions () {
+        startActivityForResult(AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(authProvider)
+            .setTheme(R.style.SingIn)
+            .build(), RC_SIGN_IN)
+    }
+
+    /**
+     * Uses the Glide library to load an image by URL into an [ImageView]
+     */
+//    fun bindImage(imgView: ImageView, imgUrl: String?) {
+//        imgUrl?.let {
+//            val imgUri = it.toUri().buildUpon().build()
+//            GlideApp.with(imgView.context)
+//                .load(imgUri)
+//                .apply(
+//                    RequestOptions()
+//                        .placeholder(R.drawable.ic_placeholder)
+//                        .error(R.drawable.ic_placeholder))
+//                .into(imgView)
 //        }
 //    }
 }

@@ -64,6 +64,8 @@ dependencies {
     // Firebase Authentication (帳號驗證模組)
     implementation 'com.google.firebase:firebase-auth:19.0.0'
 
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
     // Firebase Auth UI (第三方登入畫面模組)
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
 
@@ -72,4 +74,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
     implementation 'androidx.fragment:fragment:1.2.0-alpha02'
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:4.9.0"
+    kapt "com.github.bumptech.glide:compiler:4.9.0"
 }
+
+apply plugin: 'com.google.gms.google-services'
