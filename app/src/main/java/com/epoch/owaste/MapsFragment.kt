@@ -15,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
@@ -79,6 +81,7 @@ class MapsFragment :
         savedInstanceState: Bundle?
     ): View? {
 
+//        val firestoreViewModel = ViewModelProviders.of(appContext).get(FirestoreViewModel::class.java)
         binding = FragmentMapsBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

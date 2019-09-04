@@ -1,6 +1,9 @@
 package com.epoch.owaste
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 class Restaurants (
 
     val id: Long,
@@ -9,4 +12,4 @@ class Restaurants (
     val lat: Double,
     val lng: Double,
     val placeId: String
-)
+) : Parcelable
