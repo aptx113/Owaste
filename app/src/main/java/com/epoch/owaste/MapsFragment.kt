@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
+import android.widget.CompoundButton.*
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -88,29 +89,31 @@ class MapsFragment :
             ViewModelProviders.of(this.requireParentFragment())
                               .get(MapsViewModel::class.java)
 
-        viewModel.getSavedRestaurants().observe(this, Observer {
-
-        })
+//        viewModel.getSavedRestaurants().observe(this, Observer {
+//
+//        })
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
 
         mapView = mapFragment.view
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
 
+        binding = FragmentMapsBinding.inflate(inflater, container, false)
+
         binding.let {
             it.lifecycleOwner = this
         }
-        binding = FragmentMapsBinding.inflate(inflater, container, false)
 
         binding.fabCurrentLocation.setOnClickListener {
 //            setUpMap()
         }
 
-        addRestaurant(viewModel)
+//        addRestaurant(viewModel)
 
         searchRestaurants()
 
@@ -141,8 +144,8 @@ class MapsFragment :
         }
     }
 
-    val onCheckedChangeListener = object : CompoundButton.OnCheckedChangeListener {
-        override fun onCheckedChanged(checkBox: CompoundButton?, isChecked: Boolean) {
+    val onCheckedChangeListener =
+        OnCheckedChangeListener { checkBox, isChecked ->
             when (checkBox?.id) {
                 R.id.cb_lv1 -> if (isChecked) {
                     i(TAG, "show lv1 !")
@@ -171,17 +174,15 @@ class MapsFragment :
                 }
             }
         }
-
-    }
-    fun onClick(v: View) {
-        when (v.id) {
-            R.id.cb_lv1 -> i(TAG, "show lv1 !")
-            R.id.cb_lv2 -> i(TAG, "show lv2 !")
-            R.id.cb_lv3 -> i(TAG, "show lv3 !")
-            R.id.cb_lv4 -> i(TAG, "show lv4 !")
-            R.id.cb_lv5 -> i(TAG, "show lv5 !")
-        }
-    }
+//    fun onClick(v: View) {
+//        when (v.id) {
+//            R.id.cb_lv1 -> i(TAG, "show lv1 !")
+//            R.id.cb_lv2 -> i(TAG, "show lv2 !")
+//            R.id.cb_lv3 -> i(TAG, "show lv3 !")
+//            R.id.cb_lv4 -> i(TAG, "show lv4 !")
+//            R.id.cb_lv5 -> i(TAG, "show lv5 !")
+//        }
+//    }
     private fun googleSignIn() {
         binding.fabGoogleSignIn.setOnClickListener {
             i("EltinMapsF", "Sign In clicked")

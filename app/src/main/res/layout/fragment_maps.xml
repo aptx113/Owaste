@@ -87,8 +87,7 @@
                 android:layout_height="0dp"
                 map:layout_constraintBottom_toTopOf="@+id/ml_above_map"
                 map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent"
-                map:layout_constraintVertical_bias="0.0" />
+                map:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/sv_location_widget"
