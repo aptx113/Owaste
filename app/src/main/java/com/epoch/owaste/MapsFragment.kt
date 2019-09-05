@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -45,6 +47,7 @@ class MapsFragment :
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
         const val RC_SIGN_IN: Int = 101
+        const val TAG = "Eltin_MapsFragment"
     }
 
     private lateinit var map: GoogleMap
@@ -98,13 +101,95 @@ class MapsFragment :
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
 
+        binding.let {
+            it.lifecycleOwner = this
+        }
         binding = FragmentMapsBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
 
         binding.fabCurrentLocation.setOnClickListener {
 //            setUpMap()
         }
 
+        addRestaurant(viewModel)
+
+        searchRestaurants()
+
+        initOnCheckedChangeListner()
+        authProvider = listOf (
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+//        (view as? MotionLayout)?.getTransition(R.id.ml_above_map)?.setEnable(false)
+
+        googleSignIn()
+
+        // Inflate the layout for this fragment
+        return binding.root
+    }
+
+    private fun initOnCheckedChangeListner() {
+        val ids = intArrayOf(
+            R.id.cb_lv1,
+            R.id.cb_lv2,
+            R.id.cb_lv3,
+            R.id.cb_lv4,
+            R.id.cb_lv5
+        )
+
+        for (i in ids.indices) {
+            binding.root.findViewById<CheckBox>(ids[i])?.setOnCheckedChangeListener(onCheckedChangeListener)
+        }
+    }
+
+    val onCheckedChangeListener = object : CompoundButton.OnCheckedChangeListener {
+        override fun onCheckedChanged(checkBox: CompoundButton?, isChecked: Boolean) {
+            when (checkBox?.id) {
+                R.id.cb_lv1 -> if (isChecked) {
+                    i(TAG, "show lv1 !")
+                } else {
+                    i(TAG, "hide lv1 !")
+                }
+                R.id.cb_lv2 -> if (isChecked) {
+                    i(TAG, "show lv2 !")
+                } else {
+                    i(TAG, "hide lv2 !")
+                }
+                R.id.cb_lv3 -> if (isChecked) {
+                    i(TAG, "show lv3 !")
+                } else {
+                    i(TAG, "hide lv3 !")
+                }
+                R.id.cb_lv4 -> if (isChecked) {
+                    i(TAG, "show lv4 !")
+                } else {
+                    i(TAG, "hide lv4 !")
+                }
+                R.id.cb_lv5 -> if (isChecked) {
+                    i(TAG, "show lv5 !")
+                } else {
+                    i(TAG, "hide lv5 !")
+                }
+            }
+        }
+
+    }
+    fun onClick(v: View) {
+        when (v.id) {
+            R.id.cb_lv1 -> i(TAG, "show lv1 !")
+            R.id.cb_lv2 -> i(TAG, "show lv2 !")
+            R.id.cb_lv3 -> i(TAG, "show lv3 !")
+            R.id.cb_lv4 -> i(TAG, "show lv4 !")
+            R.id.cb_lv5 -> i(TAG, "show lv5 !")
+        }
+    }
+    private fun googleSignIn() {
+        binding.fabGoogleSignIn.setOnClickListener {
+            i("EltinMapsF", "Sign In clicked")
+            showSignInOptions()
+        }
+    }
+
+    private fun addRestaurant(viewModel: MapsViewModel) {
         binding.fabAddRestaurant.setOnClickListener {
             //add restaurant to Firestore
             val restaurant = Restaurants(
@@ -117,23 +202,6 @@ class MapsFragment :
             )
             viewModel.addRestaurant(restaurant)
         }
-
-        searchRestaurants()
-
-        authProvider = listOf (
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-//        (view as? MotionLayout)?.getTransition(R.id.ml_above_map)?.setEnable(false)
-
-        binding.fabGoogleSignIn.setOnClickListener {
-
-            i("EltinMapsF", "Sign In clicked")
-            showSignInOptions()
-        }
-
-        // Inflate the layout for this fragment
-        return binding.root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
