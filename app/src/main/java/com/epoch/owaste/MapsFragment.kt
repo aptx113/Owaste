@@ -295,8 +295,7 @@ class MapsFragment :
 //            moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, w))
 //        }
 
-        // Add lots of markers to the GoogleMap.
-        addMarkersToMap()
+
 
         setUpMap()
     }
@@ -328,8 +327,9 @@ class MapsFragment :
                     bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
                 }
             }
-            markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
-            i(TAG, "Restaurant ${restaurantsList[i].id} was added, latlng = $latLng")
+//            markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
+            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
+            i(TAG, "Restaurant ${restaurantsList[i].id} was added, level = ${restaurantsList[i].level}")
         }
 //        val placeDetailsMap = mutableMapOf(
 //
@@ -457,6 +457,9 @@ class MapsFragment :
         map.uiSettings.isZoomGesturesEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = false
         map.setOnMarkerClickListener(this)
+
+        // Add lots of markers to the GoogleMap.
+        addMarkersToMap()
 //        if (ActivityCompat.checkSelfPermission(context,
 //                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this,
