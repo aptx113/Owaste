@@ -17,6 +17,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton.*
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.epoch.owaste.databinding.FragmentMapsBinding
@@ -121,7 +122,7 @@ class MapsFragment :
 
         searchRestaurants()
 
-        initOnCheckedChangeListner()
+        initOnCheckedChangeListener()
 
         authProvider = listOf (
             AuthUI.IdpConfig.GoogleBuilder().build()
@@ -130,6 +131,10 @@ class MapsFragment :
 //        (view as? MotionLayout)?.getTransition(R.id.ml_above_map)?.setEnable(false)
 
         googleSignIn()
+
+        viewModel.restaurants.observe(this, Observer {
+            map.clear()
+        })
 
         // Inflate the layout for this fragment
         return binding.root
@@ -150,7 +155,7 @@ class MapsFragment :
 //    }
 
     // use for loop to initialize multiple checkboxes.setOnCheckedChangeListener
-    private fun initOnCheckedChangeListner() {
+    private fun initOnCheckedChangeListener() {
         val ids = intArrayOf(
             R.id.cb_lv1,
             R.id.cb_lv2,
@@ -197,6 +202,7 @@ class MapsFragment :
                 }
             }
         }
+
 //    fun onClick(v: View) {
 //        when (v.id) {
 //            R.id.cb_lv1 -> i(TAG, "show lv1 !")
@@ -251,6 +257,7 @@ class MapsFragment :
     }
 
     override fun onMarkerClick(p0: Marker?) = false
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -295,8 +302,6 @@ class MapsFragment :
 //            moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, w))
 //        }
 
-
-
         setUpMap()
     }
 
@@ -307,29 +312,29 @@ class MapsFragment :
 
         map.clear()
         val markersList = ArrayList<Marker>()
-        for (i in 0 until restaurantsList.size) {
-            val latLng = LatLng(restaurantsList[i].lat, restaurantsList[i].lng)
+        for (i in 0 until viewModel.restaurants.value!!.size) {
+            val latLng = LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
             var bitmapDescriptor: BitmapDescriptor
-            when (restaurantsList[i].level) {
-                5 -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv5)
-                }
-                4 -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
-                }
-                3 -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
+            when (viewModel.restaurants.value!![i].level) {
+                1 -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
                 }
                 2 -> {
                     bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
                 }
+                3 -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
+                }
+                4 -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
+                }
                 else -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv5)
                 }
             }
             markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
 //            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
-            i(TAG, "Restaurant ${restaurantsList[i].id} was added, level = ${restaurantsList[i].level}")
+            i(TAG, "Restaurant ${viewModel.restaurants.value!![i].id} was added, level = ${viewModel.restaurants.value!![i].level}")
         }
 //        val placeDetailsMap = mutableMapOf(
 //
