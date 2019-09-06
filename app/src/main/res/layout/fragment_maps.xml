@@ -80,14 +80,13 @@
 
             </androidx.constraintlayout.motion.widget.MotionLayout>
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <FrameLayout
+                android:id="@+id/fl_map"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 map:layout_constraintBottom_toTopOf="@+id/ml_above_map"
                 map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent" />
+                map:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/sv_location_widget"
@@ -186,7 +185,7 @@
                 android:layout_marginTop="4dp"
                 map:layout_constraintEnd_toStartOf="@+id/img_filter_lv1"
                 map:layout_constraintHorizontal_bias="0.5"
-                map:layout_constraintStart_toEndOf="@+id/map"
+                map:layout_constraintStart_toEndOf="@+id/fl_map"
                 map:layout_constraintTop_toBottomOf="@+id/sv_location_widget" />
 
             <ImageView
@@ -278,7 +277,7 @@
                 android:layout_width="@dimen/filter_icon_28dp"
                 android:layout_height="@dimen/filter_icon_28dp"
                 map:layout_constraintBottom_toBottomOf="@+id/cb_lv5"
-                map:layout_constraintEnd_toStartOf="@+id/map"
+                map:layout_constraintEnd_toStartOf="@+id/fl_map"
                 map:layout_constraintHorizontal_bias="0.5"
                 map:layout_constraintStart_toEndOf="@+id/cb_lv5"
                 map:layout_constraintTop_toTopOf="@+id/cb_lv5"

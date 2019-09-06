@@ -14,11 +14,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.CompoundButton
 import android.widget.CompoundButton.*
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.epoch.owaste.databinding.FragmentMapsBinding
@@ -35,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_maps.*
 import java.io.IOException
+import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -57,6 +56,7 @@ class MapsFragment :
     private lateinit var lastLocation: Location
     private var mapView: View? = null
     private lateinit var binding: FragmentMapsBinding
+    private lateinit var viewModel: MapsViewModel
 
     /**
      * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
@@ -85,21 +85,25 @@ class MapsFragment :
         savedInstanceState: Bundle?
     ): View? {
 
-        val viewModel =
-            ViewModelProviders.of(this.requireParentFragment())
-                              .get(MapsViewModel::class.java)
-
+        viewModel = ViewModelProviders.of(this)
+                .get(MapsViewModel::class.java)
 //        viewModel.getSavedRestaurants().observe(this, Observer {
 //
 //        })
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = childFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = SupportMapFragment()
+        childFragmentManager.beginTransaction().replace(R.id.fl_map, mapFragment).commit()
 
         mapFragment.getMapAsync(this)
-
         mapView = mapFragment.view
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//        val mapFragment = childFragmentManager
+//            .findFragmentById(R.id.fl_map) as SupportMapFragment
+//
+//        mapFragment.getMapAsync(this)
+//
+//        mapView = mapFragment.view
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
 
@@ -118,6 +122,7 @@ class MapsFragment :
         searchRestaurants()
 
         initOnCheckedChangeListner()
+
         authProvider = listOf (
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
@@ -130,6 +135,21 @@ class MapsFragment :
         return binding.root
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//
+//        setUpMapIfNeeded()
+//    }
+//
+//    private fun setUpMapIfNeeded() {
+//
+//        if (map == null) {
+//
+//            getMapAsync(this)
+//        }
+//    }
+
+    // use for loop to initialize multiple checkboxes.setOnCheckedChangeListener
     private fun initOnCheckedChangeListner() {
         val ids = intArrayOf(
             R.id.cb_lv1,
@@ -149,6 +169,9 @@ class MapsFragment :
             when (checkBox?.id) {
                 R.id.cb_lv1 -> if (isChecked) {
                     i(TAG, "show lv1 !")
+                val level1 = restaurantsList.filter { it.level == 1 }
+                    viewModel._restaurants.value = level1
+                    i(TAG, "level 1 = ${viewModel.restaurants.value}")
                 } else {
                     i(TAG, "hide lv1 !")
                 }
@@ -239,6 +262,8 @@ class MapsFragment :
      */
     override fun onMapReady(googleMap: GoogleMap) {
 
+        map = googleMap
+
         //Customize Map style
         try{
             val isSuccess = googleMap.setMapStyle(
@@ -249,13 +274,6 @@ class MapsFragment :
         } catch (e: Resources.NotFoundException) {
             e.printStackTrace()
         }
-
-        map = googleMap
-
-//        map.uiSettings.isZoomControlsEnabled = true
-        map.uiSettings.isZoomGesturesEnabled = true
-        map.uiSettings.isMyLocationButtonEnabled = false
-        map.setOnMarkerClickListener(this)
 
         // create bounds that encompass every location we reference
         val boundsBuilder = LatLngBounds.Builder()
@@ -278,104 +296,129 @@ class MapsFragment :
 //        }
 
         // Add lots of markers to the GoogleMap.
-        addMarkerToMap()
+        addMarkersToMap()
 
-//        setUpMap()
+        setUpMap()
     }
 
     /**
      * Show all the specified markers on the map
      */
-    private fun addMarkerToMap() {
+    private fun addMarkersToMap() {
 
-        val placeDetailsMap = mutableMapOf(
-
-            // Uses a custom icon
-            "WE_ME_CAFE" to PlacesDetails(
-                position = places.getValue("WE_ME_CAFE"),
-                title = "好好文化創意 We & Me Cafe",
-                snippet = "02 2763 8767",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
-            ),
-
-            "AWESOME_BURGER" to PlacesDetails(
-                position = places.getValue("AWESOME_BURGER"),
-                title = "AWESOME BURGER",
-                snippet = "02 2764 2906",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
-            ),
-
-            "MR_BAI_MU" to PlacesDetails(
-                position = places.getValue("MR_BAI_MU"),
-                title = "白暮蛋餅先生2號店松菸",
-                snippet = "0979 949 848",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
-            ),
-
-            "KOREA_HOUSE" to PlacesDetails(
-                position = places.getValue("KOREA_HOUSE"),
-                title = "韓明屋",
-                snippet = "02 2746 8317",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
-            ),
-
-            "GOOD_COFFEE" to PlacesDetails(
-                position = places.getValue("GOOD_COFFEE"),
-                title = "好咖啡拿鐵專賣店",
-                snippet = "02 2749 5567",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
-            ),
-
-            "BELGIUM_COFFEE" to PlacesDetails(
-                position = places.getValue("BELGIUM_COFFEE"),
-                title = "比利時咖啡",
-                snippet = "02 2761 3600",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
-            ),
-
-            "ONE_DUMPLING" to PlacesDetails(
-                position = places.getValue("ONE_DUMPLING"),
-                title = "一記水餃牛肉麵店",
-                snippet = "02 2747 1433",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
-            ),
-
-            "JI_MAN_WU" to PlacesDetails(
-                position = places.getValue("JI_MAN_WU"),
-                title = "吉滿屋食坊",
-                snippet = "02 2768 3251",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
-            ),
-
-            "DU_LAO_DA" to PlacesDetails(
-                position = places.getValue("DU_LAO_DA"),
-                title = "杜佬大手作弁當",
-                snippet = "02 2765 1127",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
-            ),
-
-            "TAIWAN_A_CHENG" to PlacesDetails(
-                position = places.getValue("TAIWAN_A_CHENG"),
-                title = "台灣阿誠現炒菜",
-                snippet = "02 2745 8198",
-                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
-            )
-        )
-
-        // place markers for each of the defined locations
-        placeDetailsMap.keys.map {
-            with(placeDetailsMap.getValue(it)) {
-                map.addMarker(
-                    MarkerOptions()
-                        .position(position)
-                        .title(title)
-                        .snippet(snippet)
-                        .icon(icon)
-                        .infoWindowAnchor(infoWindowAnchorX, infoWindowAnchorY)
-                        .draggable(draggable)
-                        .zIndex(zIndex))
+        map.clear()
+        val markersList = ArrayList<Marker>()
+        for (i in 0 until restaurantsList.size) {
+            val latLng = LatLng(restaurantsList[i].lat, restaurantsList[i].lng)
+            var bitmapDescriptor: BitmapDescriptor
+            when (restaurantsList[i].level) {
+                5 -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv5)
+                }
+                4 -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
+                }
+                3 -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
+                }
+                2 -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
+                }
+                else -> {
+                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
+                }
             }
+            markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
+            i(TAG, "Restaurant ${restaurantsList[i].id} was added, latlng = $latLng")
         }
+//        val placeDetailsMap = mutableMapOf(
+//
+//            // Uses a custom icon
+//            "WE_ME_CAFE" to PlacesDetails(
+//                position = places.getValue("WE_ME_CAFE"),
+//                title = "好好文化創意 We & Me Cafe",
+//                snippet = "02 2763 8767",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
+//            ),
+//
+//            "AWESOME_BURGER" to PlacesDetails(
+//                position = places.getValue("AWESOME_BURGER"),
+//                title = "AWESOME BURGER",
+//                snippet = "02 2764 2906",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
+//            ),
+//
+//            "MR_BAI_MU" to PlacesDetails(
+//                position = places.getValue("MR_BAI_MU"),
+//                title = "白暮蛋餅先生2號店松菸",
+//                snippet = "0979 949 848",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
+//            ),
+//
+//            "KOREA_HOUSE" to PlacesDetails(
+//                position = places.getValue("KOREA_HOUSE"),
+//                title = "韓明屋",
+//                snippet = "02 2746 8317",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
+//            ),
+//
+//            "GOOD_COFFEE" to PlacesDetails(
+//                position = places.getValue("GOOD_COFFEE"),
+//                title = "好咖啡拿鐵專賣店",
+//                snippet = "02 2749 5567",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
+//            ),
+//
+//            "BELGIUM_COFFEE" to PlacesDetails(
+//                position = places.getValue("BELGIUM_COFFEE"),
+//                title = "比利時咖啡",
+//                snippet = "02 2761 3600",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
+//            ),
+//
+//            "ONE_DUMPLING" to PlacesDetails(
+//                position = places.getValue("ONE_DUMPLING"),
+//                title = "一記水餃牛肉麵店",
+//                snippet = "02 2747 1433",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
+//            ),
+//
+//            "JI_MAN_WU" to PlacesDetails(
+//                position = places.getValue("JI_MAN_WU"),
+//                title = "吉滿屋食坊",
+//                snippet = "02 2768 3251",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
+//            ),
+//
+//            "DU_LAO_DA" to PlacesDetails(
+//                position = places.getValue("DU_LAO_DA"),
+//                title = "杜佬大手作弁當",
+//                snippet = "02 2765 1127",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
+//            ),
+//
+//            "TAIWAN_A_CHENG" to PlacesDetails(
+//                position = places.getValue("TAIWAN_A_CHENG"),
+//                title = "台灣阿誠現炒菜",
+//                snippet = "02 2745 8198",
+//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
+//            )
+//        )
+//
+//        // place markers for each of the defined locations
+//        placeDetailsMap.keys.map {
+//            with(placeDetailsMap.getValue(it)) {
+//                map.addMarker(
+//                    MarkerOptions()
+//                        .position(position)
+//                        .title(title)
+//                        .snippet(snippet)
+//                        .icon(icon)
+//                        .infoWindowAnchor(infoWindowAnchorX, infoWindowAnchorY)
+//                        .draggable(draggable)
+//                        .zIndex(zIndex))
+//            }
+//        }
     }
     private fun searchRestaurants() {
 
@@ -408,7 +451,12 @@ class MapsFragment :
         })
     }
 
-//    private fun setUpMap() {
+    private fun setUpMap() {
+
+//        map.uiSettings.isZoomControlsEnabled = true
+        map.uiSettings.isZoomGesturesEnabled = true
+        map.uiSettings.isMyLocationButtonEnabled = false
+        map.setOnMarkerClickListener(this)
 //        if (ActivityCompat.checkSelfPermission(context,
 //                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this,
@@ -426,7 +474,7 @@ class MapsFragment :
 //                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
 //            }
 //        }
-//    }
+    }
 
 //    /**
 //     * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。

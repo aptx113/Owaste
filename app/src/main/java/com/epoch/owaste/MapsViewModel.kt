@@ -8,6 +8,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import java.util.logging.Logger
 
 class MapsViewModel: ViewModel() {
 
@@ -17,6 +18,15 @@ class MapsViewModel: ViewModel() {
     val savedRestaurants = MutableLiveData<List<Restaurants>>()
 //    var uid = UUID.randomUUID().toString()
 
+    val _restaurants = MutableLiveData<List<Restaurants>>()
+
+    val restaurants: LiveData<List<Restaurants>>
+        get() = _restaurants
+
+    init {
+        _restaurants.value = restaurantsList
+        i(TAG, "LiveData<List<Restaurants>> = ${restaurants.value}")
+    }
     //add restaurant to Firestore
     fun addRestaurant (restaurant: Restaurants) {
 
