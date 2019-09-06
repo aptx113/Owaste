@@ -327,8 +327,8 @@ class MapsFragment :
                     bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
                 }
             }
-//            markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
-            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
+            markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
+//            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
             i(TAG, "Restaurant ${restaurantsList[i].id} was added, level = ${restaurantsList[i].level}")
         }
 //        val placeDetailsMap = mutableMapOf(
