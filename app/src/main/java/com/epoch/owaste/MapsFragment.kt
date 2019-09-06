@@ -132,10 +132,6 @@ class MapsFragment :
 
         googleSignIn()
 
-        viewModel.restaurants.observe(this, Observer {
-            map.clear()
-        })
-
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -182,21 +178,33 @@ class MapsFragment :
                 }
                 R.id.cb_lv2 -> if (isChecked) {
                     i(TAG, "show lv2 !")
+                    val level2 = restaurantsList.filter { it.level == 2 }
+                    viewModel._restaurants.value = level2
+                    i(TAG, "level 2 = ${viewModel.restaurants.value}")
                 } else {
                     i(TAG, "hide lv2 !")
                 }
                 R.id.cb_lv3 -> if (isChecked) {
                     i(TAG, "show lv3 !")
+                    val level3 = restaurantsList.filter { it.level == 3 }
+                    viewModel._restaurants.value = level3
+                    i(TAG, "level 3 = ${viewModel.restaurants.value}")
                 } else {
                     i(TAG, "hide lv3 !")
                 }
                 R.id.cb_lv4 -> if (isChecked) {
                     i(TAG, "show lv4 !")
+                    val level4 = restaurantsList.filter { it.level == 4 }
+                    viewModel._restaurants.value = level4
+                    i(TAG, "level 4 = ${viewModel.restaurants.value}")
                 } else {
                     i(TAG, "hide lv4 !")
                 }
                 R.id.cb_lv5 -> if (isChecked) {
                     i(TAG, "show lv5 !")
+                    val level5 = restaurantsList.filter { it.level == 5 }
+                    viewModel._restaurants.value = level5
+                    i(TAG, "level 5 = ${viewModel.restaurants.value}")
                 } else {
                     i(TAG, "hide lv5 !")
                 }
@@ -303,6 +311,11 @@ class MapsFragment :
 //        }
 
         setUpMap()
+
+
+        viewModel.restaurants.observe(this, Observer {
+            addMarkersToMap()
+        })
     }
 
     /**
@@ -332,7 +345,16 @@ class MapsFragment :
                     bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv5)
                 }
             }
+
             markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
+
+//            for (marker in markersList) {
+//                if (marker.isVisible) {
+//                    marker.isVisible = false
+//                } else {
+//                    markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
+//                }
+//            }
 //            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
             i(TAG, "Restaurant ${viewModel.restaurants.value!![i].id} was added, level = ${viewModel.restaurants.value!![i].level}")
         }
