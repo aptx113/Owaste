@@ -31,12 +31,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_maps.*
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -147,6 +148,13 @@ class MapsFragment :
         val placesClient = Places.createClient(this.requireContext())
     }
 
+    private fun getPlaceDetails() {
+        // Define a Place ID
+        val placeId = ""
+
+        // Specify the fields to return
+        val placeFields = listOf(Place.Field.RATING)
+    }
 //    override fun onResume() {
 //        super.onResume()
 //
