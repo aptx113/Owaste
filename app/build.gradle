@@ -31,6 +31,8 @@ android {
         debug {
             //資源類型為 string，名稱為 API_KEY，值為 GoogleMapKey
             resValue("string", "API_KEY", GoogleMapsKey)
+            //若需要在執行的程式碼（kt 或 java 檔）中引用該值，使用 buildConfigField (type: String, name: String, value: String)
+            buildConfigField("String", "API_KEY", GoogleMapsKey)
         }
     }
 }
@@ -47,6 +49,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.libraries.places:places:2.0.0'
 
     // FAB Speed Dial
     implementation "com.leinardi.android:speed-dial:3.0.0"

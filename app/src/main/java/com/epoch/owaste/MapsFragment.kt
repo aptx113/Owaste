@@ -30,6 +30,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_maps.*
@@ -132,8 +134,17 @@ class MapsFragment :
 
         googleSignIn()
 
+        initPlaceApiCLient()
+
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun initPlaceApiCLient() {
+        // Initialize the SDK
+        Places.initialize(this.requireContext(), BuildConfig.API_KEY)
+        //Create a new Places client instance
+        val placesClient = Places.createClient(this.requireContext())
     }
 
 //    override fun onResume() {
