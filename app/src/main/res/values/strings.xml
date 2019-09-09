@@ -5,4 +5,7 @@
     <string name="login_now">點擊這裡登入啟用集點功能</string>
     <string name="click_to_login_in">立即登入開始集點吧</string>
     <string name="user_level">Lv. 1 減塑初心者</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

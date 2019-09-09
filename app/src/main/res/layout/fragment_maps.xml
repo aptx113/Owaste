@@ -126,7 +126,7 @@
                 android:backgroundTint="@color/white_FFFFFF"
                 android:clickable="true"
                 map:borderWidth="0dp"
-                map:elevation="0dp"
+                map:elevation="3dp"
                 map:fabSize="mini"
                 map:layout_constraintBottom_toBottomOf="@+id/fl_map"
                 map:layout_constraintEnd_toEndOf="parent"
