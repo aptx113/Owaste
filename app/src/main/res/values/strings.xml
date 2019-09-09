@@ -3,4 +3,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="serach_title">來找附近的友善不塑店家吧</string>
     <string name="login_now">點擊這裡登入啟用集點功能</string>
+    <string name="click_to_login_in">立即登入開始集點吧</string>
 </resources>

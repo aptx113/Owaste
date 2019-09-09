@@ -241,10 +241,14 @@ class MapsFragment :
 //        }
 //    }
     private fun googleSignIn() {
-        binding.fabGoogleSignIn.setOnClickListener {
+//        binding.fabGoogleSignIn.setOnClickListener {
+//            i("EltinMapsF", "Sign In clicked")
+//            showSignInOptions()
+//        }
+        binding.imgProfile.setOnClickListener {
             i("EltinMapsF", "Sign In clicked")
             showSignInOptions()
-        }
+    }
     }
 
     private fun addRestaurant(viewModel: MapsViewModel) {

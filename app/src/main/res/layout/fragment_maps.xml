@@ -36,6 +36,15 @@
                     map:layout_constraintEnd_toEndOf="parent"
                     map:layout_constraintStart_toStartOf="parent">
 
+                    <TextView
+                        android:id="@+id/txt_user_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="TextView"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
@@ -46,11 +55,11 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="center"
                     map:layout_constraintBottom_toBottomOf="parent"
                     map:layout_constraintStart_toStartOf="parent"
                     map:layout_constraintTop_toTopOf="parent"
-                    map:srcCompat="@android:drawable/sym_def_app_icon" />
+                    map:srcCompat="@drawable/common_google_signin_btn_icon_light_normal" />
 
                 <ImageView
                     android:id="@+id/img_profile_frame"
@@ -70,13 +79,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:text="Text"
+                    android:text="@string/click_to_login_in"
                     android:textColor="@color/white_FFFFFF"
                     android:textSize="16sp"
                     map:layout_constraintBottom_toBottomOf="@+id/img_profile"
                     map:layout_constraintStart_toEndOf="@+id/img_profile"
-                    map:layout_constraintTop_toTopOf="@+id/img_profile"
-                    tools:text="Eltin Yang" />
+                    map:layout_constraintTop_toTopOf="@+id/img_profile" />
 
             </androidx.constraintlayout.motion.widget.MotionLayout>
 
@@ -154,27 +162,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="4dp"
-                android:backgroundTint="@color/white_FFFFFF"
-                android:clickable="true"
-                map:borderWidth="0dp"
-                map:fabSize="mini"
-                map:layout_constraintBottom_toTopOf="@+id/fab_google_sign_in"
-                map:layout_constraintEnd_toStartOf="@+id/fab_qrcode"
-                map:srcCompat="@drawable/ic_add_store" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_google_sign_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/white_FFFFFF"
                 android:clickable="true"
                 map:borderWidth="0dp"
                 map:fabSize="mini"
                 map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
                 map:layout_constraintEnd_toStartOf="@+id/fab_qrcode"
-                map:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+                map:layout_constraintTop_toTopOf="@+id/fab_qrcode"
+                map:srcCompat="@drawable/ic_add_store" />
 
             <CheckBox
                 android:id="@+id/cb_lv1"
