@@ -4,6 +4,7 @@ package com.epoch.owaste
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -17,6 +18,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton.*
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -32,7 +34,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_maps.*
@@ -332,7 +333,7 @@ class MapsFragment :
 
         val latLng = LatLng(25.042336, 121.564289)
 //        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding))
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 19f))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 19f), 5000, null)
 //        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f), 5000, null)
 //        with(map){
 //            moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, w))*
@@ -353,24 +354,37 @@ class MapsFragment :
 
         map.clear()
         val markersList = ArrayList<Marker>()
+        val height = 160
+        val width = 160
+        val bitmapDrawLv1 = resources.getDrawable(R.drawable.ic_marker_lv1)
+        val bitmapDrawLv2 = resources.getDrawable(R.drawable.ic_marker_lv2)
+        val bitmapDrawLv3 = resources.getDrawable(R.drawable.ic_marker_lv3)
+        val bitmapDrawLv4 = resources.getDrawable(R.drawable.ic_marker_lv4)
+        val bitmapDrawLv5 = resources.getDrawable(R.drawable.ic_marker_lv5)
+        val smallMarkerLv1 = Bitmap.createScaledBitmap(bitmapDrawLv1.toBitmap(), width, height, false)
+        val smallMarkerLv2 = Bitmap.createScaledBitmap(bitmapDrawLv2.toBitmap(), width, height, false)
+        val smallMarkerLv3 = Bitmap.createScaledBitmap(bitmapDrawLv3.toBitmap(), width, height, false)
+        val smallMarkerLv4 = Bitmap.createScaledBitmap(bitmapDrawLv4.toBitmap(), width, height, false)
+        val smallMarkerLv5 = Bitmap.createScaledBitmap(bitmapDrawLv5.toBitmap(), width, height, false)
+
         for (i in 0 until viewModel.restaurants.value!!.size) {
             val latLng = LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
             var bitmapDescriptor: BitmapDescriptor
             when (viewModel.restaurants.value!![i].level) {
                 1 -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
+                    bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarkerLv1)
                 }
                 2 -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
+                    bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarkerLv2)
                 }
                 3 -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
+                    bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarkerLv3)
                 }
                 4 -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
+                    bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarkerLv4)
                 }
                 else -> {
-                    bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv5)
+                    bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(smallMarkerLv5)
                 }
             }
 
@@ -479,6 +493,28 @@ class MapsFragment :
 //                        .zIndex(zIndex))
 //            }
 //        }
+    }
+
+    fun resizeMarkerIcon() {
+
+//        val markerList = listOf(
+//            R.drawable.ic_marker_lv1,
+//            R.drawable.ic_marker_lv2,
+//            R.drawable.ic_marker_lv3,
+//            R.drawable.ic_marker_lv4,
+//            R.drawable.ic_marker_lv5
+//        )
+//
+//        for (i in 0 until markerList.size) {
+//
+//            val height = 32
+//            val width = 32
+//            val bitmapdraw = resources.getDrawable(markerList[i])
+//            val b = bitmapdraw.toBitmap()
+//            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+//        }
+//
+
     }
     private fun searchRestaurants() {
 
