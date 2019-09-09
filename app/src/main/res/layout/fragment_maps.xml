@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.motion.widget.MotionLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ml_above_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,16 +36,18 @@
                     map:layout_constraintEnd_toEndOf="parent"
                     map:layout_constraintStart_toStartOf="parent">
 
-                    <TextView
-                        android:id="@+id/txt_user_level"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="TextView"
-                        map:layout_constraintEnd_toEndOf="parent"
-                        map:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/txt_user_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/user_level"
+                    android:textColor="@color/white_FFFFFF"
+                    map:layout_constraintBottom_toBottomOf="@+id/txt_profile_name"
+                    map:layout_constraintEnd_toEndOf="@+id/cl_profile"
+                    map:layout_constraintTop_toTopOf="@+id/txt_profile_name" />
 
                 <ImageView
                     android:id="@+id/img_profile"
@@ -68,6 +70,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
+                    android:scaleType="centerCrop"
                     android:tint="@color/light_green_A7D86D"
                     map:layout_constraintBottom_toBottomOf="parent"
                     map:layout_constraintStart_toStartOf="parent"
@@ -86,7 +89,7 @@
                     map:layout_constraintStart_toEndOf="@+id/img_profile"
                     map:layout_constraintTop_toTopOf="@+id/img_profile" />
 
-            </androidx.constraintlayout.motion.widget.MotionLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <FrameLayout
                 android:id="@+id/fl_map"
@@ -117,13 +120,15 @@
                 android:id="@+id/fab_current_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/white_FFFFFF"
                 android:clickable="true"
                 map:borderWidth="0dp"
+                map:elevation="0dp"
                 map:fabSize="mini"
-                map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
-                map:layout_constraintStart_toEndOf="@+id/fab_qrcode"
+                map:layout_constraintBottom_toBottomOf="@+id/fl_map"
+                map:layout_constraintEnd_toEndOf="parent"
                 map:maxImageSize="24dp"
                 map:srcCompat="@drawable/ic_current_location" />
 
@@ -132,13 +137,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="4dp"
                 android:backgroundTint="@color/white_FFFFFF"
                 android:clickable="true"
                 map:borderWidth="0dp"
                 map:fabSize="mini"
-                map:layout_constraintBottom_toTopOf="@+id/fab_current_location"
+                map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
                 map:layout_constraintStart_toEndOf="@+id/fab_qrcode"
+                map:layout_constraintTop_toTopOf="@+id/fab_qrcode"
                 map:maxImageSize="26dp"
                 map:srcCompat="@drawable/ic_loyalty_card" />
 
