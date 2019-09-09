@@ -32,7 +32,7 @@ android {
             //資源類型為 string，名稱為 API_KEY，值為 GoogleMapKey
             resValue("string", "API_KEY", GoogleMapsKey)
             //若需要在執行的程式碼（kt 或 java 檔）中引用該值，使用 buildConfigField (type: String, name: String, value: String)
-            buildConfigField("String", "API_KEY", GoogleMapsKey)
+            buildConfigField("String", "API_KEY", GoogleMapsKeyForFile)
         }
     }
 }

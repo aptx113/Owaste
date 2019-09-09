@@ -21,7 +21,7 @@
                 android:id="@+id/ml_above_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="visible"
                 map:layoutDescription="@xml/motion_profile"
                 map:layout_constraintBottom_toBottomOf="parent"
                 map:layout_constraintStart_toStartOf="parent">
@@ -110,12 +110,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/white_FFFFFF"
                 android:clickable="true"
                 map:borderWidth="0dp"
                 map:fabSize="mini"
-                map:layout_constraintBottom_toBottomOf="parent"
+                map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
                 map:layout_constraintStart_toEndOf="@+id/fab_qrcode"
                 map:maxImageSize="24dp"
                 map:srcCompat="@drawable/ic_current_location" />
@@ -139,16 +138,16 @@
                 android:id="@+id/fab_qrcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/light_green_A7D86D"
                 android:clickable="true"
                 android:src="@drawable/ic_qrcode_scan"
                 map:borderWidth="0dp"
                 map:fabCustomSize="@dimen/fab_72dp"
-                map:layout_constraintBottom_toBottomOf="parent"
+                map:layout_constraintBottom_toBottomOf="@+id/fl_map"
                 map:layout_constraintEnd_toEndOf="parent"
                 map:layout_constraintStart_toStartOf="parent"
-                map:maxImageSize="36dp" />
+                map:maxImageSize="36dp"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_add_restaurant"
@@ -169,12 +168,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/white_FFFFFF"
                 android:clickable="true"
                 map:borderWidth="0dp"
                 map:fabSize="mini"
-                map:layout_constraintBottom_toBottomOf="parent"
+                map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
                 map:layout_constraintEnd_toStartOf="@+id/fab_qrcode"
                 map:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 

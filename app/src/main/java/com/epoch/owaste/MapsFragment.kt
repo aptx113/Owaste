@@ -255,7 +255,8 @@ class MapsFragment :
                 level = 3,
                 lat = 25.042044,
                 lng = 121.564699,
-                placeId = "BBB"
+                placeId = "BBB",
+                name = "AWESOME BURGER"
             )
             viewModel.addRestaurant(restaurant)
         }
@@ -312,7 +313,13 @@ class MapsFragment :
         // create bounds that encompass every location we reference
         val boundsBuilder = LatLngBounds.Builder()
         // include all places we have markers for on the map
-        places.keys.map { place -> boundsBuilder.include(places.getValue(place)) }
+        for (i in 0 until viewModel.restaurants.value!!.size) {
+
+            val latLng = LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
+            i(TAG, "LatLng = $latLng")
+            boundsBuilder.include(latLng)
+        }
+//        places.keys.map { place -> boundsBuilder.include(places.getValue(place)) }
         val bounds = boundsBuilder.build()
 
         // Add several markers and move the camera
@@ -323,10 +330,12 @@ class MapsFragment :
         val height = resources.displayMetrics.heightPixels
         val padding = (width * 0.12).toInt() // offset from edges of the map 12% of screen
 
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding))
-
+        val latLng = LatLng(25.042336, 121.564289)
+//        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 19f))
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f), 5000, null)
 //        with(map){
-//            moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, w))
+//            moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, w))*
 //        }
 
         setUpMap()
@@ -365,7 +374,12 @@ class MapsFragment :
                 }
             }
 
-            markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
+            markersList.add(
+                map.addMarker(MarkerOptions()
+                    .position(latLng)
+                    .icon(bitmapDescriptor)
+                    .title(viewModel.restaurants.value!![i].name))
+            )
 
 //            for (marker in markersList) {
 //                if (marker.isVisible) {
@@ -375,7 +389,7 @@ class MapsFragment :
 //                }
 //            }
 //            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
-            i(TAG, "Restaurant ${viewModel.restaurants.value!![i].id} was added, level = ${viewModel.restaurants.value!![i].level}")
+            i(TAG, "Restaurant ${viewModel.restaurants.value!![i].name} was added, level = ${viewModel.restaurants.value!![i].level}")
         }
 //        val placeDetailsMap = mutableMapOf(
 //

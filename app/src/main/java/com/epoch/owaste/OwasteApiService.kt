@@ -49,5 +49,9 @@ private val retrofit = Retrofit.Builder()
     .client(client)
     .build()
 
+/**
+ * A public interface that exposes methods
+ */
 interface OwasteApiService {
+
 }
