@@ -280,7 +280,11 @@ class MapsFragment :
 //                img_profile.visibility = View.VISIBLE
 //                img_profile_frame.visibility = View.VISIBLE
                 txt_profile_name.text = user?.displayName
-                ml_above_map.visibility = View.VISIBLE
+//                ml_above_map.visibility = View.VISIBLE
+
+                if (user?.displayName != null) {
+                    txt_user_level.visibility = View.VISIBLE
+                }
 
             } else {
                 Toast.makeText(this.context, "" + response?.error?.message, Toast.LENGTH_SHORT)

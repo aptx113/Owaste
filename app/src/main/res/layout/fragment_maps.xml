@@ -45,6 +45,7 @@
                     android:layout_marginEnd="16dp"
                     android:text="@string/user_level"
                     android:textColor="@color/white_FFFFFF"
+                    android:visibility="gone"
                     map:layout_constraintBottom_toBottomOf="@+id/txt_profile_name"
                     map:layout_constraintEnd_toEndOf="@+id/cl_profile"
                     map:layout_constraintTop_toTopOf="@+id/txt_profile_name" />
