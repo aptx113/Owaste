@@ -1,6 +1,7 @@
 package com.epoch.owaste
 
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -39,6 +40,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.fragment_maps.*
 import java.io.IOException
 import java.util.*
@@ -122,24 +124,27 @@ class MapsFragment :
         }
 
         binding.fabCurrentLocation.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(this.requireContext(),
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this.requireActivity(),
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    LOCATION_PERMISSION_REQUEST_CODE)
-                return@setOnClickListener
-            }
 
-            map.isMyLocationEnabled = true
-            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
+            getLocationPermission()
+//            if (ActivityCompat.checkSelfPermission(this.requireContext(),
+//                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this.requireActivity(),
+//                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+//                    LOCATION_PERMISSION_REQUEST_CODE)
+//                return@setOnClickListener
+//            }
 
-                if (location != null) {
-                    lastLocation = location
-                    val currentLatLng = LatLng(location.latitude, location.longitude)
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
-                }
-            }
+//            map.isMyLocationEnabled = true
+//            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
+//
+//                if (location != null) {
+//                    lastLocation = location
+//                    val currentLatLng = LatLng(location.latitude, location.longitude)
+//                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
+//                }
+//            }
         }
+
         binding.fabCard.setOnClickListener {
             this.findNavController().navigate(R.id.action_global_loyaltyCardFragment)
         }
@@ -163,6 +168,21 @@ class MapsFragment :
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun getLocationPermission() {
+        runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+            Toast.makeText(this.requireContext(), "開啟位置權限 ya", Toast.LENGTH_SHORT).show()
+            map.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
+
+                if (location != null) {
+                    lastLocation = location
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
+                }
+            }
+        }
     }
 
     private fun initPlaceApiCLient() {
