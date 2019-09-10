@@ -9,4 +9,15 @@
         android:name="com.epoch.owaste.MapsFragment"
         android:label="MapsFragment"
         tools:layout="@layout/fragment_maps"/>
+    <fragment
+        android:id="@+id/loyaltyCardFragment"
+        android:name="com.epoch.owaste.LoyaltyCardFragment"
+        android:label="fragment_loyalty_card"
+        tools:layout="@layout/fragment_loyalty_card" />
+    <action
+        android:id="@+id/action_global_loyaltyCardFragment"
+        app:destination="@id/loyaltyCardFragment" />
+    <action
+        android:id="@+id/action_global_mapsFragment"
+        app:destination="@id/mapsFragment" />
 </navigation>

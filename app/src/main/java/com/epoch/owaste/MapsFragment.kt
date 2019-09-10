@@ -3,6 +3,7 @@ package com.epoch.owaste
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.Address
@@ -18,9 +19,11 @@ import android.widget.CheckBox
 import android.widget.CompoundButton.*
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
@@ -119,8 +122,28 @@ class MapsFragment :
         }
 
         binding.fabCurrentLocation.setOnClickListener {
-//            setUpMap()
+            if (ActivityCompat.checkSelfPermission(this.requireContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this.requireActivity(),
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                    LOCATION_PERMISSION_REQUEST_CODE)
+                return@setOnClickListener
+            }
+
+            map.isMyLocationEnabled = true
+            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
+
+                if (location != null) {
+                    lastLocation = location
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
+                }
+            }
         }
+        binding.fabCard.setOnClickListener {
+            this.findNavController().navigate(R.id.action_global_loyaltyCardFragment)
+        }
+
 
 //        addRestaurant(viewModel)
 
@@ -560,20 +583,21 @@ class MapsFragment :
 //        map.uiSettings.isZoomControlsEnabled = true
         map.uiSettings.isZoomGesturesEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = false
+        map.uiSettings.isMapToolbarEnabled = false
         map.setOnMarkerClickListener(this)
 
         // Add lots of markers to the GoogleMap.
         addMarkersToMap()
-//        if (ActivityCompat.checkSelfPermission(context,
+//        if (ActivityCompat.checkSelfPermission(this.requireContext(),
 //                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this,
+//            ActivityCompat.requestPermissions(this.requireActivity(),
 //                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
 //                LOCATION_PERMISSION_REQUEST_CODE)
 //            return
 //        }
 //
 //        map.isMyLocationEnabled = true
-//        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+//        fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
 //
 //            if (location != null) {
 //                lastLocation = location

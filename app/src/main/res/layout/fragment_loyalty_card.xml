@@ -47,7 +47,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_loyalty_card_temp"
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="150dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="16dp"
@@ -60,6 +60,18 @@
         app:layout_constraintTop_toBottomOf="@+id/tb_loyalty_card">
 
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/img_location"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_location"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_loyalty_card_restaurant"
+        app:layout_constraintEnd_toEndOf="@+id/cv_loyalty_card_temp"
+        app:layout_constraintStart_toEndOf="@+id/txt_loyalty_card_restaurant"
+        app:layout_constraintTop_toTopOf="@+id/txt_loyalty_card_restaurant" />
 
     <ImageView
         android:id="@+id/img_point_5"
@@ -75,51 +87,84 @@
         android:id="@+id/img_point_4"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:src="@drawable/ic_point_green"
         android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_point_green"
         app:layout_constraintBottom_toBottomOf="@+id/img_point_5"
         app:layout_constraintEnd_toStartOf="@+id/img_point_5"
-        app:layout_constraintTop_toTopOf="@+id/img_point_5"/>
+        app:layout_constraintTop_toTopOf="@+id/img_point_5" />
 
     <ImageView
         android:id="@+id/img_point_3"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_point_green"
-        app:layout_constraintEnd_toEndOf="@+id/cv_loyalty_card_temp"
-        app:layout_constraintTop_toBottomOf="@+id/txt_loyalty_card_restaurant" />
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_4"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_4"
+        app:layout_constraintTop_toBottomOf="@+id/txt_loyalty_card_restaurant"
+        app:layout_constraintTop_toTopOf="@+id/img_point_4" />
 
     <ImageView
         android:id="@+id/img_point_2"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_point_green"
-        app:layout_constraintEnd_toEndOf="@+id/cv_loyalty_card_temp"
-        app:layout_constraintTop_toBottomOf="@+id/txt_loyalty_card_restaurant" />
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_3"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_3"
+        app:layout_constraintTop_toBottomOf="@+id/txt_loyalty_card_restaurant"
+        app:layout_constraintTop_toTopOf="@+id/img_point_3" />
 
     <ImageView
         android:id="@+id/img_point_1"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_point_green"
-        app:layout_constraintEnd_toEndOf="@+id/cv_loyalty_card_temp"
-        app:layout_constraintTop_toBottomOf="@+id/txt_loyalty_card_restaurant" />
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_2"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_loyalty_card_restaurant"
+        app:layout_constraintTop_toTopOf="@+id/img_point_2" />
 
     <ImageView
-        android:id="@+id/img_point_6"
+        android:id="@+id/img_point_10"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_point_green"
+        android:src="@drawable/ic_point_grey"
         app:layout_constraintEnd_toEndOf="@+id/cv_loyalty_card_temp"
-        app:layout_constraintTop_toBottomOf="@+id/txt_loyalty_card_restaurant" />
+        app:layout_constraintTop_toBottomOf="@+id/img_point_5"/>
+
+    <ImageView
+        android:id="@+id/img_point_9"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_point_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_10"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_10"
+        app:layout_constraintTop_toTopOf="@+id/img_point_10" />
+
+    <ImageView
+        android:id="@+id/img_point_8"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_point_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_9"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_9"
+        app:layout_constraintTop_toTopOf="@+id/img_point_9" />
+
+    <ImageView
+        android:id="@+id/img_point_7"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_point_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_8"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_8"
+        app:layout_constraintTop_toTopOf="@+id/img_point_8" />
 
     <TextView
         android:id="@+id/txt_loyalty_card_restaurant"
@@ -143,22 +188,8 @@
         app:layout_constraintStart_toStartOf="@+id/cv_loyalty_card_temp"
         app:layout_constraintTop_toTopOf="@+id/cv_loyalty_card_temp" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_loyalty_card_2_temp"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="64dp"
-        android:foreground="@drawable/bg_loyalty_card"
-        app:cardBackgroundColor="@color/transparent_00FFFFFF"
-        app:cardElevation="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_loyalty_card_temp" />
-
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/img_back"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
@@ -166,5 +197,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/txt_loyalty_card_title"
         app:layout_constraintStart_toStartOf="@+id/tb_loyalty_card"
         app:layout_constraintTop_toTopOf="@+id/txt_loyalty_card_title" />
+
+    <ImageView
+        android:id="@+id/img_point_6"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_point_green"
+        app:layout_constraintBottom_toBottomOf="@+id/img_point_7"
+        app:layout_constraintEnd_toStartOf="@+id/img_point_7"
+        app:layout_constraintTop_toTopOf="@+id/img_point_7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
