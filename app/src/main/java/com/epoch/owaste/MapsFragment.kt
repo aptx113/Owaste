@@ -3,25 +3,23 @@ package com.epoch.owaste
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
+import android.location.*
 import android.os.Bundle
+import android.util.Log.e
 import android.util.Log.i
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.CompoundButton.*
+import android.widget.CompoundButton.OnCheckedChangeListener
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -51,8 +49,7 @@ import java.util.*
 class MapsFragment :
     Fragment(),
     OnMapReadyCallback,
-    GoogleMap.OnMarkerClickListener
-{
+    GoogleMap.OnMarkerClickListener {
 
     companion object {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -96,7 +93,7 @@ class MapsFragment :
     ): View? {
 
         viewModel = ViewModelProviders.of(this)
-                .get(MapsViewModel::class.java)
+            .get(MapsViewModel::class.java)
 //        viewModel.getSavedRestaurants().observe(this, Observer {
 //
 //        })
@@ -156,7 +153,7 @@ class MapsFragment :
 
         initOnCheckedChangeListener()
 
-        authProvider = listOf (
+        authProvider = listOf(
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
@@ -173,15 +170,18 @@ class MapsFragment :
     private fun getLocationPermission() {
         runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
             Toast.makeText(this.requireContext(), "開啟位置權限 ya", Toast.LENGTH_SHORT).show()
+            //Google Map 中顯示裝置位置，且裝置移動會跟著移動的那個藍點
             map.isMyLocationEnabled = true
-            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
-
-                if (location != null) {
-                    lastLocation = location
-                    val currentLatLng = LatLng(location.latitude, location.longitude)
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
-                }
-            }
+            locationManager()
+//            map.isMyLocationEnabled = true
+//            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
+//
+//                if (location != null) {
+//                    lastLocation = location
+//                    val currentLatLng = LatLng(location.latitude, location.longitude)
+//                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
+//                }
+//            }
         }
     }
 
@@ -224,7 +224,8 @@ class MapsFragment :
         )
 
         for (i in ids.indices) {
-            binding.root.findViewById<CheckBox>(ids[i])?.setOnCheckedChangeListener(onCheckedChangeListener)
+            binding.root.findViewById<CheckBox>(ids[i])
+                ?.setOnCheckedChangeListener(onCheckedChangeListener)
         }
     }
 
@@ -233,7 +234,7 @@ class MapsFragment :
             when (checkBox?.id) {
                 R.id.cb_lv1 -> if (isChecked) {
                     i(TAG, "show lv1 !")
-                val level1 = restaurantsList.filter { it.level == 1 }
+                    val level1 = restaurantsList.filter { it.level == 1 }
                     viewModel._restaurants.value = level1
                     i(TAG, "level 1 = ${viewModel.restaurants.value}")
                 } else {
@@ -274,7 +275,7 @@ class MapsFragment :
             }
         }
 
-//    fun onClick(v: View) {
+    //    fun onClick(v: View) {
 //        when (v.id) {
 //            R.id.cb_lv1 -> i(TAG, "show lv1 !")
 //            R.id.cb_lv2 -> i(TAG, "show lv2 !")
@@ -291,7 +292,7 @@ class MapsFragment :
         binding.imgProfile.setOnClickListener {
             i("EltinMapsF", "Sign In clicked")
             showSignInOptions()
-    }
+        }
     }
 
     private fun addRestaurant(viewModel: MapsViewModel) {
@@ -349,10 +350,11 @@ class MapsFragment :
      */
     override fun onMapReady(googleMap: GoogleMap) {
 
+        //取得準備好的 Map
         map = googleMap
 
         //Customize Map style
-        try{
+        try {
             val isSuccess = googleMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(this.context, R.raw.style_maps)
             )
@@ -367,7 +369,8 @@ class MapsFragment :
         // include all places we have markers for on the map
         for (i in 0 until viewModel.restaurants.value!!.size) {
 
-            val latLng = LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
+            val latLng =
+                LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
             i(TAG, "LatLng = $latLng")
             boundsBuilder.include(latLng)
         }
@@ -392,10 +395,11 @@ class MapsFragment :
 
         setUpMap()
 
-
         viewModel.restaurants.observe(this, Observer {
             addMarkersToMap()
         })
+
+
     }
 
     /**
@@ -412,14 +416,20 @@ class MapsFragment :
         val bitmapDrawLv3 = resources.getDrawable(R.drawable.ic_marker_lv3)
         val bitmapDrawLv4 = resources.getDrawable(R.drawable.ic_marker_lv4)
         val bitmapDrawLv5 = resources.getDrawable(R.drawable.ic_marker_lv5)
-        val smallMarkerLv1 = Bitmap.createScaledBitmap(bitmapDrawLv1.toBitmap(), width, height, false)
-        val smallMarkerLv2 = Bitmap.createScaledBitmap(bitmapDrawLv2.toBitmap(), width, height, false)
-        val smallMarkerLv3 = Bitmap.createScaledBitmap(bitmapDrawLv3.toBitmap(), width, height, false)
-        val smallMarkerLv4 = Bitmap.createScaledBitmap(bitmapDrawLv4.toBitmap(), width, height, false)
-        val smallMarkerLv5 = Bitmap.createScaledBitmap(bitmapDrawLv5.toBitmap(), width, height, false)
+        val smallMarkerLv1 =
+            Bitmap.createScaledBitmap(bitmapDrawLv1.toBitmap(), width, height, false)
+        val smallMarkerLv2 =
+            Bitmap.createScaledBitmap(bitmapDrawLv2.toBitmap(), width, height, false)
+        val smallMarkerLv3 =
+            Bitmap.createScaledBitmap(bitmapDrawLv3.toBitmap(), width, height, false)
+        val smallMarkerLv4 =
+            Bitmap.createScaledBitmap(bitmapDrawLv4.toBitmap(), width, height, false)
+        val smallMarkerLv5 =
+            Bitmap.createScaledBitmap(bitmapDrawLv5.toBitmap(), width, height, false)
 
         for (i in 0 until viewModel.restaurants.value!!.size) {
-            val latLng = LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
+            val latLng =
+                LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
             var bitmapDescriptor: BitmapDescriptor
             when (viewModel.restaurants.value!![i].level) {
                 1 -> {
@@ -440,10 +450,12 @@ class MapsFragment :
             }
 
             markersList.add(
-                map.addMarker(MarkerOptions()
-                    .position(latLng)
-                    .icon(bitmapDescriptor)
-                    .title(viewModel.restaurants.value!![i].name))
+                map.addMarker(
+                    MarkerOptions()
+                        .position(latLng)
+                        .icon(bitmapDescriptor)
+                        .title(viewModel.restaurants.value!![i].name)
+                )
             )
 
 //            for (marker in markersList) {
@@ -454,7 +466,10 @@ class MapsFragment :
 //                }
 //            }
 //            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
-            i(TAG, "Restaurant ${viewModel.restaurants.value!![i].name} was added, level = ${viewModel.restaurants.value!![i].level}")
+            i(
+                TAG,
+                "Restaurant ${viewModel.restaurants.value!![i].name} was added, level = ${viewModel.restaurants.value!![i].level}"
+            )
         }
 //        val placeDetailsMap = mutableMapOf(
 //
@@ -567,10 +582,12 @@ class MapsFragment :
 //
 
     }
+
     private fun searchRestaurants() {
 
         searchView = binding.svLocationWidget
-        searchView.setOnQueryTextListener(object: androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val location = searchView.query?.toString()
@@ -651,14 +668,84 @@ class MapsFragment :
             }
         }
 
-    private fun showSignInOptions () {
-        startActivityForResult(AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(authProvider)
-            .setTheme(R.style.SingIn)
-            .build(), RC_SIGN_IN)
+    private fun showSignInOptions() {
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(authProvider)
+                .setTheme(R.style.SingIn)
+                .build(), RC_SIGN_IN
+        )
     }
 
+    var oriLocation: Location? = null
+
+    private fun locationManager() {
+        val locationManager =
+            context?.getSystemService(LOCATION_SERVICE) as LocationManager?
+        var isGPSEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        var isNetworkEnabled = locationManager?.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+        if (!(isGPSEnabled!! || isNetworkEnabled!!)) {
+            // ToDo
+        } else {
+            try {
+                if (isGPSEnabled) {
+                    locationManager?.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        0L, 0f, locationListener
+                    )
+                    oriLocation =
+                        locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                } else if (isNetworkEnabled!!) {
+                    locationManager?.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER,
+                        0L, 0f, locationListener
+                    )
+                    oriLocation =
+                        locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                }
+            } catch (ex: SecurityException) {
+                e(TAG, "Security Exception, no location available")
+            }
+            if (oriLocation != null) {
+                map.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            oriLocation!!.latitude,
+                            oriLocation!!.longitude
+                        ), 12f
+                    )
+                )
+            }
+        }
+    }
+
+    val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location?) {
+            if (oriLocation != null) {
+                oriLocation = location
+            }
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        location!!.latitude,
+                        location.longitude
+                    ), 12f
+                )
+            )
+        }
+
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        }
+
+        override fun onProviderEnabled(provider: String?) {
+        }
+
+        override fun onProviderDisabled(provider: String?) {
+        }
+
+    }
     /**
      * Uses the Glide library to load an image by URL into an [ImageView]
      */
