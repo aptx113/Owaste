@@ -102,6 +102,9 @@ dependencies {
 
     // Retrofit Logging Interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.0.1")
+
+    // Quick Permissions
+    implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
