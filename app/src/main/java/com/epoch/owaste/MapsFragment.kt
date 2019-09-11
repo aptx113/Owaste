@@ -90,8 +90,6 @@ class MapsFragment :
         mapView = mapFragment.view
         i("Eltin", "mapView=$mapView")
 
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        val mapFragment = childFragmentManager
 //            .findFragmentById(R.id.fl_map) as SupportMapFragment
@@ -147,18 +145,94 @@ class MapsFragment :
 
         initOnCheckedChangeListener()
 
-        authProvider = listOf(
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
+        firebaseAuthStateListener()
 
-        googleSignIn()
-
+//        googleSignIn()
+        userSignOut()
         initPlaceApiCLient()
 
         // Inflate the layout for this fragment
         return binding.root
     }
 
+    private fun firebaseAuthStateListener() {
+        authProvider = listOf(
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        val authListener: FirebaseAuth.AuthStateListener =
+            FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
+                val user: FirebaseUser? = auth.currentUser
+                if (user == null) {
+                    i(TAG, "User = $user")
+                    img_profile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
+                    txt_profile_name.text = getString(R.string.click_to_login_in)
+                    img_profile.isLongClickable = false
+                    binding.imgProfile.setOnClickListener {
+                        val intent = AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(authProvider)
+                            .setAlwaysShowSignInMethodScreen(false)
+                            .setIsSmartLockEnabled(false)
+                            .build()
+                        startActivityForResult(intent, RC_SIGN_IN)
+                    }
+                } else {
+
+                    Glide.with(this).load(user.photoUrl).into(img_profile)
+                    img_profile.isClickable = false
+                    img_profile.isLongClickable = true
+                    txt_profile_name.text = user.displayName
+                    txt_user_level.text = getString(R.string.user_level)
+
+                    if (user.displayName != null) {
+
+                        txt_user_level.visibility = View.VISIBLE
+                    }
+                    i(TAG, "user UID = ${user.uid}")
+                }
+            }
+
+        FirebaseAuth.getInstance().addAuthStateListener(authListener)
+    }
+
+    private fun googleSignIn() {
+
+        binding.imgProfile.setOnClickListener {
+            i("EltinMapsF", "Sign In clicked")
+            showSignInOptions()
+        }
+    }
+
+    private fun showSignInOptions() {
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(authProvider)
+                .setTheme(R.style.SingIn)
+                .build(), RC_SIGN_IN
+        )
+    }
+
+    private fun userSignOut() {
+        binding.imgProfile.setOnLongClickListener {
+
+            firebaseSignOut()
+            img_profile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
+            txt_profile_name.text = getString(R.string.click_to_login_in)
+            txt_user_level.text = ""
+            img_profile.isLongClickable = false
+            true
+        }
+    }
+    private fun firebaseSignOut() {
+
+        AuthUI.getInstance()
+            .signOut(this.requireContext())
+            .addOnSuccessListener {
+                Toast.makeText(this.context, "怎麼登出得這麼突然...", Toast.LENGTH_SHORT).show()
+            }
+    }
     private fun getLocationPermission() {
         runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
             Toast.makeText(this.requireContext(), "開啟位置權限 ya", Toast.LENGTH_SHORT).show()
@@ -245,33 +319,25 @@ class MapsFragment :
             }
         }
 
-    private fun googleSignIn() {
-
-        binding.imgProfile.setOnClickListener {
-            i("EltinMapsF", "Sign In clicked")
-            showSignInOptions()
-        }
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode != Activity.RESULT_OK) {
 
-                val user = FirebaseAuth.getInstance().currentUser // get current User
-
-                Glide.with(this).load(user?.photoUrl).into(img_profile)
-                txt_profile_name.text = user?.displayName
-
-                if (user?.displayName != null) {
-                    txt_user_level.visibility = View.VISIBLE
-
-                }
-                i("EltinMapsF", "" + user?.photoUrl)
-            } else {
-                Toast.makeText(this.context, "" + response?.error?.message, Toast.LENGTH_SHORT)
+                val response = IdpResponse.fromResultIntent(data)
+//                val user = FirebaseAuth.getInstance().currentUser // get current User
+//
+//                Glide.with(this).load(user?.photoUrl).into(img_profile)
+//                txt_profile_name.text = user?.displayName
+//
+//                if (user?.displayName != null) {
+//                    txt_user_level.visibility = View.VISIBLE
+//
+//                }
+//                i("EltinMapsF", "user UID = ${user?.uid}")
+                Toast.makeText(this.context, response?.error?.message, Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -476,39 +542,6 @@ class MapsFragment :
 //        }
     }
 
-//    /**
-//     * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
-//     * 此處加入Google組態。
-//     */
-//    val authProvider: List<AuthUI.IdpConfig> = listOf(
-//        AuthUI.IdpConfig.GoogleBuilder().build()
-//    )
-
-    val authListener: FirebaseAuth.AuthStateListener =
-        FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
-            val user: FirebaseUser? = auth.currentUser
-            if (user == null) {
-                val intent = AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAvailableProviders(authProvider)
-                    .setAlwaysShowSignInMethodScreen(true)
-                    .setIsSmartLockEnabled(false)
-                    .build()
-                startActivityForResult(intent, RC_SIGN_IN)
-            } else {
-
-            }
-        }
-
-    private fun showSignInOptions() {
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(authProvider)
-                .setTheme(R.style.SingIn)
-                .build(), RC_SIGN_IN
-        )
-    }
 
     var oriLocation: Location? = null
 
