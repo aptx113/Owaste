@@ -71,22 +71,6 @@ class MapsFragment :
      */
     lateinit var authProvider: List<AuthUI.IdpConfig>
 
-    /**
-     * map to store place names and locations
-     */
-    private val places = mapOf(
-        "WE_ME_CAFE" to LatLng(25.042044, 121.564699),
-        "AWESOME_BURGER" to LatLng(25.042098, 121.564179),
-        "MR_BAI_MU" to LatLng(25.042336, 121.564289),
-        "KOREA_HOUSE" to LatLng(25.042178, 121.564455),
-        "GOOD_COFFEE" to LatLng(25.042068, 121.563881),
-        "BELGIUM_COFFEE" to LatLng(25.042302, 121.564160),
-        "ONE_DUMPLING" to LatLng(25.042486, 121.564393),
-        "JI_MAN_WU" to LatLng(25.042297, 121.564098),
-        "DU_LAO_DA" to LatLng(25.042402, 121.564190),
-        "TAIWAN_A_CHENG" to LatLng(25.042451, 121.564005)
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,9 +78,6 @@ class MapsFragment :
 
         viewModel = ViewModelProviders.of(this)
             .get(MapsViewModel::class.java)
-//        viewModel.getSavedRestaurants().observe(this, Observer {
-//
-//        })
 
         val mapFragment = SupportMapFragment()
         childFragmentManager.beginTransaction().replace(R.id.fl_map, mapFragment).commit()
@@ -170,18 +151,9 @@ class MapsFragment :
     private fun getLocationPermission() {
         runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
             Toast.makeText(this.requireContext(), "開啟位置權限 ya", Toast.LENGTH_SHORT).show()
+            locationManager()
             //Google Map 中顯示裝置位置，且裝置移動會跟著移動的那個藍點
             map.isMyLocationEnabled = true
-            locationManager()
-//            map.isMyLocationEnabled = true
-//            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
-//
-//                if (location != null) {
-//                    lastLocation = location
-//                    val currentLatLng = LatLng(location.latitude, location.longitude)
-//                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
-//                }
-//            }
         }
     }
 
@@ -199,19 +171,6 @@ class MapsFragment :
         // Specify the fields to return
         val placeFields = listOf(Place.Field.RATING)
     }
-//    override fun onResume() {
-//        super.onResume()
-//
-//        setUpMapIfNeeded()
-//    }
-//
-//    private fun setUpMapIfNeeded() {
-//
-//        if (map == null) {
-//
-//            getMapAsync(this)
-//        }
-//    }
 
     // use for loop to initialize multiple checkboxes.setOnCheckedChangeListener
     private fun initOnCheckedChangeListener() {
@@ -275,61 +234,31 @@ class MapsFragment :
             }
         }
 
-    //    fun onClick(v: View) {
-//        when (v.id) {
-//            R.id.cb_lv1 -> i(TAG, "show lv1 !")
-//            R.id.cb_lv2 -> i(TAG, "show lv2 !")
-//            R.id.cb_lv3 -> i(TAG, "show lv3 !")
-//            R.id.cb_lv4 -> i(TAG, "show lv4 !")
-//            R.id.cb_lv5 -> i(TAG, "show lv5 !")
-//        }
-//    }
     private fun googleSignIn() {
-//        binding.fabGoogleSignIn.setOnClickListener {
-//            i("EltinMapsF", "Sign In clicked")
-//            showSignInOptions()
-//        }
+
         binding.imgProfile.setOnClickListener {
             i("EltinMapsF", "Sign In clicked")
             showSignInOptions()
         }
     }
 
-    private fun addRestaurant(viewModel: MapsViewModel) {
-        binding.fabAddRestaurant.setOnClickListener {
-            //add restaurant to Firestore
-            val restaurant = Restaurants(
-                id = 2,
-                cardId = 5555,
-                level = 3,
-                lat = 25.042044,
-                lng = 121.564699,
-                placeId = "BBB",
-                name = "AWESOME BURGER"
-            )
-            viewModel.addRestaurant(restaurant)
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
+
                 val user = FirebaseAuth.getInstance().currentUser // get current User
-                i("EltinMapsF", "" + user?.photoUrl)
+
                 Glide.with(this).load(user?.photoUrl).into(img_profile)
-//                txt_profile_name.text = user?.displayName
-//                cl_profile.visibility = View.VISIBLE
-//                img_profile.visibility = View.VISIBLE
-//                img_profile_frame.visibility = View.VISIBLE
                 txt_profile_name.text = user?.displayName
-//                ml_above_map.visibility = View.VISIBLE
 
                 if (user?.displayName != null) {
                     txt_user_level.visibility = View.VISIBLE
-                }
 
+                }
+                i("EltinMapsF", "" + user?.photoUrl)
             } else {
                 Toast.makeText(this.context, "" + response?.error?.message, Toast.LENGTH_SHORT)
                     .show()
@@ -374,18 +303,14 @@ class MapsFragment :
             i(TAG, "LatLng = $latLng")
             boundsBuilder.include(latLng)
         }
-//        places.keys.map { place -> boundsBuilder.include(places.getValue(place)) }
         val bounds = boundsBuilder.build()
 
         // Add several markers and move the camera
-//        val weNMeCafe = LatLng(25.042044, 121.564699)
-//        map.addMarker(MarkerOptions().position(weNMeCafe).title("好好文化創意 We & Me Cafe"))
 
         val width = resources.displayMetrics.widthPixels
         val height = resources.displayMetrics.heightPixels
         val padding = (width * 0.12).toInt() // offset from edges of the map 12% of screen
 
-        val latLng = LatLng(25.042336, 121.564289)
 //        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding))
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 19f), 5000, null)
 //        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f), 5000, null)
@@ -394,12 +319,6 @@ class MapsFragment :
 //        }
 
         setUpMap()
-
-        viewModel.restaurants.observe(this, Observer {
-            addMarkersToMap()
-        })
-
-
     }
 
     /**
@@ -458,129 +377,11 @@ class MapsFragment :
                 )
             )
 
-//            for (marker in markersList) {
-//                if (marker.isVisible) {
-//                    marker.isVisible = false
-//                } else {
-//                    markersList.add(map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor)))
-//                }
-//            }
-//            map.addMarker(MarkerOptions().position(latLng).icon(bitmapDescriptor))
-            i(
-                TAG,
-                "Restaurant ${viewModel.restaurants.value!![i].name} was added, level = ${viewModel.restaurants.value!![i].level}"
+            i(TAG,
+                "Restaurant ${viewModel.restaurants.value!![i].name} was added, " +
+                        "level = ${viewModel.restaurants.value!![i].level}"
             )
         }
-//        val placeDetailsMap = mutableMapOf(
-//
-//            // Uses a custom icon
-//            "WE_ME_CAFE" to PlacesDetails(
-//                position = places.getValue("WE_ME_CAFE"),
-//                title = "好好文化創意 We & Me Cafe",
-//                snippet = "02 2763 8767",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
-//            ),
-//
-//            "AWESOME_BURGER" to PlacesDetails(
-//                position = places.getValue("AWESOME_BURGER"),
-//                title = "AWESOME BURGER",
-//                snippet = "02 2764 2906",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
-//            ),
-//
-//            "MR_BAI_MU" to PlacesDetails(
-//                position = places.getValue("MR_BAI_MU"),
-//                title = "白暮蛋餅先生2號店松菸",
-//                snippet = "0979 949 848",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
-//            ),
-//
-//            "KOREA_HOUSE" to PlacesDetails(
-//                position = places.getValue("KOREA_HOUSE"),
-//                title = "韓明屋",
-//                snippet = "02 2746 8317",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
-//            ),
-//
-//            "GOOD_COFFEE" to PlacesDetails(
-//                position = places.getValue("GOOD_COFFEE"),
-//                title = "好咖啡拿鐵專賣店",
-//                snippet = "02 2749 5567",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
-//            ),
-//
-//            "BELGIUM_COFFEE" to PlacesDetails(
-//                position = places.getValue("BELGIUM_COFFEE"),
-//                title = "比利時咖啡",
-//                snippet = "02 2761 3600",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv1)
-//            ),
-//
-//            "ONE_DUMPLING" to PlacesDetails(
-//                position = places.getValue("ONE_DUMPLING"),
-//                title = "一記水餃牛肉麵店",
-//                snippet = "02 2747 1433",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
-//            ),
-//
-//            "JI_MAN_WU" to PlacesDetails(
-//                position = places.getValue("JI_MAN_WU"),
-//                title = "吉滿屋食坊",
-//                snippet = "02 2768 3251",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv3)
-//            ),
-//
-//            "DU_LAO_DA" to PlacesDetails(
-//                position = places.getValue("DU_LAO_DA"),
-//                title = "杜佬大手作弁當",
-//                snippet = "02 2765 1127",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv2)
-//            ),
-//
-//            "TAIWAN_A_CHENG" to PlacesDetails(
-//                position = places.getValue("TAIWAN_A_CHENG"),
-//                title = "台灣阿誠現炒菜",
-//                snippet = "02 2745 8198",
-//                icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_lv4)
-//            )
-//        )
-//
-//        // place markers for each of the defined locations
-//        placeDetailsMap.keys.map {
-//            with(placeDetailsMap.getValue(it)) {
-//                map.addMarker(
-//                    MarkerOptions()
-//                        .position(position)
-//                        .title(title)
-//                        .snippet(snippet)
-//                        .icon(icon)
-//                        .infoWindowAnchor(infoWindowAnchorX, infoWindowAnchorY)
-//                        .draggable(draggable)
-//                        .zIndex(zIndex))
-//            }
-//        }
-    }
-
-    fun resizeMarkerIcon() {
-
-//        val markerList = listOf(
-//            R.drawable.ic_marker_lv1,
-//            R.drawable.ic_marker_lv2,
-//            R.drawable.ic_marker_lv3,
-//            R.drawable.ic_marker_lv4,
-//            R.drawable.ic_marker_lv5
-//        )
-//
-//        for (i in 0 until markerList.size) {
-//
-//            val height = 32
-//            val width = 32
-//            val bitmapdraw = resources.getDrawable(markerList[i])
-//            val b = bitmapdraw.toBitmap()
-//            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-//        }
-//
-
     }
 
     private fun searchRestaurants() {
@@ -617,14 +418,14 @@ class MapsFragment :
 
     private fun setUpMap() {
 
-//        map.uiSettings.isZoomControlsEnabled = true
         map.uiSettings.isZoomGesturesEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = false
         map.uiSettings.isMapToolbarEnabled = false
         map.setOnMarkerClickListener(this)
 
-        // Add lots of markers to the GoogleMap.
-        addMarkersToMap()
+        viewModel.restaurants.observe(this, Observer {
+            addMarkersToMap()
+        })
 //        if (ActivityCompat.checkSelfPermission(this.requireContext(),
 //                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this.requireActivity(),
@@ -746,19 +547,20 @@ class MapsFragment :
         }
 
     }
-    /**
-     * Uses the Glide library to load an image by URL into an [ImageView]
-     */
-//    fun bindImage(imgView: ImageView, imgUrl: String?) {
-//        imgUrl?.let {
-//            val imgUri = it.toUri().buildUpon().build()
-//            GlideApp.with(imgView.context)
-//                .load(imgUri)
-//                .apply(
-//                    RequestOptions()
-//                        .placeholder(R.drawable.ic_placeholder)
-//                        .error(R.drawable.ic_placeholder))
-//                .into(imgView)
+
+    //    private fun addRestaurant(viewModel: MapsViewModel) {
+//        binding.fabAddRestaurant.setOnClickListener {
+//            //add restaurant to Firestore
+//            val restaurant = Restaurants(
+//                id = 2,
+//                cardId = 5555,
+//                level = 3,
+//                lat = 25.042044,
+//                lng = 121.564699,
+//                placeId = "BBB",
+//                name = "AWESOME BURGER"
+//            )
+//            viewModel.addRestaurant(restaurant)
 //        }
 //    }
 }
