@@ -9,6 +9,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.*
 import android.os.Bundle
+import android.util.Log
 import android.util.Log.e
 import android.util.Log.i
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton.OnCheckedChangeListener
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
@@ -65,6 +67,8 @@ class MapsFragment :
     private lateinit var binding: FragmentMapsBinding
     private lateinit var viewModel: MapsViewModel
 
+    lateinit var mapFragment: SupportMapFragment
+    lateinit var locationButton: View
     /**
      * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
      * 此處加入Google組態。
@@ -79,11 +83,14 @@ class MapsFragment :
         viewModel = ViewModelProviders.of(this)
             .get(MapsViewModel::class.java)
 
-        val mapFragment = SupportMapFragment()
+        mapFragment = SupportMapFragment()
         childFragmentManager.beginTransaction().replace(R.id.fl_map, mapFragment).commit()
 
-        mapFragment.getMapAsync(this)
+        mapFragment.getMapAsync(this) // return OnMapReadyCallback
         mapView = mapFragment.view
+        i("Eltin", "mapView=$mapView")
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        val mapFragment = childFragmentManager
@@ -101,9 +108,13 @@ class MapsFragment :
             it.lifecycleOwner = this
         }
 
+//        getLocationPermission()
         binding.fabCurrentLocation.setOnClickListener {
-
-            getLocationPermission()
+            i(TAG, "fab_current_location clicked")
+            //            getLocationPermission()
+            i(TAG, "locationButton = $locationButton")
+            locationButton.callOnClick()
+        }
 //            if (ActivityCompat.checkSelfPermission(this.requireContext(),
 //                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //                ActivityCompat.requestPermissions(this.requireActivity(),
@@ -121,12 +132,10 @@ class MapsFragment :
 //                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
 //                }
 //            }
-        }
 
         binding.fabCard.setOnClickListener {
             this.findNavController().navigate(R.id.action_global_loyaltyCardFragment)
         }
-
 
 //        addRestaurant(viewModel)
 
@@ -151,7 +160,7 @@ class MapsFragment :
     private fun getLocationPermission() {
         runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
             Toast.makeText(this.requireContext(), "開啟位置權限 ya", Toast.LENGTH_SHORT).show()
-            locationManager()
+//            locationManager()
             //Google Map 中顯示裝置位置，且裝置移動會跟著移動的那個藍點
             map.isMyLocationEnabled = true
         }
@@ -283,15 +292,7 @@ class MapsFragment :
         map = googleMap
 
         //Customize Map style
-        try {
-            val isSuccess = googleMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(this.context, R.raw.style_maps)
-            )
-            if (!isSuccess)
-                Toast.makeText(this.context, "Map style loads failed", Toast.LENGTH_SHORT).show()
-        } catch (e: Resources.NotFoundException) {
-            e.printStackTrace()
-        }
+        customizeMapStyle(googleMap)
 
         // create bounds that encompass every location we reference
         val boundsBuilder = LatLngBounds.Builder()
@@ -319,6 +320,34 @@ class MapsFragment :
 //        }
 
         setUpMap()
+
+        mapView = mapFragment.view
+
+        getDefaultLocationButtonGone()
+    }
+
+    private fun customizeMapStyle(googleMap: GoogleMap) {
+        try {
+            val isSuccess = googleMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(this.context, R.raw.style_maps)
+            )
+            if (!isSuccess)
+                Toast.makeText(this.context, "Map style loads failed", Toast.LENGTH_SHORT).show()
+        } catch (e: Resources.NotFoundException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getDefaultLocationButtonGone() {
+        locationButton = (
+                mapView?.findViewById<View>(Integer.parseInt("1"))
+                    ?.parent as View).findViewById<View>(Integer.parseInt("2"))
+        val layoutParams = locationButton.layoutParams as (RelativeLayout.LayoutParams)
+        // position on right bottom
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+        layoutParams.setMargins(0, 0, 30, 30)
+        locationButton.visibility = View.VISIBLE
     }
 
     /**
@@ -412,14 +441,13 @@ class MapsFragment :
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
-
         })
     }
 
     private fun setUpMap() {
 
         map.uiSettings.isZoomGesturesEnabled = true
-        map.uiSettings.isMyLocationButtonEnabled = false
+        map.uiSettings.isMyLocationButtonEnabled = true
         map.uiSettings.isMapToolbarEnabled = false
         map.setOnMarkerClickListener(this)
 
