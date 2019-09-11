@@ -105,6 +105,9 @@ dependencies {
 
     // Quick Permissions
     implementation 'com.github.quickpermissions:quickpermissions-kotlin:0.4.0'
+
+    // Google Mobile Vision
+    implementation 'com.google.android.gms:play-services-vision:16.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

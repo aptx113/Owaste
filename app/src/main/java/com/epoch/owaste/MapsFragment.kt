@@ -137,6 +137,10 @@ class MapsFragment :
             this.findNavController().navigate(R.id.action_global_loyaltyCardFragment)
         }
 
+        binding.fabQrcode.setOnClickListener {
+            this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
+        }
+
 //        addRestaurant(viewModel)
 
         searchRestaurants()
