@@ -147,8 +147,6 @@ class MapsFragment :
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
 
-//        (view as? MotionLayout)?.getTransition(R.id.ml_above_map)?.setEnable(false)
-
         googleSignIn()
 
         initPlaceApiCLient()
@@ -322,6 +320,7 @@ class MapsFragment :
         setUpMap()
 
         mapView = mapFragment.view
+        i("Eltin", "mapView=$mapView")
 
         getDefaultLocationButtonGone()
     }
