@@ -20,4 +20,12 @@
     <action
         android:id="@+id/action_global_mapsFragment"
         app:destination="@id/mapsFragment" />
+    <fragment
+        android:id="@+id/QRCodeScannerFragment"
+        android:name="com.epoch.owaste.QRCodeScannerFragment"
+        android:label="fragment_qrcode_scanner"
+        tools:layout="@layout/fragment_qrcode_scanner" />
+    <action
+        android:id="@+id/action_global_QRCodeScannerFragment"
+        app:destination="@id/QRCodeScannerFragment" />
 </navigation>
