@@ -4,11 +4,12 @@ import android.util.Log.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.epoch.owaste.data.Restaurants
+import com.epoch.owaste.data.restaurantsList
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import java.util.logging.Logger
 
 class MapsViewModel: ViewModel() {
 

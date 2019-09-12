@@ -24,6 +24,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.epoch.owaste.data.User
+import com.epoch.owaste.data.restaurantsList
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse

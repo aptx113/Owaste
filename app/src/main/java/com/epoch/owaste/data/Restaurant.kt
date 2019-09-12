@@ -1,8 +1,7 @@
-package com.epoch.owaste
+package com.epoch.owaste.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
 
 @Parcelize
 data class Restaurants (
