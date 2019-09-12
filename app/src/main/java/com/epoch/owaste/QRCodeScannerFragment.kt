@@ -2,8 +2,11 @@ package com.epoch.owaste
 
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.util.Log.i
 import android.util.SparseArray
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -36,7 +39,7 @@ class QRCodeScannerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        getCameraPermission()
+//        getCameraPermission()
 
         binding = FragmentQrcodeScannerBinding.inflate(inflater, container, false)
 
@@ -47,8 +50,13 @@ class QRCodeScannerFragment : Fragment() {
             .setBarcodeFormats(Barcode.QR_CODE)
             .build()
 
+        val metrics = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
+        val windowHeight = metrics.heightPixels
+        val windowWidth = metrics.widthPixels
+
         cameraSource = CameraSource.Builder(this.requireContext(), barcodeDetector)
-            .setRequestedPreviewSize(300, 300)
+            .setRequestedPreviewSize(windowWidth, windowHeight)
             .setAutoFocusEnabled(true)
             .build()
 
@@ -57,14 +65,23 @@ class QRCodeScannerFragment : Fragment() {
             override fun surfaceCreated(surfaceHolder: SurfaceHolder?) {
                 if (ActivityCompat.checkSelfPermission(
                         this@QRCodeScannerFragment.requireContext(), Manifest.permission.CAMERA
-                    ) != PackageManager.PERMISSION_GRANTED)
+                    ) != PackageManager.PERMISSION_GRANTED) {
 
-                    return
+                    try {
+                        runWithPermissions(Manifest.permission.CAMERA) {
 
-                try {
-                    cameraSource.start(surfaceHolder)
-                } catch (e: IOException) {
-                    e.printStackTrace()
+                            cameraSource.start(surfaceHolder)
+                            i("Eltin_QRCodeF", "好啦准你開相機")
+                            i("Eltin_QRCodeF",
+                                "window width = $windowWidth , " +
+                            "window height = $windowHeight")
+                        }
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                } else {
+                        cameraSource.start(surfaceHolder)
+                        i("Eltin_QRCodeF", "VIP pass 相機直接開起來")
                 }
             }
 
@@ -97,9 +114,11 @@ class QRCodeScannerFragment : Fragment() {
         return binding.root
     }
 
-    private fun getCameraPermission() {
-        runWithPermissions(Manifest.permission.CAMERA) {
-            Toast.makeText(this.requireContext(), "開啟相機權限 ya", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    private fun getCameraPermission() {
+//        runWithPermissions(Manifest.permission.CAMERA) {
+//
+//            cameraSource.start(surfaceHolder)
+//            Toast.makeText(this.requireContext(), "開啟相機權限 ya", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 }

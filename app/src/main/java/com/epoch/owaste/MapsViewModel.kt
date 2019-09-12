@@ -71,4 +71,8 @@ class MapsViewModel: ViewModel() {
 
         return savedRestaurants
     }
+
+    fun addUserToFirebase() {
+
+    }
 }
