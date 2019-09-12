@@ -9,7 +9,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.*
 import android.os.Bundle
-import android.util.Log
 import android.util.Log.e
 import android.util.Log.i
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton.OnCheckedChangeListener
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
@@ -176,26 +174,51 @@ class MapsFragment :
                             .setIsSmartLockEnabled(false)
                             .build()
                         startActivityForResult(intent, RC_SIGN_IN)
+//                        checkIfUserInFirestore()
                     }
                 } else {
 
-                    Glide.with(this).load(user.photoUrl).into(img_profile)
+                    checkIfUserInFirestore()
+
                     img_profile.isClickable = false
                     img_profile.isLongClickable = true
                     txt_profile_name.text = user.displayName
                     txt_user_level.text = getString(R.string.user_level)
+                    Glide.with(this).load(user.photoUrl).into(img_profile)
 
                     if (user.displayName != null) {
 
                         txt_user_level.visibility = View.VISIBLE
                     }
-                    i(TAG, "user UID = ${user.uid}")
                 }
             }
 
         FirebaseAuth.getInstance().addAuthStateListener(authListener)
     }
 
+    private fun checkIfUserInFirestore() {
+        viewModel.firestoreDb.collection("User")
+            .whereEqualTo("uid", FirebaseAuth.getInstance().currentUser?.uid)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+
+                    if (it.result?.size() != 0) {
+                        i(TAG, "QuerySnapshot = ${it.result?.size()}")
+                    } else {
+                        val newUser = User(
+                            totalPoints = 0,
+                            uid = FirebaseAuth.getInstance().currentUser!!.uid
+                        )
+                        viewModel.firestoreDb.collection("User")
+                            .add(newUser)
+                            .addOnSuccessListener { document ->
+                                i(TAG, "Add new user, document UID = ${document.id}")
+                            }
+                    }
+                }
+            }
+    }
     private fun googleSignIn() {
 
         binding.imgProfile.setOnClickListener {
@@ -218,10 +241,10 @@ class MapsFragment :
         binding.imgProfile.setOnLongClickListener {
 
             firebaseSignOut()
-            img_profile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
+            binding.imgProfile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
             txt_profile_name.text = getString(R.string.click_to_login_in)
             txt_user_level.text = ""
-            img_profile.isLongClickable = false
+            binding.imgProfile.isLongClickable = false
             true
         }
     }
