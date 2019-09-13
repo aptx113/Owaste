@@ -10,10 +10,14 @@ import java.util.logging.Logger
 
 object OwasteRepository {
 
+    private const val TAG = "Eltin_OwasteR"
+    private const val CARD_ID = "cardId"
+    private const val LOYALTY_CARD = "loyaltyCards"
+
     private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private val currentUserDocRef: DocumentReference
-        get() = firestoreInstance.document("User/${FirebaseAuth.getInstance().currentUser?.uid
+        get() = firestoreInstance.document("users/${FirebaseAuth.getInstance().currentUser?.uid
                 ?: throw NullPointerException("UID is null.")}")
 
     val _currentQRCodeLevel = MutableLiveData<String>()
@@ -33,7 +37,7 @@ object OwasteRepository {
                 )
                 currentUserDocRef.set(newUser).addOnSuccessListener {
                     onComplete()
-                    i("Eltin_OwasteR","currentUserDocRef = $currentUserDocRef")
+                    i(TAG,"currentUserDocRef = ${currentUserDocRef.id}")
                 }
             }
             else
@@ -41,6 +45,40 @@ object OwasteRepository {
         }
     }
     fun onQRCodeScannedUpdateCard() {
+        currentUserDocRef.collection(LOYALTY_CARD)
+            .whereEqualTo(CARD_ID, currentQRCodeCardId.value?.toLong())
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.isEmpty) {
+                    val newLoyaltyCard = LoyaltyCard(
+                        cardId = currentQRCodeCardId.value!!.toLong(),
+                        points = 1
+                    )
+                    currentUserDocRef.collection(LOYALTY_CARD)
+                        .add(newLoyaltyCard)
+                        .addOnSuccessListener {
+                            i(TAG, "Add new loyalty card, document UID = ${it.id}")
+                        }
+                } else {
 
+                    i(TAG, "get QuerySnapshot = ${querySnapshot.toObjects(LoyaltyCard::class.java)}")
+
+                    currentUserDocRef.collection(LOYALTY_CARD)
+                        .whereEqualTo(CARD_ID, currentQRCodeCardId.value?.toLong())
+                        .get().addOnSuccessListener { it ->
+                            val getCardIdDocRef = it.documents[0].reference
+                            getCardIdDocRef.get().addOnSuccessListener { documentSnapshot ->
+
+                                val currentPoints = documentSnapshot.get("points") as Long
+
+                                getCardIdDocRef
+                                    .update(mapOf("points" to currentPoints.plus(1)))
+                                    .addOnSuccessListener {
+                                        i(TAG, "get QuerySnapshot updated = ${documentSnapshot.toObject(LoyaltyCard::class.java)}")
+                                    }
+                            }
+                        }
+                }
+            }
     }
 }

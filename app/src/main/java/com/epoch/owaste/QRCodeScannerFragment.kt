@@ -115,6 +115,7 @@ class QRCodeScannerFragment : Fragment() {
                             i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeLevel.value = ${OwasteRepository._currentQRCodeLevel.value}")
                             i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
                             barcodeDetector.release()
+                            OwasteRepository.onQRCodeScannedUpdateCard()
                         }
                     )
                 }

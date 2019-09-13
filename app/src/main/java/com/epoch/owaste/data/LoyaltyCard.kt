@@ -8,4 +8,6 @@ data class LoyaltyCard (
 
     val cardId: Long,
     val points: Long
-) : Parcelable
+) : Parcelable {
+    constructor() : this(0, 0)
+}
