@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.data.User
 import com.epoch.owaste.data.restaurantsList
 import com.epoch.owaste.databinding.FragmentMapsBinding
@@ -180,7 +181,8 @@ class MapsFragment :
                     }
                 } else {
 
-                    checkIfUserInFirestore()
+//                    checkIfUserInFirestore()
+                    OwasteRepository.initCurrentUserIfFirstTime {  }
 
                     img_profile.isClickable = false
                     img_profile.isLongClickable = true
@@ -198,29 +200,29 @@ class MapsFragment :
         FirebaseAuth.getInstance().addAuthStateListener(authListener)
     }
 
-    private fun checkIfUserInFirestore() {
-        viewModel.firestoreDb.collection("User")
-            .whereEqualTo("uid", FirebaseAuth.getInstance().currentUser?.uid)
-            .get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-
-                    if (it.result?.size() != 0) {
-                        i(TAG, "QuerySnapshot = ${it.result?.size()}")
-                    } else {
-                        val newUser = User(
-                            totalPoints = 0,
-                            uid = FirebaseAuth.getInstance().currentUser!!.uid
-                        )
-                        viewModel.firestoreDb.collection("User")
-                            .add(newUser)
-                            .addOnSuccessListener { document ->
-                                i(TAG, "Add new user, document UID = ${document.id}")
-                            }
-                    }
-                }
-            }
-    }
+//    private fun checkIfUserInFirestore() {
+//        viewModel.firestoreDb.collection("User")
+//            .whereEqualTo("uid", FirebaseAuth.getInstance().currentUser?.uid)
+//            .get()
+//            .addOnCompleteListener {
+//                if (it.isSuccessful) {
+//
+//                    if (it.result?.size() != 0) {
+//                        i(TAG, "QuerySnapshot = ${it.result?.size()}")
+//                    } else {
+//                        val newUser = User(
+//                            totalPoints = 0,
+//                            uid = FirebaseAuth.getInstance().currentUser!!.uid
+//                        )
+//                        viewModel.firestoreDb.collection("User")
+//                            .add(newUser)
+//                            .addOnSuccessListener { document ->
+//                                i(TAG, "Add new user, document UID = ${document.id}")
+//                            }
+//                    }
+//                }
+//            }
+//    }
     private fun googleSignIn() {
 
         binding.imgProfile.setOnClickListener {
