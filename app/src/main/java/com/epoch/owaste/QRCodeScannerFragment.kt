@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.core.util.size
+import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.databinding.FragmentQrcodeScannerBinding
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
@@ -103,11 +105,20 @@ class QRCodeScannerFragment : Fragment() {
                 val qrcode: SparseArray<Barcode>? = detections?.detectedItems
                 if (qrcode?.size != 0) {
                     scanResult.post(
-                        Runnable { scanResult.text = qrcode?.valueAt(0)?.displayValue }
+                        Runnable {
+                            scanResult.text = qrcode?.valueAt(0)?.displayValue
+                            // get level and card Id of the restaurant from QR code
+                            OwasteRepository._currentQRCodeLevel.value =
+                                qrcode?.valueAt(0)?.displayValue?.get(6).toString()
+                            OwasteRepository._currentQRCodeCardId.value =
+                                qrcode?.valueAt(0)?.displayValue?.substring(15)
+                            i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeLevel.value = ${OwasteRepository._currentQRCodeLevel.value}")
+                            i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
+                            barcodeDetector.release()
+                        }
                     )
                 }
             }
-
         })
 
         // Inflate the layout for this fragment
