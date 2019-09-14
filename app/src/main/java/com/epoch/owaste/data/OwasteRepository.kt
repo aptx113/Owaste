@@ -31,7 +31,7 @@ object OwasteRepository {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
                 val newUser = User(
-                    totalPoints = 0,
+                    exp = 0,
                     uid = FirebaseAuth.getInstance().currentUser!!.uid
                 )
                 currentUserDocRef.set(newUser).addOnSuccessListener {

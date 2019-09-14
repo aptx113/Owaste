@@ -214,7 +214,7 @@ class MapsFragment :
 //                        i(TAG, "QuerySnapshot = ${it.result?.size()}")
 //                    } else {
 //                        val newUser = User(
-//                            totalPoints = 0,
+//                            exp = 0,
 //                            uid = FirebaseAuth.getInstance().currentUser!!.uid
 //                        )
 //                        viewModel.firestoreDb.collection("User")

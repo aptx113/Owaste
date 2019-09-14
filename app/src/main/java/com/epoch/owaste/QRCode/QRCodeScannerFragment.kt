@@ -1,8 +1,7 @@
-package com.epoch.owaste
+package com.epoch.owaste.QRCode
 
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -11,9 +10,7 @@ import android.util.SparseArray
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.os.bundleOf
 import androidx.core.util.size
 import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.databinding.FragmentQrcodeScannerBinding
