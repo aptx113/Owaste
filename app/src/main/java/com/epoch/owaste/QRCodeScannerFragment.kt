@@ -116,6 +116,7 @@ class QRCodeScannerFragment : Fragment() {
                             i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
                             barcodeDetector.release()
                             OwasteRepository.onQRCodeScannedUpdateCard()
+                            OwasteRepository.onQRCodeScannedUpdateExp()
                         }
                     )
                 }
@@ -125,12 +126,4 @@ class QRCodeScannerFragment : Fragment() {
         // Inflate the layout for this fragment
         return binding.root
     }
-
-//    private fun getCameraPermission() {
-//        runWithPermissions(Manifest.permission.CAMERA) {
-//
-//            cameraSource.start(surfaceHolder)
-//            Toast.makeText(this.requireContext(), "開啟相機權限 ya", Toast.LENGTH_SHORT).show()
-//        }
-//    }
 }

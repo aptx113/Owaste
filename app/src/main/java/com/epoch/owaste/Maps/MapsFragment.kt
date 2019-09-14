@@ -1,4 +1,4 @@
-package com.epoch.owaste
+package com.epoch.owaste.Maps
 
 
 import android.Manifest
@@ -24,8 +24,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.epoch.owaste.BuildConfig
+import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
-import com.epoch.owaste.data.User
 import com.epoch.owaste.data.restaurantsList
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
@@ -176,7 +177,9 @@ class MapsFragment :
                             .setAlwaysShowSignInMethodScreen(false)
                             .setIsSmartLockEnabled(false)
                             .build()
-                        startActivityForResult(intent, RC_SIGN_IN)
+                        startActivityForResult(intent,
+                            RC_SIGN_IN
+                        )
 //                        checkIfUserInFirestore()
                     }
                 } else {
@@ -425,7 +428,9 @@ class MapsFragment :
     private fun customizeMapStyle(googleMap: GoogleMap) {
         try {
             val isSuccess = googleMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(this.context, R.raw.style_maps)
+                MapStyleOptions.loadRawResourceStyle(this.context,
+                    R.raw.style_maps
+                )
             )
             if (!isSuccess)
                 Toast.makeText(this.context, "Map style loads failed", Toast.LENGTH_SHORT).show()
@@ -502,7 +507,8 @@ class MapsFragment :
                 )
             )
 
-            i(TAG,
+            i(
+                TAG,
                 "Restaurant ${viewModel.restaurants.value!![i].name} was added, " +
                         "level = ${viewModel.restaurants.value!![i].level}"
             )

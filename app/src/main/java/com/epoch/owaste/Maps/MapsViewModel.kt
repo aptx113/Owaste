@@ -1,4 +1,4 @@
-package com.epoch.owaste
+package com.epoch.owaste.Maps
 
 import android.util.Log.*
 import androidx.lifecycle.LiveData

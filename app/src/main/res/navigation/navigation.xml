@@ -6,7 +6,7 @@
             app:startDestination="@id/mapsFragment">
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.epoch.owaste.MapsFragment"
+        android:name="com.epoch.owaste.Maps.MapsFragment"
         android:label="MapsFragment"
         tools:layout="@layout/fragment_maps"/>
     <fragment

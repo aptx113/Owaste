@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.logging.Logger
 
 object OwasteRepository {
 
@@ -65,7 +64,7 @@ object OwasteRepository {
 
                     currentUserDocRef.collection(LOYALTY_CARD)
                         .whereEqualTo(CARD_ID, currentQRCodeCardId.value?.toLong())
-                        .get().addOnSuccessListener { it ->
+                        .get().addOnSuccessListener {
                             val getCardIdDocRef = it.documents[0].reference
                             getCardIdDocRef.get().addOnSuccessListener { documentSnapshot ->
 
@@ -74,10 +73,25 @@ object OwasteRepository {
                                 getCardIdDocRef
                                     .update(mapOf("points" to currentPoints.plus(1)))
                                     .addOnSuccessListener {
-                                        i(TAG, "get QuerySnapshot updated = ${documentSnapshot.toObject(LoyaltyCard::class.java)}")
+                                        i(TAG, "get QuerySnapshot updated = ${querySnapshot.toObjects(LoyaltyCard::class.java)}")
                                     }
                             }
                         }
+                }
+            }
+    }
+
+    fun onQRCodeScannedUpdateExp() {
+
+        currentUserDocRef.get()
+            .addOnSuccessListener {
+                val currentExp = it.get("exp") as Long
+                i(TAG, "current Exp = $currentExp")
+                currentUserDocRef.update(mapOf(
+                        "exp" to currentExp.plus(currentQRCodeLevel.value!!.toLong() * 10)
+                    )).addOnSuccessListener {
+
+                i(TAG, "cuurrent Exp updated = $currentExp")
                 }
             }
     }
