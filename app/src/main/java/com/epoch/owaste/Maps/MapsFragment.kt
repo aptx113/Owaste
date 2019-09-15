@@ -15,7 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.CompoundButton.OnCheckedChangeListener
+import android.widget.CompoundButton
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
@@ -27,8 +27,6 @@ import com.bumptech.glide.Glide
 import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
-import com.epoch.owaste.data.Restaurant
-import com.epoch.owaste.data.restaurantsList
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -69,6 +67,7 @@ class MapsFragment :
     private var mapView: View? = null
     private lateinit var binding: FragmentMapsBinding
     private lateinit var viewModel: MapsViewModel
+    private lateinit var onCheckedChangeListener: CompoundButton.OnCheckedChangeListener
 
     lateinit var mapFragment: SupportMapFragment
     lateinit var locationButton: View
@@ -94,6 +93,7 @@ class MapsFragment :
         mapView = mapFragment.view
         i("Eltin", "mapView=$mapView")
 
+        onCheckedChangeListener = viewModel.onCheckedChangeListener()
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        val mapFragment = childFragmentManager
 //            .findFragmentById(R.id.fl_map) as SupportMapFragment
@@ -308,62 +308,6 @@ class MapsFragment :
                 ?.setOnCheckedChangeListener(onCheckedChangeListener)
         }
     }
-    // filter the markers according to checkbox status
-    fun filterMarkersByLevel() {
-        val filterResultList: List<Restaurant>
-        val level1 = restaurantsList.filter { it.level == 1 }
-        val level2 = restaurantsList.filter { it.level == 2 }
-        val level3 = restaurantsList.filter { it.level == 3 }
-        val level4 = restaurantsList.filter { it.level == 4 }
-        val level5 = restaurantsList.filter { it.level == 5 }
-        filterResultList = level1
-    }
-    val onCheckedChangeListener =
-        OnCheckedChangeListener { checkBox, isChecked ->
-            when (checkBox?.id) {
-                R.id.cb_lv1 -> if (isChecked) {
-                    i(TAG, "show lv1 !")
-                    val level1 = restaurantsList.filter { it.level == 1 }
-                    viewModel._restaurants.value
-                    i(TAG, "level 1 = ${viewModel.restaurants.value}")
-                } else {
-                    i(TAG, "hide lv1 !")
-                }
-                R.id.cb_lv2 -> if (isChecked) {
-                    i(TAG, "show lv2 !")
-                    val level2 = restaurantsList.filter { it.level == 2 }
-                    viewModel._restaurants.value = level2
-                    i(TAG, "level 2 = ${viewModel.restaurants.value}")
-                } else {
-                    i(TAG, "hide lv2 !")
-                }
-                R.id.cb_lv3 -> if (isChecked) {
-                    i(TAG, "show lv3 !")
-                    val level3 = restaurantsList.filter { it.level == 3 }
-                    viewModel._restaurants.value = level3
-                    i(TAG, "level 3 = ${viewModel.restaurants.value}")
-                } else {
-                    i(TAG, "hide lv3 !")
-                }
-                R.id.cb_lv4 -> if (isChecked) {
-                    i(TAG, "show lv4 !")
-                    val level4 = restaurantsList.filter { it.level == 4 }
-                    viewModel._restaurants.value = level4
-                    i(TAG, "level 4 = ${viewModel.restaurants.value}")
-                } else {
-                    i(TAG, "hide lv4 !")
-                }
-                R.id.cb_lv5 -> if (isChecked) {
-                    i(TAG, "show lv5 !")
-                    val level5 = restaurantsList.filter { it.level == 5 }
-                    viewModel._restaurants.value = level5
-                    i(TAG, "level 5 = ${viewModel.restaurants.value}")
-                } else {
-                    i(TAG, "hide lv5 !")
-                }
-            }
-        }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
