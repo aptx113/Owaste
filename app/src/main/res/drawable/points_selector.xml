@@ -3,7 +3,7 @@
     <item android:id="@+id/background"
           android:drawable="@drawable/ic_point_new_light_grey"/>
     <item android:id="@+id/secondary_progress"
-          android:drawable="@drawable/ic_point_green"/>
+          android:drawable="@drawable/ic_point_green_36"/>
     <item android:id="@+id/progress"
-          android:drawable="@drawable/ic_point_green"/>
+          android:drawable="@drawable/ic_point_green_36"/>
 </layer-list>
