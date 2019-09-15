@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Restaurants (
+data class Restaurant (
 
     val id: Long,
     val cardId: Long,
@@ -13,10 +13,13 @@ data class Restaurants (
     val lng: Double,
     val placeId: String,
     val name: String
-) : Parcelable
+) : Parcelable {
+
+    constructor(): this(0L, 0L, 0, 0.0, 0.0, "", "")
+}
 
 val restaurantsList = listOf(
-    Restaurants(
+    Restaurant(
         id = 1,
         cardId = 1,
         level = 3,
@@ -25,7 +28,7 @@ val restaurantsList = listOf(
         placeId = "ChIJO_MDTbmrQjQR9kY38FEBbro",
         name = "好好文化創意 We & Me Cafe"
     ),
-    Restaurants(
+    Restaurant(
         id = 2,
         cardId = 2,
         level = 4,
@@ -34,7 +37,7 @@ val restaurantsList = listOf(
         placeId = "ChIJoeYaSrmrQjQRl7CUbo2Pluc",
         name = "AWESOME BURGER"
     ),
-    Restaurants(
+    Restaurant(
         id = 3,
         cardId = 3,
         level = 3,
@@ -43,7 +46,7 @@ val restaurantsList = listOf(
         placeId = "ChIJPwvOSrmrQjQRHzecMU-BDAI",
         name = "白暮蛋餅先生2號店松菸"
     ),
-    Restaurants(
+    Restaurant(
         id = 4,
         cardId = 4,
         level = 2,
@@ -52,7 +55,7 @@ val restaurantsList = listOf(
         placeId = "ChIJjQ-CS7mrQjQRKG0nvvZ2YFk",
         name = "韓明屋"
     ),
-    Restaurants(
+    Restaurant(
         id = 5,
         cardId = 5,
         level = 2,
@@ -61,7 +64,7 @@ val restaurantsList = listOf(
         placeId = "ChIJT1xXMbmrQjQR7hDPRYjDDPk",
         name = "好咖啡拿鐵專賣店"
     ),
-    Restaurants(
+    Restaurant(
         id = 6,
         cardId = 6,
         level = 1,
@@ -70,7 +73,7 @@ val restaurantsList = listOf(
         placeId = "ChIJfUEVNbmrQjQRL0PgXppg88A",
         name = "比利時咖啡"
     ),
-    Restaurants(
+    Restaurant(
         id = 7,
         cardId = 7,
         level = 2,
@@ -79,7 +82,7 @@ val restaurantsList = listOf(
         placeId = "ChIJdQ9UtL6rQjQRld_ih6s9TrI",
         name = "一記水餃牛肉麵店"
     ),
-    Restaurants(
+    Restaurant(
         id = 8,
         cardId = 8,
         level = 5,
@@ -88,7 +91,7 @@ val restaurantsList = listOf(
         placeId = "ChIJ9wtcNbmrQjQRH1tM-FZwOao",
         name = "吉滿屋食坊"
     ),
-    Restaurants(
+    Restaurant(
         id = 9,
         cardId = 9,
         level = 2,
@@ -97,7 +100,7 @@ val restaurantsList = listOf(
         placeId = "ChIJcQtDtb6rQjQRT-zRc6G1-D4",
         name = "杜佬大手作弁當"
     ),
-    Restaurants(
+    Restaurant(
         id = 10,
         cardId = 10,
         level = 4,

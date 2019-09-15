@@ -4,8 +4,7 @@ import android.util.Log.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.epoch.owaste.data.Restaurants
-import com.epoch.owaste.data.restaurantsList
+import com.epoch.owaste.data.Restaurant
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,22 +13,21 @@ import com.google.firebase.firestore.QuerySnapshot
 class MapsViewModel: ViewModel() {
 
     val TAG = "MAPS_VIEW_MODEL"
-    val RESTAURANT = "Restaurant"
+    val RESTAURANT = "restaurants"
     var firestoreDb = FirebaseFirestore.getInstance()
-    val savedRestaurants = MutableLiveData<List<Restaurants>>()
-//    var uid = UUID.randomUUID().toString()
 
-    val _restaurants = MutableLiveData<List<Restaurants>>()
+    val _restaurants = MutableLiveData<List<Restaurant>>()
 
-    val restaurants: LiveData<List<Restaurants>>
+    val restaurants: LiveData<List<Restaurant>>
         get() = _restaurants
 
     init {
-        _restaurants.value = restaurantsList
-        i(TAG, "LiveData<List<Restaurants>> = ${restaurants.value}")
+        getRestaurantsFromFirestore()
+        i(TAG, "LiveData<List<Restaurant>> = ${restaurants.value}")
     }
-    //add restaurant to Firestore
-    fun addRestaurant (restaurant: Restaurants) {
+
+    //add restaurants to Firestore
+    fun addRestaurant (restaurant: Restaurant) {
 
         firestoreDb.collection(RESTAURANT)
             .add(restaurant)
@@ -42,38 +40,36 @@ class MapsViewModel: ViewModel() {
             }
     }
 
-    //get saved restaurant from Firestore
-    fun getSavedRestaurant(): CollectionReference {
+    //get saved restaurants from Firestore
+    fun getSavedRestaurantsRef(): CollectionReference {
 
         return firestoreDb.collection(RESTAURANT)
     }
 
-    // save restaurant to firestore
-//    fun saveRestaurantToFirestore(restaurants: Restaurants) {
+    // save restaurants to firestore
+//    fun saveRestaurantToFirestore(restaurants: Restaurant) {
 //        addRestaurant(restaurants)
 //    }
 
-    fun getSavedRestaurants(): LiveData<List<Restaurants>> {
-        getSavedRestaurant().addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
+    fun getRestaurantsFromFirestore(): LiveData<List<Restaurant>> {
+
+        getSavedRestaurantsRef().addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
 
             if (e != null) {
                 w(TAG, "Listen failed", e)
-                savedRestaurants.value = null
+                _restaurants.value = null
                 return@EventListener
             }
 
-            var savedRestaurantsList: MutableList<Restaurants> = mutableListOf()
+            val savedRestaurantList: MutableList<Restaurant> = mutableListOf()
             for (doc in value!!) {
-                var restaurant = doc.toObject(Restaurants::class.java)
-                savedRestaurantsList.add(restaurant)
+                val restaurant = doc.toObject(Restaurant::class.java)
+                savedRestaurantList.add(restaurant)
             }
-            savedRestaurants.value = savedRestaurantsList
+            _restaurants.value = savedRestaurantList
+            i(TAG, "savedRestaurantsList = ${_restaurants.value}")
         })
 
-        return savedRestaurants
-    }
-
-    fun addUserToFirebase() {
-
+        return _restaurants
     }
 }

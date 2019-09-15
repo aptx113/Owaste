@@ -104,7 +104,7 @@ class QRCodeScannerFragment : Fragment() {
                     scanResult.post(
                         Runnable {
                             scanResult.text = qrcode?.valueAt(0)?.displayValue
-                            // get level and card Id of the restaurant from QR code
+                            // get level and card Id of the restaurants from QR code
                             OwasteRepository._currentQRCodeLevel.value =
                                 qrcode?.valueAt(0)?.displayValue?.get(6).toString()
                             OwasteRepository._currentQRCodeCardId.value =

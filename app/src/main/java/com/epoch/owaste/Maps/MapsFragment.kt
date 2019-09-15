@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide
 import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
+import com.epoch.owaste.data.Restaurant
 import com.epoch.owaste.data.restaurantsList
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
@@ -71,6 +72,7 @@ class MapsFragment :
 
     lateinit var mapFragment: SupportMapFragment
     lateinit var locationButton: View
+    val markersList = ArrayList<Marker>()
     /**
      * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
      * 此處加入Google組態。
@@ -141,7 +143,11 @@ class MapsFragment :
             this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
         }
 
-//        addRestaurant(viewModel)
+        // create data of restaurants on Firestore
+//        for (i in 0 until restaurantsList.size) {
+//            viewModel.addRestaurant(restaurantsList[i])
+//            i(TAG, "restaurants added on Firestore : ${restaurantsList[i].name}")
+//        }
 
         searchRestaurants()
 
@@ -302,14 +308,23 @@ class MapsFragment :
                 ?.setOnCheckedChangeListener(onCheckedChangeListener)
         }
     }
-
+    // filter the markers according to checkbox status
+    fun filterMarkersByLevel() {
+        val filterResultList: List<Restaurant>
+        val level1 = restaurantsList.filter { it.level == 1 }
+        val level2 = restaurantsList.filter { it.level == 2 }
+        val level3 = restaurantsList.filter { it.level == 3 }
+        val level4 = restaurantsList.filter { it.level == 4 }
+        val level5 = restaurantsList.filter { it.level == 5 }
+        filterResultList = level1
+    }
     val onCheckedChangeListener =
         OnCheckedChangeListener { checkBox, isChecked ->
             when (checkBox?.id) {
                 R.id.cb_lv1 -> if (isChecked) {
                     i(TAG, "show lv1 !")
                     val level1 = restaurantsList.filter { it.level == 1 }
-                    viewModel._restaurants.value = level1
+                    viewModel._restaurants.value
                     i(TAG, "level 1 = ${viewModel.restaurants.value}")
                 } else {
                     i(TAG, "hide lv1 !")
@@ -457,7 +472,7 @@ class MapsFragment :
     private fun addMarkersToMap() {
 
         map.clear()
-        val markersList = ArrayList<Marker>()
+
         val height = 160
         val width = 160
         val bitmapDrawLv1 = resources.getDrawable(R.drawable.ic_marker_lv1)
@@ -507,11 +522,7 @@ class MapsFragment :
                 )
             )
 
-            i(
-                TAG,
-                "Restaurant ${viewModel.restaurants.value!![i].name} was added, " +
-                        "level = ${viewModel.restaurants.value!![i].level}"
-            )
+            i(TAG, "markerList = ${markersList[i]}")
         }
     }
 
@@ -645,19 +656,10 @@ class MapsFragment :
 
     }
 
-    //    private fun addRestaurant(viewModel: MapsViewModel) {
+//        private fun addRestaurant(viewModel: MapsViewModel) {
 //        binding.fabAddRestaurant.setOnClickListener {
-//            //add restaurant to Firestore
-//            val restaurant = Restaurants(
-//                id = 2,
-//                cardId = 5555,
-//                level = 3,
-//                lat = 25.042044,
-//                lng = 121.564699,
-//                placeId = "BBB",
-//                name = "AWESOME BURGER"
-//            )
-//            viewModel.addRestaurant(restaurant)
+//            //add restaurants to Firestore
+//            viewModel.addRestaurant()
 //        }
 //    }
 }
