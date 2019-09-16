@@ -1,6 +1,7 @@
 package com.epoch.owaste
 
 import com.epoch.owaste.data.PlaceDetailsResult
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -49,6 +50,7 @@ private val client = OkHttpClient.Builder()
  */
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .baseUrl(BASE_URL)
     .client(client)
     .build()
@@ -59,8 +61,12 @@ private val retrofit = Retrofit.Builder()
 interface OwasteApiService {
 
     @GET("place/details/json")
-    fun getPlaceDetailsAsync(@Query("place_id") placeId: String, @Query("fields") fields: String, @Query("key") key: String):
-            Deferred<PlaceDetailsResult>
+    fun getPlaceDetailsAsync(
+        @Query("place_id") placeId: String,
+        @Query("fields") fields: String,
+        @Query("key") key: String,
+        @Query("language") language: String
+    ): Deferred<PlaceDetailsResult>
 }
 
 /**

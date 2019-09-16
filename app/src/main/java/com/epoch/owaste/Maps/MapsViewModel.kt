@@ -5,8 +5,10 @@ import android.widget.CompoundButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
+import com.epoch.owaste.data.PlaceDetails
 import com.epoch.owaste.data.Restaurant
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
@@ -16,18 +18,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class MapsViewModel: ViewModel() {
 
-    val TAG = "MAPS_VIEW_MODEL"
-    val RESTAURANT = "restaurants"
+    private val TAG = "MAPS_VIEW_MODEL"
+    private val RESTAURANT = "restaurants"
     var firestoreDb = FirebaseFirestore.getInstance()
 
-    val _restaurants = MutableLiveData<List<Restaurant>>()
-
+    private val _restaurants = MutableLiveData<List<Restaurant>>()
     val restaurants: LiveData<List<Restaurant>>
         get() = _restaurants
+
+    private val _placeDetails = MutableLiveData<PlaceDetails>()
+    val placeDetails: LiveData<PlaceDetails>
+        get() = _placeDetails
 
     private var viewModelJob = Job()
 
@@ -36,6 +42,7 @@ class MapsViewModel: ViewModel() {
     init {
         getRestaurantsFromFirestore()
         i(TAG, "LiveData<List<Restaurant>> = ${restaurants.value}")
+        getPlaceDetails()
     }
 
     //add restaurants to Firestore
@@ -53,12 +60,12 @@ class MapsViewModel: ViewModel() {
     }
 
     //get saved restaurants from Firestore
-    fun getSavedRestaurantsRef(): CollectionReference {
+    private fun getSavedRestaurantsRef(): CollectionReference {
 
         return firestoreDb.collection(RESTAURANT)
     }
 
-    fun getRestaurantsFromFirestore(): LiveData<List<Restaurant>> {
+    private fun getRestaurantsFromFirestore(): LiveData<List<Restaurant>> {
 
         getSavedRestaurantsRef().addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
 
@@ -93,6 +100,12 @@ class MapsViewModel: ViewModel() {
             val level3 = restaurants.value!!.filter { it.level == 3 } as ArrayList<Restaurant>
             val level4 = restaurants.value!!.filter { it.level == 4 } as ArrayList<Restaurant>
             val level5 = restaurants.value!!.filter { it.level == 5 } as ArrayList<Restaurant>
+
+            i(TAG, "lv1 = $level1")
+            i(TAG, "lv2 = $level2")
+            i(TAG, "lv3 = $level3")
+            i(TAG, "lv4 = $level4")
+            i(TAG, "lv5 = $level5")
 
             when (checkBox?.id) {
                 R.id.cb_lv1 -> if (isChecked) {
@@ -138,6 +151,20 @@ class MapsViewModel: ViewModel() {
 
         coroutineScope.launch {
 
+            val getResultDeferred =
+                OwasteApi.retrofitService.getPlaceDetailsAsync(
+                    placeId = "ChIJcQtDtb6rQjQRT-zRc6G1-D4",
+                    fields = "formatted_address,formatted_phone_number,name,place_id,rating,reviews",
+                    key = BuildConfig.API_KEY,
+                    language = "zh-TW"
+                )
+
+            try {
+                val placeDetailsResult = getResultDeferred.await()
+                _placeDetails.value = placeDetailsResult.result
+            } catch (e: Exception) {
+                i(TAG, "exception = ${e.message}")
+            }
         }
     }
 }

@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class PlaceDetailsResult (
 
-    val result: List<PlaceDetails>? = null
+    val result: PlaceDetails? = null
 ) : Parcelable
