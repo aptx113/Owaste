@@ -1,11 +1,15 @@
 package com.epoch.owaste
 
+import com.epoch.owaste.data.PlaceDetailsResult
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 private const val HOST_NAME = "maps.googleapis.com/maps"
 private const val BASE_URL = "https://$HOST_NAME/api/"
@@ -54,4 +58,14 @@ private val retrofit = Retrofit.Builder()
  */
 interface OwasteApiService {
 
+    @GET("place/details/json")
+    fun getPlaceDetailsAsync(@Query("place_id") placeId: String, @Query("fields") fields: String, @Query("key") key: String):
+            Deferred<PlaceDetailsResult>
+}
+
+/**
+ * A public Api object that exposes the lazy-initialized Retrofit service
+ */
+object OwasteApi {
+    val retrofitService : OwasteApiService by lazy { retrofit.create(OwasteApiService::class.java) }
 }

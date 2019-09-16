@@ -5,14 +5,17 @@ import android.widget.CompoundButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
 import com.epoch.owaste.data.Restaurant
-import com.epoch.owaste.data.restaurantsList
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 
 class MapsViewModel: ViewModel() {
@@ -25,6 +28,10 @@ class MapsViewModel: ViewModel() {
 
     val restaurants: LiveData<List<Restaurant>>
         get() = _restaurants
+
+    private var viewModelJob = Job()
+
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
         getRestaurantsFromFirestore()
@@ -126,4 +133,11 @@ class MapsViewModel: ViewModel() {
             }
             _restaurants.value = filterResultList
         }
+
+    fun getPlaceDetails() {
+
+        coroutineScope.launch {
+
+        }
+    }
 }
