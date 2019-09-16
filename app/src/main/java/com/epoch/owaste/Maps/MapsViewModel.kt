@@ -1,11 +1,13 @@
 package com.epoch.owaste.Maps
 
+import android.content.SharedPreferences
 import android.util.Log.*
 import android.widget.CompoundButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.epoch.owaste.BuildConfig
+import com.epoch.owaste.Owaste
 import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
 import com.epoch.owaste.data.PlaceDetails
@@ -27,9 +29,16 @@ class MapsViewModel: ViewModel() {
     private val RESTAURANT = "restaurants"
     var firestoreDb = FirebaseFirestore.getInstance()
 
+    // filter the markers according to checkbox status
+    val filterResultList : MutableList<Restaurant> = mutableListOf()
+
     private val _restaurants = MutableLiveData<List<Restaurant>>()
     val restaurants: LiveData<List<Restaurant>>
         get() = _restaurants
+
+    private val _dataList = MutableLiveData<List<Restaurant>>()
+    val dataList: LiveData<List<Restaurant>>
+        get() = _dataList
 
     private val _placeDetails = MutableLiveData<PlaceDetails>()
     val placeDetails: LiveData<PlaceDetails>
@@ -80,6 +89,7 @@ class MapsViewModel: ViewModel() {
                 val restaurant = doc.toObject(Restaurant::class.java)
                 savedRestaurantList.add(restaurant)
             }
+            _dataList.value = savedRestaurantList
             _restaurants.value = savedRestaurantList
             i(TAG, "savedRestaurantsList = ${_restaurants.value}")
         })
@@ -93,13 +103,11 @@ class MapsViewModel: ViewModel() {
 //    val onCheckedChangeListener = 1
     fun onCheckedChangeListener() = CompoundButton.OnCheckedChangeListener { checkBox, isChecked ->
 
-            // filter the markers according to checkbox status
-            val filterResultList = ArrayList<Restaurant>()
-            val level1 = restaurants.value!!.filter { it.level == 1 } as ArrayList<Restaurant>
-            val level2 = restaurants.value!!.filter { it.level == 2 } as ArrayList<Restaurant>
-            val level3 = restaurants.value!!.filter { it.level == 3 } as ArrayList<Restaurant>
-            val level4 = restaurants.value!!.filter { it.level == 4 } as ArrayList<Restaurant>
-            val level5 = restaurants.value!!.filter { it.level == 5 } as ArrayList<Restaurant>
+            val level1 = dataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
+            val level2 = dataList.value?.filter { it.level == 2 } as ArrayList<Restaurant>
+            val level3 = dataList.value?.filter { it.level == 3 } as ArrayList<Restaurant>
+            val level4 = dataList.value?.filter { it.level == 4 } as ArrayList<Restaurant>
+            val level5 = dataList.value?.filter { it.level == 5 } as ArrayList<Restaurant>
 
             i(TAG, "lv1 = $level1")
             i(TAG, "lv2 = $level2")
@@ -145,9 +153,10 @@ class MapsViewModel: ViewModel() {
                 }
             }
             _restaurants.value = filterResultList
+            i(TAG, "filterResultList = $filterResultList")
         }
 
-    fun getPlaceDetails() {
+    private fun getPlaceDetails() {
 
         coroutineScope.launch {
 
