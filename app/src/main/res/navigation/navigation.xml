@@ -6,12 +6,12 @@
             app:startDestination="@id/mapsFragment">
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.epoch.owaste.Maps.MapsFragment"
+        android:name="com.epoch.owaste.maps.MapsFragment"
         android:label="MapsFragment"
         tools:layout="@layout/fragment_maps"/>
     <fragment
         android:id="@+id/loyaltyCardFragment"
-        android:name="com.epoch.owaste.LoyaltyCard.LoyaltyCardFragment"
+        android:name="com.epoch.owaste.loyaltycard.LoyaltyCardFragment"
         android:label="fragment_loyalty_card"
         tools:layout="@layout/fragment_loyalty_card" />
     <action
@@ -22,7 +22,7 @@
         app:destination="@id/mapsFragment" />
     <fragment
         android:id="@+id/QRCodeScannerFragment"
-        android:name="com.epoch.owaste.QRCode.QRCodeScannerFragment"
+        android:name="com.epoch.owaste.qrcode.QRCodeScannerFragment"
         android:label="fragment_qrcode_scanner"
         tools:layout="@layout/fragment_qrcode_scanner" />
     <action

@@ -1,4 +1,4 @@
-package com.epoch.owaste.QRCode
+package com.epoch.owaste.qrcode
 
 
 import android.Manifest

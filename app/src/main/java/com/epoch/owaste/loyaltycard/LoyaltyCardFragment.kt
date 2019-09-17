@@ -1,4 +1,4 @@
-package com.epoch.owaste.LoyaltyCard
+package com.epoch.owaste.loyaltycard
 
 
 import android.os.Bundle
