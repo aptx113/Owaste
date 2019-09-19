@@ -1,83 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_item_reward_card_2"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/img_bg_reward_card"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:alpha="0.7"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bg_new_rewardcard_4_shadow" />
+    <data>
+        <variable
+            name="rewardCard"
+            type="com.epoch.owaste.data.RewardCard" />
+        <variable
+            name="viewModel"
+            type="com.epoch.owaste.card.RewardCardViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/txt_reward_card_restaurant_name_2"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_item_reward_card_2"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:letterSpacing="0.15"
-        android:text="兩隻小魚好吃甜不辣"
-        android:textAlignment="center"
-        android:textColor="@color/dark_green_89B358"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/img_reward_card_restaurant_level_v2"
-        android:layout_width="@dimen/reward_card_level_20dp"
-        android:layout_height="@dimen/reward_card_level_20dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_reward_card_restaurant_name_2"
-        app:srcCompat="@drawable/icons8_sprout_100" />
+        <ImageView
+            android:id="@+id/img_bg_reward_card"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:alpha="0.7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bg_new_rewardcard_4_shadow" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="24dp"
-        android:alpha="0.4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_reward_card_restaurant_name_2"
-        app:srcCompat="@drawable/reward_bg_card_point" />
+        <TextView
+            android:id="@+id/txt_reward_card_restaurant_name_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="32dp"
+            android:letterSpacing="0.15"
+            android:maxLines="2"
+            android:text="@{rewardCard.restaurantName}"
+            android:textAlignment="center"
+            android:textColor="@color/dark_green_89B358"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="@dimen/reward_card_level_20dp"
-        android:layout_height="@dimen/reward_card_level_20dp"
-        android:layout_marginBottom="24dp"
-        android:elevation="4dp"
-        android:tint="@color/quantum_deeppurple400"
-        app:layout_constraintBottom_toBottomOf="@+id/img_bg_reward_card"
-        app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
-        app:layout_constraintStart_toStartOf="@+id/img_bg_reward_card"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        app:srcCompat="@drawable/ic_location" />
+        <ImageView
+            android:id="@+id/img_reward_card_restaurant_level_v2"
+            android:layout_width="@dimen/reward_card_level_20dp"
+            android:layout_height="@dimen/reward_card_level_20dp"
+            android:layout_marginTop="66dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"
+            app:srcCompat="@drawable/icons8_sprout_100" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textColor="@color/darker_green_FF658540"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="72dp"
+            android:alpha="0.4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"
+            app:srcCompat="@drawable/reward_bg_card_point" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="@dimen/reward_card_level_20dp"
+            android:layout_height="@dimen/reward_card_level_20dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginBottom="24dp"
+            android:elevation="4dp"
+            android:tint="@color/quantum_deeppurple400"
+            app:layout_constraintBottom_toBottomOf="@+id/img_bg_reward_card"
+            app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
+            app:layout_constraintStart_toStartOf="@+id/img_bg_reward_card"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:srcCompat="@drawable/ic_location" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/darker_green_FF658540"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

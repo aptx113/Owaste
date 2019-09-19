@@ -27,7 +27,7 @@ class RewardCardFragment : Fragment() {
         binding = FragmentRewardCardBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
-
+        binding.rvLoyaltyCard.adapter = RewardCardAdapter(viewModel)
 
         // Inflate the layout for this fragment
         return binding.root

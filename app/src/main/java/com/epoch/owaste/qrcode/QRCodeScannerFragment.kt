@@ -100,17 +100,27 @@ class QRCodeScannerFragment : Fragment() {
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
 
                 val qrcode: SparseArray<Barcode>? = detections?.detectedItems
+                val result: String? = qrcode?.valueAt(0)?.displayValue
                 if (qrcode?.size != 0) {
                     scanResult.post(
                         Runnable {
                             scanResult.text = qrcode?.valueAt(0)?.displayValue
                             // get level and card Id of the restaurants from QR code
-                            OwasteRepository._currentQRCodeLevel.value =
-                                qrcode?.valueAt(0)?.displayValue?.get(6).toString()
                             OwasteRepository._currentQRCodeCardId.value =
-                                qrcode?.valueAt(0)?.displayValue?.substring(15)
+                                result?.let {
+                                    it.substring(it.indexOf("a"), it.indexOf("b"))
+                                }
+                            OwasteRepository._currentQRCodeLevel.value =
+                                result?.let {
+                                    it.substring(it.indexOf("b"), it.indexOf("c"))
+                                }
+                            OwasteRepository._currentQRCodeRestaurantName.value =
+                                result?.let {
+                                    it.substring(it.indexOf("c"))
+                                }
                             i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeLevel.value = ${OwasteRepository._currentQRCodeLevel.value}")
                             i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
+                            i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeRestaurantName.value = ${OwasteRepository._currentQRCodeRestaurantName.value}")
                             barcodeDetector.release()
                             OwasteRepository.onQRCodeScannedUpdateCard()
                             OwasteRepository.onQRCodeScannedUpdateExp()

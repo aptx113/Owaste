@@ -27,6 +27,10 @@ object OwasteRepository {
     val currentQRCodeCardId: LiveData<String>
         get() = _currentQRCodeCardId
 
+    val _currentQRCodeRestaurantName = MutableLiveData<String>()
+    val currentQRCodeRestaurantName: LiveData<String>
+        get() = _currentQRCodeRestaurantName
+
     val _allRewardCards = MutableLiveData<List<RewardCard>>()
     val allRewardCards: LiveData<List<RewardCard>>
         get() = _allRewardCards
@@ -55,7 +59,9 @@ object OwasteRepository {
                 if (querySnapshot.isEmpty) {
                     val newRewardCard = RewardCard(
                         cardId = currentQRCodeCardId.value!!.toLong(),
-                        points = 1
+                        points = 1,
+                        restaurantLevel = currentQRCodeLevel.value!!.toInt(),
+                        restaurantName = currentQRCodeRestaurantName.value!!
                     )
                     currentUserDocRef.collection(REWARD_CARD)
                         .add(newRewardCard)
