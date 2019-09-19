@@ -58,7 +58,6 @@ class MapsFragment :
     GoogleMap.OnMarkerClickListener {
 
     companion object {
-        const val LOCATION_PERMISSION_REQUEST_CODE = 1
         const val RC_SIGN_IN: Int = 101
         const val TAG = "Eltin_MapsFragment"
         const val LOCATION_UPDATE_MIN_TIME = 5000L
@@ -66,23 +65,17 @@ class MapsFragment :
     }
 
     private lateinit var map: GoogleMap
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var searchView: androidx.appcompat.widget.SearchView
-    private lateinit var lastLocation: Location
-    var location: Location? = null
     private lateinit var locationManager: LocationManager
     private var hasGps = false
     private var hasNetwork = false
     private var locationGps: Location? = null
     private var locationNetwork: Location? =null
-//    private lateinit var locationListener: LocationListener
     private var mapView: View? = null
     private lateinit var binding: FragmentMapsBinding
     private lateinit var viewModel: MapsViewModel
     private lateinit var onCheckedChangeListener: CompoundButton.OnCheckedChangeListener
 
     lateinit var mapFragment: SupportMapFragment
-    lateinit var locationButton: View
     val markersList = ArrayList<Marker>()
     /**
      * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
@@ -165,7 +158,7 @@ class MapsFragment :
                 }
             }
         } else {
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            Toast.makeText(this.context, "定位服務未開啟喔", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -193,7 +186,6 @@ class MapsFragment :
 //
 //        mapView = mapFragment.view
 
-//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireContext())
         viewModel.getRestaurantsFromFirestore()
         i(TAG, "LiveData<List<Restaurant>> = ${viewModel.restaurants.value}")
 
@@ -210,28 +202,7 @@ class MapsFragment :
             runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION) {
                 getLocation()
             }
-//            getCurrentLocation()
-            //            getLocationPermission()
-//            i(TAG, "locationButton = $locationButton")
-//            locationButton.callOnClick()
         }
-//            if (ActivityCompat.checkSelfPermission(this.requireContext(),
-//                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this.requireActivity(),
-//                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-//                    LOCATION_PERMISSION_REQUEST_CODE)
-//                return@setOnClickListener
-//            }
-
-//            map.isMyLocationEnabled = true
-//            fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
-//
-//                if (location != null) {
-//                    lastLocation = location
-//                    val currentLatLng = LatLng(location.latitude, location.longitude)
-//                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
-//                }
-//            }
 
         binding.imgSearchIcon.setOnClickListener {
             binding.let {
@@ -262,26 +233,17 @@ class MapsFragment :
 //        }
 
 //        searchRestaurants()
-//        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-//        i(TAG, "context = $context")
 
         initOnCheckedChangeListener()
 
         firebaseAuthStateListener()
 
-//        googleSignIn()
         userSignOut()
         initPlaceApiCLient()
-//        getCurrentLocation()
 
         // Inflate the layout for this fragment
         return binding.root
     }
-
-//    override fun onPause() {
-//        super.onPause()
-//        locationManager.removeUpdates(locationListener)
-//    }
 
     private fun firebaseAuthStateListener() {
         authProvider = listOf(
@@ -306,12 +268,11 @@ class MapsFragment :
                         startActivityForResult(intent,
                             RC_SIGN_IN
                         )
-//                        checkIfUserInFirestore()
                     }
                 } else {
 
-//                    checkIfUserInFirestore()
                     OwasteRepository.initCurrentUserIfFirstTime {  }
+                    Toast.makeText(this.context, "登入成功 ! ", Toast.LENGTH_SHORT).show()
 
                     img_profile.isClickable = false
                     img_profile.isLongClickable = true
@@ -327,47 +288,6 @@ class MapsFragment :
             }
 
         FirebaseAuth.getInstance().addAuthStateListener(authListener)
-    }
-
-//    private fun checkIfUserInFirestore() {
-//        viewModel.firestoreDb.collection("User")
-//            .whereEqualTo("uid", FirebaseAuth.getInstance().currentUser?.uid)
-//            .get()
-//            .addOnCompleteListener {
-//                if (it.isSuccessful) {
-//
-//                    if (it.result?.size() != 0) {
-//                        i(TAG, "QuerySnapshot = ${it.result?.size()}")
-//                    } else {
-//                        val newUser = User(
-//                            exp = 0,
-//                            uid = FirebaseAuth.getInstance().currentUser!!.uid
-//                        )
-//                        viewModel.firestoreDb.collection("User")
-//                            .add(newUser)
-//                            .addOnSuccessListener { document ->
-//                                i(TAG, "Add new user, document UID = ${document.id}")
-//                            }
-//                    }
-//                }
-//            }
-//    }
-    private fun googleSignIn() {
-
-        binding.imgProfile.setOnClickListener {
-            i("EltinMapsF", "Sign In clicked")
-            showSignInOptions()
-        }
-    }
-
-    private fun showSignInOptions() {
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(authProvider)
-                .setTheme(R.style.SingIn)
-                .build(), RC_SIGN_IN
-        )
     }
 
     private fun userSignOut() {
@@ -389,12 +309,6 @@ class MapsFragment :
                 Toast.makeText(this.context, "怎麼登出得這麼突然...", Toast.LENGTH_SHORT).show()
             }
     }
-//    private fun getLocationPermission() {
-//        runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
-//            Toast.makeText(this.requireContext(), "開啟位置權限 ya", Toast.LENGTH_SHORT).show()
-////            locationManager()
-//        }
-//    }
 
     private fun initPlaceApiCLient() {
         // Initialize the SDK
@@ -434,16 +348,6 @@ class MapsFragment :
             if (resultCode != Activity.RESULT_OK) {
 
                 val response = IdpResponse.fromResultIntent(data)
-//                val user = FirebaseAuth.getInstance().currentUser // get current User
-//
-//                Glide.with(this).load(user?.photoUrl).into(img_profile)
-//                txt_profile_name.text = user?.displayName
-//
-//                if (user?.displayName != null) {
-//                    txt_user_level.visibility = View.VISIBLE
-//
-//                }
-//                i("EltinMapsF", "user UID = ${user?.uid}")
                 Toast.makeText(this.context, response?.error?.message, Toast.LENGTH_SHORT)
                     .show()
             }
@@ -462,7 +366,6 @@ class MapsFragment :
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-//        getLocationPermission()
 
         //取得準備好的 Map
         map = googleMap
@@ -498,10 +401,8 @@ class MapsFragment :
         mapView = mapFragment.view
         i("Eltin", "mapView=$mapView")
 
-//        getCurrentLocation()
         setUpMap()
         getLocationPermission()
-//        getDefaultLocationButtonGone()
     }
 
     private fun customizeMapStyle(googleMap: GoogleMap) {
@@ -517,18 +418,6 @@ class MapsFragment :
             e.printStackTrace()
         }
     }
-
-//    private fun getDefaultLocationButtonGone() {
-//        locationButton = (
-//                mapView?.findViewById<View>(Integer.parseInt("1"))
-//                    ?.parent as View).findViewById<View>(Integer.parseInt("2"))
-//        val layoutParams = locationButton.layoutParams as (RelativeLayout.LayoutParams)
-//        // position on right bottom
-//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
-//        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-//        layoutParams.setMargins(0, 0, 30, 30)
-//        locationButton.visibility = View.VISIBLE
-//    }
 
     /**
      * Show all the specified markers on the map
@@ -593,117 +482,25 @@ class MapsFragment :
 //        }
     }
 
-//    private fun searchRestaurants() {
-//
-//        searchView = binding.svLocationWidget
-//        searchView.setOnQueryTextListener(object :
-//            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-//
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                val location = searchView.query?.toString()
-//                val addressList: List<Address>?
-//
-//                if (location != null || location != "") {
-//                    val geocoder = Geocoder(this@MapsFragment.context)
-//                    try {
-//                        addressList = geocoder.getFromLocationName(location, 1)
-//                        val address = addressList?.get(0)
-//                        val latLng = LatLng(address!!.latitude, address.longitude)
-//                        map.addMarker(MarkerOptions().position(latLng).title(location))
-//                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//                    }
-//                }
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                return false
-//            }
-//        })
-//    }
-
     private fun getLocationPermission() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION){
 
         //Google Map 中顯示裝置位置，且裝置移動會跟著移動的那個藍點
         map.isMyLocationEnabled = true
         getLocation()
     }
+
     private fun setUpMap() {
 
         map.uiSettings.isZoomGesturesEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = false
         map.uiSettings.isMapToolbarEnabled = false
+        map.uiSettings.isCompassEnabled = false
         map.setOnMarkerClickListener(this)
 
         viewModel.restaurants.observe(this, Observer {
             addMarkersToMap()
         })
-
-
-//        if (ActivityCompat.checkSelfPermission(this.requireContext(),
-//                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this.requireActivity(),
-//                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-//                LOCATION_PERMISSION_REQUEST_CODE)
-//            return
-//        }
-//
-//        map.isMyLocationEnabled = true
-//        fusedLocationClient.lastLocation.addOnSuccessListener(this.requireActivity()) { location ->
-//
-//            if (location != null) {
-//                lastLocation = location
-//                val currentLatLng = LatLng(location.latitude, location.longitude)
-//                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 17f))
-//            }
-//        }
     }
-
-//    private fun getCurrentLocation() {
-//
-//        val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-//        val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-//
-//        if (!(isGPSEnabled || isNetworkEnabled)) {
-//            Snackbar.make(mapView!!, "位置服務要打開唷", Snackbar.LENGTH_INDEFINITE).show()
-//        } else {
-//            try {
-//                if (isNetworkEnabled) {
-//                    locationManager.requestLocationUpdates(
-//                        LocationManager.NETWORK_PROVIDER,
-//                        LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, locationListener
-//                    )
-//                        location =
-//                            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-//                }
-//
-//                if (isGPSEnabled) {
-//                    locationManager.requestLocationUpdates(
-//                        LocationManager.GPS_PROVIDER,
-//                        LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, locationListener
-//                    )
-//                    location =
-//                        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//                }
-//            } catch (ex: SecurityException) {
-//                e(TAG, "Security Exception, no location available")
-//            }
-//            if (location != null) {
-//                map.animateCamera(
-//                    CameraUpdateFactory.newLatLngZoom(
-//                        LatLng(
-//                            location!!.latitude,
-//                            location!!.longitude
-//                        ), 10f
-//                    )
-//                )
-//                i(TAG, "current latlng = ${location!!.latitude}, ${location!!.longitude}")
-//            }
-//        }
-//    }
-
 //        private fun addRestaurant(viewModel: MapsViewModel) {
 //        binding.fabAddRestaurant.setOnClickListener {
 //            //add restaurants to Firestore
