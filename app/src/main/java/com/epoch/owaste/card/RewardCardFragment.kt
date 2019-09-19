@@ -20,7 +20,7 @@ class LoyaltyCardFragment : Fragment() {
 
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_loyalty_card, container, false)
+        return inflater.inflate(R.layout.fragment_reward_card, container, false)
     }
 
 

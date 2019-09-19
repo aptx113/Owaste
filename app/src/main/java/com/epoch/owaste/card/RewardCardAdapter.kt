@@ -1,4 +1,4 @@
-package com.epoch.owaste.loyaltycard
+package com.epoch.owaste.card
 
 class LoyaltyCardAdapter {
 }

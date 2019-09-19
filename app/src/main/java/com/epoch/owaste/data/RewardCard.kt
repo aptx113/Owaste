@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class LoyaltyCard (
+data class RewardCard (
 
     val cardId: Long,
     val points: Long
