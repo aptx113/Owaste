@@ -11,7 +11,7 @@ object OwasteRepository {
 
     private const val TAG = "Eltin_OwasteR"
     private const val CARD_ID = "cardId"
-    private const val LOYALTY_CARD = "loyaltyCards"
+    private const val REWARD_CARD = "rewardcards"
 
     private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
@@ -26,6 +26,10 @@ object OwasteRepository {
     val _currentQRCodeCardId = MutableLiveData<String>()
     val currentQRCodeCardId: LiveData<String>
         get() = _currentQRCodeCardId
+
+    val _allRewardCards = MutableLiveData<List<RewardCard>>()
+    val allRewardCards: LiveData<List<RewardCard>>
+        get() = _allRewardCards
 
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
@@ -44,25 +48,25 @@ object OwasteRepository {
         }
     }
     fun onQRCodeScannedUpdateCard() {
-        currentUserDocRef.collection(LOYALTY_CARD)
+        currentUserDocRef.collection(REWARD_CARD)
             .whereEqualTo(CARD_ID, currentQRCodeCardId.value?.toLong())
             .get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.isEmpty) {
-                    val newLoyaltyCard = LoyaltyCard(
+                    val newRewardCard = RewardCard(
                         cardId = currentQRCodeCardId.value!!.toLong(),
                         points = 1
                     )
-                    currentUserDocRef.collection(LOYALTY_CARD)
-                        .add(newLoyaltyCard)
+                    currentUserDocRef.collection(REWARD_CARD)
+                        .add(newRewardCard)
                         .addOnSuccessListener {
-                            i(TAG, "Add new loyalty card, document UID = ${it.id}")
+                            i(TAG, "Add new reward card, document UID = ${it.id}")
                         }
                 } else {
 
-                    i(TAG, "get QuerySnapshot = ${querySnapshot.toObjects(LoyaltyCard::class.java)}")
+                    i(TAG, "get QuerySnapshot = ${querySnapshot.toObjects(RewardCard::class.java)}")
 
-                    currentUserDocRef.collection(LOYALTY_CARD)
+                    currentUserDocRef.collection(REWARD_CARD)
                         .whereEqualTo(CARD_ID, currentQRCodeCardId.value?.toLong())
                         .get().addOnSuccessListener {
                             val getCardIdDocRef = it.documents[0].reference
@@ -73,7 +77,7 @@ object OwasteRepository {
                                 getCardIdDocRef
                                     .update(mapOf("points" to currentPoints.plus(1)))
                                     .addOnSuccessListener {
-                                        i(TAG, "get QuerySnapshot updated = ${querySnapshot.toObjects(LoyaltyCard::class.java)}")
+                                        i(TAG, "get QuerySnapshot updated = ${querySnapshot.toObjects(RewardCard::class.java)}")
                                     }
                             }
                         }
@@ -92,6 +96,21 @@ object OwasteRepository {
                     )).addOnSuccessListener {
 
                 i(TAG, "cuurrent Exp updated = $currentExp")
+                }
+            }
+    }
+
+    fun getAllRewardCardFromFirestore() {
+
+        currentUserDocRef.collection(REWARD_CARD)
+            .get()
+            .addOnSuccessListener {
+                if (!it.isEmpty) {
+
+                    val allRewardCards = it.toObjects(RewardCard::class.java)
+                    _allRewardCards.value = allRewardCards
+                } else {
+                    i(TAG, "該名使用者還沒有集點卡喔")
                 }
             }
     }
