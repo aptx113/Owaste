@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_loyalty_card"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".loyaltycard.LoyaltyCardFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
+    <data>
+        <variable
+            name="rewardCard"
+            type="com.epoch.owaste.data.RewardCard" />
+    </data>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_loyalty_card"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_loyalty_card"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white_FFFFFF"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        tools:context=".card.RewardCardFragment">
 
-    <TextView
-        android:id="@+id/txt_loyalty_card_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent_00FFFFFF"
-        android:elevation="0dp"
-        android:fontFamily="@font/noto_sans"
-        android:text="@string/txt_loyalty_card"
-        android:textColor="@color/dark_green_89B358"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tb_loyalty_card"
-        app:layout_constraintEnd_toEndOf="@+id/tb_loyalty_card"
-        app:layout_constraintStart_toStartOf="@+id/tb_loyalty_card"
-        app:layout_constraintTop_toTopOf="@+id/tb_loyalty_card" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_loyalty_card"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white_FFFFFF"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_loyalty_card"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="visible"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_loyalty_card"
-        app:spanCount="2"
-        tools:itemCount="8"
-        tools:listitem="@layout/item_reward_card" />
+        <TextView
+            android:id="@+id/txt_loyalty_card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent_00FFFFFF"
+            android:elevation="0dp"
+            android:fontFamily="@font/noto_sans"
+            android:text="@string/txt_loyalty_card"
+            android:textColor="@color/dark_green_89B358"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tb_loyalty_card"
+            app:layout_constraintEnd_toEndOf="@+id/tb_loyalty_card"
+            app:layout_constraintStart_toStartOf="@+id/tb_loyalty_card"
+            app:layout_constraintTop_toTopOf="@+id/tb_loyalty_card" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_loyalty_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tb_loyalty_card"
+            app:spanCount="2"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_reward_card" />
 
 
-    <ImageView
-        android:id="@+id/img_back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_loyalty_card_title"
-        app:layout_constraintStart_toStartOf="@+id/tb_loyalty_card"
-        app:layout_constraintTop_toTopOf="@+id/txt_loyalty_card_title" />
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_loyalty_card_title"
+            app:layout_constraintStart_toStartOf="@+id/tb_loyalty_card"
+            app:layout_constraintTop_toTopOf="@+id/txt_loyalty_card_title" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
