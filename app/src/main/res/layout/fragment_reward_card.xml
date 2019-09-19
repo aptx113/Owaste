@@ -7,6 +7,9 @@
         <variable
             name="viewModel"
             type="com.epoch.owaste.card.RewardCardViewModel" />
+        <variable
+            name="owasteRepository"
+            type="com.epoch.owaste.data.OwasteRepository" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +57,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tb_loyalty_card"
             app:spanCount="2"
-            app:rewardcards="@{viewModel.allRewardCards}"
+            app:rewardcards="@{viewModel.rewardCards}"
             tools:itemCount="8"
             tools:listitem="@layout/item_reward_card" />
 

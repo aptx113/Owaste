@@ -113,8 +113,9 @@ object OwasteRepository {
             .addOnSuccessListener {
                 if (!it.isEmpty) {
 
-                    val allRewardCards = it.toObjects(RewardCard::class.java)
-                    _allRewardCards.value = allRewardCards
+                    val allRewardCardsResult = it.toObjects(RewardCard::class.java)
+                    _allRewardCards.value = allRewardCardsResult
+                    i(TAG, "rewardCards.value = ${allRewardCards.value}")
                 } else {
                     i(TAG, "該名使用者還沒有集點卡喔")
                 }

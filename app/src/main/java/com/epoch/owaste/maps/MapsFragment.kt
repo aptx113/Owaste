@@ -69,7 +69,7 @@ class MapsFragment :
     private var hasGps = false
     private var hasNetwork = false
     private var locationGps: Location? = null
-    private var locationNetwork: Location? =null
+    private var locationNetwork: Location? = null
     private var mapView: View? = null
     private lateinit var binding: FragmentMapsBinding
     private lateinit var viewModel: MapsViewModel
@@ -93,11 +93,16 @@ class MapsFragment :
 
             if (hasGps) {
                 i(TAG, "hasGps")
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, object : LocationListener {
-                    override fun onLocationChanged(location: Location?) {
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    LOCATION_UPDATE_MIN_TIME,
+                    LOCATION_UPDATE_MIN_DISTANCE,
+                    object : LocationListener {
+                        override fun onLocationChanged(location: Location?) {
                         if (location != null) {
                             locationGps = location
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), 17F))
+                            map.animateCamera(CameraUpdateFactory
+                                .newLatLngZoom(LatLng(location.latitude, location.longitude), 17F))
                         }
                     }
 
@@ -121,11 +126,16 @@ class MapsFragment :
             }
             if (hasNetwork) {
                 i(TAG, "hasNetwork")
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_UPDATE_MIN_TIME, LOCATION_UPDATE_MIN_DISTANCE, object : LocationListener {
+                locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    LOCATION_UPDATE_MIN_TIME,
+                    LOCATION_UPDATE_MIN_DISTANCE,
+                    object : LocationListener {
                     override fun onLocationChanged(location: Location?) {
                         if (location != null) {
                             locationNetwork = location
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(location.latitude, location.longitude), 17F))
+                            map.animateCamera(CameraUpdateFactory
+                                .newLatLngZoom(LatLng(location.latitude, location.longitude), 17F))
                         }
                     }
 
@@ -219,7 +229,7 @@ class MapsFragment :
             }
         }
         binding.fabCard.setOnClickListener {
-            this.findNavController().navigate(R.id.action_global_loyaltyCardFragment)
+            this.findNavController().navigate(R.id.action_global_rewardCardFragment)
         }
 
         binding.fabQrcode.setOnClickListener {
@@ -246,6 +256,7 @@ class MapsFragment :
     }
 
     private fun firebaseAuthStateListener() {
+
         authProvider = listOf(
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
@@ -263,7 +274,7 @@ class MapsFragment :
                             .createSignInIntentBuilder()
                             .setAvailableProviders(authProvider)
                             .setAlwaysShowSignInMethodScreen(false)
-                            .setIsSmartLockEnabled(false)
+                            .setIsSmartLockEnabled(false, true)
                             .build()
                         startActivityForResult(intent,
                             RC_SIGN_IN
@@ -274,6 +285,7 @@ class MapsFragment :
                     OwasteRepository.initCurrentUserIfFirstTime {  }
                     Toast.makeText(this.context, "登入成功 ! ", Toast.LENGTH_SHORT).show()
 
+                    i(TAG, "current user = ${user.email}")
                     img_profile.isClickable = false
                     img_profile.isLongClickable = true
                     txt_profile_name.text = user.displayName
@@ -370,20 +382,27 @@ class MapsFragment :
         //取得準備好的 Map
         map = googleMap
 
+        mapView = mapFragment.view
+        i("Eltin", "mapView=$mapView")
+
         //Customize Map style
         customizeMapStyle(googleMap)
 
+        // include all places we have markers for on the map
+        if(viewModel.restaurants.value != null) {
         // create bounds that encompass every location we reference
         val boundsBuilder = LatLngBounds.Builder()
-        // include all places we have markers for on the map
-        for (i in 0 until viewModel.restaurants.value!!.size) {
 
-            val latLng =
-                LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
-            i(TAG, "LatLng = $latLng")
-            boundsBuilder.include(latLng)
+            for (i in 0 until viewModel.restaurants.value!!.size) {
+
+                val latLng =
+                    LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
+                i(TAG, "LatLng = $latLng")
+                boundsBuilder.include(latLng)
+            }
+            val bounds = boundsBuilder.build()
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 10f), 5000, null)
         }
-        val bounds = boundsBuilder.build()
 
         // Add several markers and move the camera
 
@@ -392,14 +411,10 @@ class MapsFragment :
         val padding = (width * 0.12).toInt() // offset from edges of the map 12% of screen
 
 //        map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding))
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 19f), 5000, null)
 //        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20f), 5000, null)
 //        with(map){
 //            moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, w))*
 //        }
-
-        mapView = mapFragment.view
-        i("Eltin", "mapView=$mapView")
 
         setUpMap()
         getLocationPermission()

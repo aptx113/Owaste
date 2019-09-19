@@ -11,9 +11,9 @@ class RewardCardViewModel : ViewModel() {
 
     val TAG = "Eltin_" + this.javaClass.simpleName
 
-    val _allRewardCards = MutableLiveData<List<RewardCard>>()
-    val allRewardCards: LiveData<List<RewardCard>>
-        get() = _allRewardCards
+    val _rewardCards = MutableLiveData<List<RewardCard>>()
+    val rewardCards: LiveData<List<RewardCard>>
+        get() = _rewardCards
 
     val _currentQRCodeLevel = MutableLiveData<String>()
     val currentQRCodeLevel: LiveData<String>
@@ -21,8 +21,8 @@ class RewardCardViewModel : ViewModel() {
 
     init {
         OwasteRepository.getAllRewardCardFromFirestore()
-        _allRewardCards.value = OwasteRepository.allRewardCards.value
-        i(TAG, "LiveData<List<RewardCard>> value = ${allRewardCards.value}")
+        _rewardCards.value = OwasteRepository._allRewardCards.value
+        i(TAG, "LiveData<List<RewardCard>> value = ${rewardCards.value}")
     }
 
     fun setRewardCardLevelImage() {
