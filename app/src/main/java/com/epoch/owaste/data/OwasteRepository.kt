@@ -37,9 +37,9 @@ object OwasteRepository {
     val allRewardCards: LiveData<List<RewardCard>>
         get() = _allRewardCards
 
-    val _currentLevelImage = MutableLiveData<Int>()
-    val currentLevelImage: LiveData<Int>
-        get() = _currentLevelImage
+//    val _currentLevelImage = MutableLiveData<Int>()
+//    val currentLevelImage: LiveData<Int>
+//        get() = _currentLevelImage
 
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
@@ -67,8 +67,8 @@ object OwasteRepository {
                         cardId = currentQRCodeCardId.value!!.toLong(),
                         points = 1,
                         restaurantLevel = currentQRCodeLevel.value!!.toInt(),
-                        restaurantName = currentQRCodeRestaurantName.value!!,
-                        levelIcon = currentLevelImage.value!!
+                        restaurantName = currentQRCodeRestaurantName.value!!
+//                        levelIcon = currentLevelImage.value!!
                     )
                     currentUserDocRef.collection(REWARD_CARD)
                         .add(newRewardCard)

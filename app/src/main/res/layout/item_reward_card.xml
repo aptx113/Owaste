@@ -52,11 +52,11 @@
             android:layout_width="@dimen/reward_card_level_20dp"
             android:layout_height="@dimen/reward_card_level_20dp"
             android:layout_marginTop="66dp"
-            android:src="@{ContextCompat.getDrawable(context, rewardCard.levelIcon)}"
+            android:src="@{rewardCard.restaurantLevel == 5 ? @drawable/icons8_treehouse_100 : (rewardCard.restaurantLevel == 4 ? @drawable/icons8_oak_tree_100 : (rewardCard.restaurantLevel == 3 ? @drawable/icons8_sprout_100 : (rewardCard.restaurantLevel == 2 ? @drawable/plant_2 : @drawable/icons8_slug_eating_80)))}"
             app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
             app:layout_constraintStart_toStartOf="@+id/img_bg_reward_card"
             app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"
-            tools:src="@drawable/icons8_oak_tree_100"/>
+            tools:src="@drawable/icons8_slug_eating_80"/>
 
         <ImageView
             android:id="@+id/img_point_bg_earth"

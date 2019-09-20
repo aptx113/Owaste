@@ -7,4 +7,5 @@
     <dimen name="reward_card_level_20dp">20dp</dimen>
     <dimen name="point_icon_28dp">28dp</dimen>
     <dimen name="common_margin_16dp">16dp</dimen>
+    <dimen name="checkbox">20dp</dimen>
 </resources>
