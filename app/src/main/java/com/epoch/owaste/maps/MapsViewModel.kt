@@ -23,7 +23,7 @@ import kotlin.collections.ArrayList
 
 class MapsViewModel: ViewModel() {
 
-    private val TAG = "MAPS_VIEW_MODEL"
+    private val TAG = "Eltin_" + this.javaClass.simpleName
     private val RESTAURANT = "restaurants"
     var firestoreDb = FirebaseFirestore.getInstance()
 

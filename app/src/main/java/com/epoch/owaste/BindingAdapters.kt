@@ -26,7 +26,7 @@ fun bindRecyclerViewWithRewardCards(recyclerView: RecyclerView, rewardCards: Lis
     }
 }
 
-//@BindingAdapter({"android:src"})
+//@BindingAdapter("levelicon")
 //fun bindRewardCardLevelImageWithLevel(imageView: ImageView, currentLevelImage: Int) {
 //    imageView.setImageResource(currentLevelImage)
 //}

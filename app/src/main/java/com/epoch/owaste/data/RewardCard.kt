@@ -9,5 +9,6 @@ data class RewardCard (
     val cardId: Long = 0,
     val points: Long = 0,
     val restaurantLevel: Int = 0,
-    val restaurantName: String = ""
+    val restaurantName: String = "",
+    val levelIcon: Int = 0
 ) : Parcelable

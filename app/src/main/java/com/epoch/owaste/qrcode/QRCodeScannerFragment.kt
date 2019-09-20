@@ -118,11 +118,17 @@ class QRCodeScannerFragment : Fragment() {
                                 }
                             OwasteRepository._currentQRCodeRestaurantName.value =
                                 result?.let {
-                                    it.substring(it.indexOf("c") + 1)
+                                    it.substring(it.indexOf("c") + 1, it.indexOf("d"))
                                 }
-                            i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeLevel.value = ${OwasteRepository._currentQRCodeLevel.value}")
+                            OwasteRepository._currentLevelImage.value =
+                                result?.let {
+                                    it.substring(it.indexOf("d") + 1).toInt()
+                                }
+                            i("Eltin_QRCodeF", "OwasteRepository._currentLevelsOfAllCards.value = ${OwasteRepository._currentQRCodeLevel.value}")
                             i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
                             i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeRestaurantName.value = ${OwasteRepository._currentQRCodeRestaurantName.value}")
+                            i("Eltin_QRCodeF", "OwasteRepository._currentLevelImage.value = ${OwasteRepository._currentLevelImage.value}")
+
                             barcodeDetector.release()
                             OwasteRepository.onQRCodeScannedUpdateCard()
                             OwasteRepository.onQRCodeScannedUpdateExp()

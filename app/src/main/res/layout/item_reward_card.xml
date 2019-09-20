@@ -10,6 +10,7 @@
         <variable
             name="viewModel"
             type="com.epoch.owaste.card.RewardCardViewModel" />
+        <import type="androidx.core.content.ContextCompat"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,10 +52,11 @@
             android:layout_width="@dimen/reward_card_level_20dp"
             android:layout_height="@dimen/reward_card_level_20dp"
             android:layout_marginTop="66dp"
-            android:src="@{viewModel.currentLevelImage}"
+            android:src="@{ContextCompat.getDrawable(context, rewardCard.levelIcon)}"
             app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
             app:layout_constraintStart_toStartOf="@+id/img_bg_reward_card"
-            app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"/>
+            app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"
+            tools:src="@drawable/icons8_oak_tree_100"/>
 
         <ImageView
             android:id="@+id/img_point_bg_earth"
