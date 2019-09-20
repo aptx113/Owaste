@@ -49,7 +49,7 @@ class MapsViewModel: ViewModel() {
     init {
 //        getRestaurantsFromFirestore()
         i(TAG, "LiveData<List<Restaurant>> = ${restaurants.value}")
-        getPlaceDetails()
+//        getPlaceDetails()
     }
 
     //add restaurants to Firestore
@@ -154,17 +154,12 @@ class MapsViewModel: ViewModel() {
             i(TAG, "filterResultList = $filterResultList")
         }
 
-    private fun getPlaceDetails() {
+    private fun getPlaceDetails (placeId: String) {
 
         coroutineScope.launch {
 
             val getResultDeferred =
-                OwasteApi.retrofitService.getPlaceDetailsAsync(
-                    placeId = "ChIJcQtDtb6rQjQRT-zRc6G1-D4",
-                    fields = "formatted_address,formatted_phone_number,name,place_id,rating,reviews",
-                    key = BuildConfig.API_KEY,
-                    language = "zh-TW"
-                )
+                OwasteApi.retrofitService.getPlaceDetailsAsync(placeId)
 
             try {
                 val placeDetailsResult = getResultDeferred.await()

@@ -366,7 +366,11 @@ class MapsFragment :
         }
     }
 
-    override fun onMarkerClick(p0: Marker?) = false
+    override fun onMarkerClick(marker: Marker?): Boolean {
+
+        Toast.makeText(this.context, "LatLng = ${marker?.position}", Toast.LENGTH_SHORT).show()
+        return true
+    }
 
     /**
      * Manipulates the map once available.

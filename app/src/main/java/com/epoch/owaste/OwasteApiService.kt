@@ -14,6 +14,8 @@ import retrofit2.http.Query
 
 private const val HOST_NAME = "maps.googleapis.com/maps"
 private const val BASE_URL = "https://$HOST_NAME/api/"
+private const val FIELDS = "formatted_address,formatted_phone_number,name,place_id,rating,reviews"
+private const val LANGUAGE = "zh-TW"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -63,9 +65,9 @@ interface OwasteApiService {
     @GET("place/details/json")
     fun getPlaceDetailsAsync(
         @Query("place_id") placeId: String,
-        @Query("fields") fields: String,
-        @Query("key") key: String,
-        @Query("language") language: String
+        @Query("fields") fields: String = FIELDS,
+        @Query("key") key: String = BuildConfig.API_KEY,
+        @Query("language") language: String = LANGUAGE
     ): Deferred<PlaceDetailsResult>
 }
 

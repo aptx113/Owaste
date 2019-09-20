@@ -236,7 +236,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="16dp"
                     map:layout_constraintBottom_toBottomOf="parent"
-                    map:layout_constraintEnd_toEndOf="@+id/cl_searchbar_seperation"
+                    map:layout_constraintEnd_toEndOf="@+id/img_search_icon"
                     map:layout_constraintStart_toEndOf="@+id/cb_lv5"
                     map:layout_constraintTop_toBottomOf="@+id/cl_searchbar_seperation"
                     map:srcCompat="@drawable/icons8_treehouse_100" />
@@ -296,12 +296,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginBottom="32dp"
                 map:backgroundTint="@color/white_FFFFFF"
                 map:borderWidth="0dp"
                 map:fabSize="mini"
-                map:layout_constraintBottom_toBottomOf="@+id/fab_qrcode"
+                map:layout_constraintBottom_toTopOf="@+id/ml_above_map"
                 map:layout_constraintStart_toEndOf="@+id/fab_qrcode"
-                map:layout_constraintTop_toTopOf="@+id/fab_qrcode"
                 map:maxImageSize="26dp"
                 map:srcCompat="@drawable/ic_loyalty_card" />
 
