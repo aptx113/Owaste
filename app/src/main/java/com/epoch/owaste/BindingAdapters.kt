@@ -1,5 +1,7 @@
 package com.epoch.owaste
 
+import android.util.Log.i
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.epoch.owaste.card.RewardCardAdapter
@@ -8,6 +10,7 @@ import com.epoch.owaste.data.RewardCard
 @BindingAdapter("rewardcards")
 fun bindRecyclerViewWithRewardCards(recyclerView: RecyclerView, rewardCards: List<RewardCard>?) {
     rewardCards?.let {
+        i("Eltin", "bindRecyclerViewWithRewardCards.List<RewardCard> = $it")
         recyclerView.adapter?.apply {
             when (this) {
                 is RewardCardAdapter -> {
@@ -22,3 +25,8 @@ fun bindRecyclerViewWithRewardCards(recyclerView: RecyclerView, rewardCards: Lis
         }
     }
 }
+
+//@BindingAdapter({"android:src"})
+//fun bindRewardCardLevelImageWithLevel(imageView: ImageView, currentLevelImage: Int) {
+//    imageView.setImageResource(currentLevelImage)
+//}

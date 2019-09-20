@@ -2,10 +2,12 @@ package com.epoch.owaste.card
 
 
 import android.os.Bundle
+import android.util.Log.i
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.epoch.owaste.R
 import com.epoch.owaste.databinding.FragmentRewardCardBinding
@@ -27,7 +29,8 @@ class RewardCardFragment : Fragment() {
         binding = FragmentRewardCardBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
-        binding.rvLoyaltyCard.adapter = RewardCardAdapter(viewModel)
+        binding.viewModel = viewModel
+        binding.rvRewardCard.adapter = RewardCardAdapter(viewModel)
 
         // Inflate the layout for this fragment
         return binding.root

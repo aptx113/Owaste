@@ -3,9 +3,11 @@ package com.epoch.owaste.data
 import android.util.Log.i
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 
 object OwasteRepository {
 
@@ -106,19 +108,19 @@ object OwasteRepository {
             }
     }
 
-    fun getAllRewardCardFromFirestore() {
+    fun getAllRewardCardsFromFirestore(listener: OnSuccessListener<QuerySnapshot>) {
 
         currentUserDocRef.collection(REWARD_CARD)
-            .get()
-            .addOnSuccessListener {
-                if (!it.isEmpty) {
-
-                    val allRewardCardsResult = it.toObjects(RewardCard::class.java)
-                    _allRewardCards.value = allRewardCardsResult
-                    i(TAG, "rewardCards.value = ${allRewardCards.value}")
-                } else {
-                    i(TAG, "該名使用者還沒有集點卡喔")
-                }
-            }
+            .get().addOnSuccessListener(listener)
+//            .addOnSuccessListener {
+//                if (!it.isEmpty) {
+//
+//                    val allRewardCardsResult = it.toObjects(RewardCard::class.java)
+//                    _allRewardCards.value = allRewardCardsResult
+//                    i(TAG, "rewardCards.value = ${allRewardCards.value}")
+//                } else {
+//                    i(TAG, "該名使用者還沒有集點卡喔")
+//                }
+//            }
     }
 }

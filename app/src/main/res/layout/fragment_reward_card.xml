@@ -7,19 +7,16 @@
         <variable
             name="viewModel"
             type="com.epoch.owaste.card.RewardCardViewModel" />
-        <variable
-            name="owasteRepository"
-            type="com.epoch.owaste.data.OwasteRepository" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_loyalty_card"
+        android:id="@+id/cl_reward_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".card.RewardCardFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tb_loyalty_card"
+            android:id="@+id/tb_reward_card"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/white_FFFFFF"
@@ -28,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txt_loyalty_card_title"
+            android:id="@+id/txt_reward_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent_00FFFFFF"
@@ -38,26 +35,25 @@
             android:textColor="@color/dark_green_89B358"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/tb_loyalty_card"
-            app:layout_constraintEnd_toEndOf="@+id/tb_loyalty_card"
-            app:layout_constraintStart_toStartOf="@+id/tb_loyalty_card"
-            app:layout_constraintTop_toTopOf="@+id/tb_loyalty_card" />
+            app:layout_constraintBottom_toBottomOf="@+id/tb_reward_card"
+            app:layout_constraintEnd_toEndOf="@+id/tb_reward_card"
+            app:layout_constraintStart_toStartOf="@+id/tb_reward_card"
+            app:layout_constraintTop_toTopOf="@+id/tb_reward_card" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_loyalty_card"
+            android:id="@+id/rv_reward_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tb_loyalty_card"
-            app:spanCount="2"
+            app:layout_constraintTop_toBottomOf="@+id/tb_reward_card"
             app:rewardcards="@{viewModel.rewardCards}"
+            app:spanCount="2"
             tools:itemCount="8"
             tools:listitem="@layout/item_reward_card" />
 
@@ -68,9 +64,20 @@
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/ic_back"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_loyalty_card_title"
-            app:layout_constraintStart_toStartOf="@+id/tb_loyalty_card"
-            app:layout_constraintTop_toTopOf="@+id/txt_loyalty_card_title" />
+            app:layout_constraintBottom_toBottomOf="@+id/txt_reward_card_title"
+            app:layout_constraintStart_toStartOf="@+id/tb_reward_card"
+            app:layout_constraintTop_toTopOf="@+id/txt_reward_card_title" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:constraint_referenced_ids="tb_reward_card,txt_reward_card_title,img_back"
+            app:layout_constraintBottom_toBottomOf="@+id/tb_reward_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
