@@ -31,6 +31,8 @@ import com.bumptech.glide.Glide
 import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
+import com.epoch.owaste.data.PlaceDetails
+import com.epoch.owaste.data.Restaurant
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -41,6 +43,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.firebase.auth.FirebaseAuth
@@ -370,9 +373,22 @@ class MapsFragment :
 
         marker?.let {
 
-            Toast.makeText(this.context, "LatLng = ${marker.position}", Toast.LENGTH_SHORT).show()
             marker.showInfoWindow()
-            viewModel.getClickedRestaurantFromFirestoreByName(marker.title)
+            viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener {
+                if (!it.isEmpty) {
+
+                    val placeIdOfClickedRestaurant = it.toObjects(Restaurant::class.java)[0].placeId
+                    viewModel.getPlaceDetails(placeIdOfClickedRestaurant)
+                    i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
+
+                    binding.cvPlaceDetails.visibility = View.VISIBLE
+                    binding.txtPlaceName.visibility = View.VISIBLE
+                    val placeDetails = PlaceDetails()
+                    i(TAG, "place name = ${placeDetails.name}")
+                } else {
+                    i(TAG, "QuerySnapshot = null")
+                }
+            })
         }
 
         return true

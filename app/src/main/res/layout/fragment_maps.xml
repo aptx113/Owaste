@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="placeDetails"
+            type="com.epoch.owaste.data.PlaceDetails"/>
+        <variable
+            name="viewModel"
+            type="com.epoch.owaste.maps.MapsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -124,12 +129,32 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp"
+                android:visibility="gone"
                 map:cardBackgroundColor="@color/white_FFFFFF"
                 map:cardCornerRadius="@dimen/default_radius"
                 map:cardElevation="6dp"
                 map:layout_constraintBottom_toTopOf="@+id/fab_qrcode"
                 map:layout_constraintEnd_toEndOf="parent"
-                map:layout_constraintStart_toStartOf="parent"/>
+                map:layout_constraintStart_toStartOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_in_cv_place_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txt_place_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@{viewModel.placeDetails.name}"
+                        map:layout_constraintStart_toStartOf="parent"
+                        map:layout_constraintTop_toTopOf="parent"
+                        tools:text="兩隻小魚甜不辣" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_searchbar_bg"

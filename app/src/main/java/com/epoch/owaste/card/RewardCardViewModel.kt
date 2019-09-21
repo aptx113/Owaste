@@ -29,7 +29,6 @@ class RewardCardViewModel : ViewModel() {
 
     init {
         getAllRewardCardsFromFirestore()
-
     }
 
     private fun getAllRewardCardsFromFirestore() {

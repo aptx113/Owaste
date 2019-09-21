@@ -10,6 +10,7 @@ import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
 import com.epoch.owaste.data.PlaceDetails
 import com.epoch.owaste.data.Restaurant
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
@@ -151,7 +152,7 @@ class MapsViewModel: ViewModel() {
             i(TAG, "filterResultList = $filterResultList")
         }
 
-    private fun getPlaceDetails (placeId: String) {
+    fun getPlaceDetails (placeId: String) {
 
         coroutineScope.launch {
 
@@ -161,27 +162,28 @@ class MapsViewModel: ViewModel() {
             try {
                 val placeDetailsResult = getResultDeferred.await()
                 _placeDetails.value = placeDetailsResult.result
+                i(TAG, "placeDetails = ${placeDetails.value}")
             } catch (e: Exception) {
                 i(TAG, "exception = ${e.message}")
             }
         }
     }
 
-    fun getClickedRestaurantFromFirestoreByName (title: String) {
+    fun getClickedRestaurantFromFirestoreByName (title: String, listener: OnSuccessListener<QuerySnapshot>) {
 
         getSavedRestaurantsRef()
             .whereEqualTo("name", title)
             .get()
-            .addOnSuccessListener {
-                if (!it.isEmpty) {
+            .addOnSuccessListener(listener)
+//                if (!it.isEmpty) {
+//
+//                    val placeIdOfClickedRestaurant = it.toObjects(Restaurant::class.java)[0].placeId
+//                    getPlaceDetails(placeIdOfClickedRestaurant)
+//                    i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
+//
+//                } else {
+//                    i(TAG, "QuerySnapshot = null")
+//                }
 
-                    val placeIdOfClickedRestaurant = it.toObjects(Restaurant::class.java)[0].placeId
-                    getPlaceDetails(placeIdOfClickedRestaurant)
-                    i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
-
-                } else {
-                    i(TAG, "QuerySnapshot = null")
-                }
-            }
     }
 }
