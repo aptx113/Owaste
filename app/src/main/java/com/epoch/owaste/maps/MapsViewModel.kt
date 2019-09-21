@@ -66,12 +66,13 @@ class MapsViewModel: ViewModel() {
             }
     }
 
-    //get saved restaurants from Firestore
+    //get saved restaurants reference from Firestore
     private fun getSavedRestaurantsRef(): CollectionReference {
 
         return firestoreDb.collection(RESTAURANT)
     }
 
+    //get saved restaurants from Firestore
     fun getRestaurantsFromFirestore(): LiveData<List<Restaurant>> {
 
         getSavedRestaurantsRef().addSnapshotListener(EventListener<QuerySnapshot> { value, e ->
@@ -95,10 +96,6 @@ class MapsViewModel: ViewModel() {
         return _restaurants
     }
 
-
-
-
-//    val onCheckedChangeListener = 1
     fun onCheckedChangeListener() = CompoundButton.OnCheckedChangeListener { checkBox, isChecked ->
 
             val level1 = dataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
@@ -168,5 +165,23 @@ class MapsViewModel: ViewModel() {
                 i(TAG, "exception = ${e.message}")
             }
         }
+    }
+
+    fun getClickedRestaurantFromFirestoreByName (title: String) {
+
+        getSavedRestaurantsRef()
+            .whereEqualTo("name", title)
+            .get()
+            .addOnSuccessListener {
+                if (!it.isEmpty) {
+
+                    val placeIdOfClickedRestaurant = it.toObjects(Restaurant::class.java)[0].placeId
+                    getPlaceDetails(placeIdOfClickedRestaurant)
+                    i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
+
+                } else {
+                    i(TAG, "QuerySnapshot = null")
+                }
+            }
     }
 }

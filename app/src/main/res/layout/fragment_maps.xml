@@ -98,7 +98,9 @@
                 android:layout_height="0dp"
                 map:layout_constraintBottom_toTopOf="@+id/ml_above_map"
                 map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent"/>
+                map:layout_constraintTop_toTopOf="parent">
+
+            </FrameLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_current_location"
@@ -114,6 +116,20 @@
                 map:layout_constraintEnd_toEndOf="parent"
                 map:maxImageSize="24dp"
                 map:srcCompat="@drawable/ic_current_location" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_place_details"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                map:cardBackgroundColor="@color/white_FFFFFF"
+                map:cardCornerRadius="@dimen/default_radius"
+                map:cardElevation="6dp"
+                map:layout_constraintBottom_toTopOf="@+id/fab_qrcode"
+                map:layout_constraintEnd_toEndOf="parent"
+                map:layout_constraintStart_toStartOf="parent"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_searchbar_bg"

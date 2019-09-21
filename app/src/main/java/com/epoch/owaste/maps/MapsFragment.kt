@@ -368,7 +368,13 @@ class MapsFragment :
 
     override fun onMarkerClick(marker: Marker?): Boolean {
 
-        Toast.makeText(this.context, "LatLng = ${marker?.position}", Toast.LENGTH_SHORT).show()
+        marker?.let {
+
+            Toast.makeText(this.context, "LatLng = ${marker.position}", Toast.LENGTH_SHORT).show()
+            marker.showInfoWindow()
+            viewModel.getClickedRestaurantFromFirestoreByName(marker.title)
+        }
+
         return true
     }
 
