@@ -6,8 +6,31 @@
     <string name="click_to_login_in">立即登入開始集點吧</string>
     <string name="user_level">Lv. 1 減塑初心者</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_loyalty_card">成為滿滿的集點卡</string>
     <string name="txt_loyalty_card_restaurant"><![CDATA[好好文化創意 We & Me Cafe]]></string>
+    <string name="txt_new_name">名稱</string>
+    <string name="txt_new_address">地址</string>
+    <string name="txt_new_tel">電話</string>
+    <string name="txt_new_website">網站</string>
+    <string name="txt_new_for_here">內用</string>
+    <string name="txt_new_togo">外帶</string>
+    <string name="edittxt_new_name">店家名稱</string>
+    <string name="edittxt_new_address">店家地址</string>
+    <string name="edittxt_new_tel">店家電話</string>
+    <string name="edittxt_new_website">店家網站（選填）</string>
+    <string name="radiobtn_1">全塑但可自備餐盒</string>
+    <string name="radiobtn_2">部分餐點有塑</string>
+    <string name="txt_radiobtn_3">完全不塑</string>
+    <string name="txt_open_time">營業時間（選填）</string>
+    <string name="txt_open_time_mon">星期一</string>
+    <string name="txt_open_time_tue">星期二</string>
+    <string name="txt_open_time_wed">星期三</string>
+    <string name="txt_open_time_thu">星期四</string>
+    <string name="txt_open_time_fri">星期五</string>
+    <string name="txt_open_time_sat">星期六</string>
+    <string name="txt_open_time_sun">星期日</string>
+    <string name="txt_togo_1">可自備餐盒</string>
+    <string name="txt_togo_2">提供餐具租借</string>
+    <string name="txt_commit">提交審核</string>
 </resources>

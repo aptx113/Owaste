@@ -4,6 +4,7 @@ package com.epoch.owaste.maps
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
@@ -239,6 +240,13 @@ class MapsFragment :
             this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
         }
 
+        val restaurantDialog = Dialog(this.requireContext())
+        restaurantDialog.setCancelable(false)
+        restaurantDialog.setContentView(R.layout.fragment_new_restaurant_dialog)
+
+        binding.fabAddRestaurant.setOnClickListener {
+            restaurantDialog.show()
+        }
         // create data of restaurants on Firestore
 //        for (i in 0 until restaurantsList.size) {
 //            viewModel.addRestaurant(restaurantsList[i])
@@ -381,14 +389,15 @@ class MapsFragment :
                     viewModel.getPlaceDetails(placeIdOfClickedRestaurant)
                     i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
 
-                    binding.cvPlaceDetails.visibility = View.VISIBLE
-                    binding.txtPlaceName.visibility = View.VISIBLE
-                    val placeDetails = PlaceDetails()
-                    i(TAG, "place name = ${placeDetails.name}")
                 } else {
+
                     i(TAG, "QuerySnapshot = null")
                 }
             })
+            binding.txtPlaceName.text = viewModel.placeDetails.value?.name
+            i(TAG, "place name = ${viewModel.placeDetails.value?.name}")
+            binding.cvPlaceDetails.visibility = View.VISIBLE
+            binding.txtPlaceName.visibility = View.VISIBLE
         }
 
         return true
@@ -427,7 +436,7 @@ class MapsFragment :
                 boundsBuilder.include(latLng)
             }
             val bounds = boundsBuilder.build()
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 10f), 5000, null)
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 10f), 3000, null)
         }
 
         // Add several markers and move the camera

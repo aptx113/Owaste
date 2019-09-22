@@ -12,4 +12,5 @@
     <color name="yellow_alpha184">#B8ECD56F</color>
     <color name="orange_alpha184">#B8ECD56F</color>
     <color name="darker_green_FF658540">#658540</color>
+    <color name="dialog_window_background">#cc000000</color>
 </resources>

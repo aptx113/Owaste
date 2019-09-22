@@ -28,4 +28,12 @@
     <action
         android:id="@+id/action_global_rewardCardFragment"
         app:destination="@id/rewardCardFragment" />
+    <fragment
+        android:id="@+id/newRestaurantDialogFragment"
+        android:name="com.epoch.owaste.add.NewRestaurantDialogFragment"
+        android:label="fragment_new_restaurant_dialog"
+        tools:layout="@layout/fragment_new_restaurant_dialog" />
+    <action
+        android:id="@+id/action_global_newRestaurantDialogFragment"
+        app:destination="@id/newRestaurantDialogFragment" />
 </navigation>

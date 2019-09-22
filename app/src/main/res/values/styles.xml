@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/light_green_A7D86D</item>
+        <item name="colorPrimaryDark">@color/dark_green_89B358</item>
+        <item name="colorAccent">@color/darker_green_FF658540</item>
         <item name="searchViewStyle">@style/sv_location</item>
     </style>
 
@@ -26,4 +26,25 @@
         <item name="android:rating">3</item>
     </style>
 
+    <style name="add_new_restaurant_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/light_green_A7D86D</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="radiobtn_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textColor">@color/light_green_A7D86D</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="add_new_restaurant_dialog">
+        <item name="android:windowBackground">@color/dialog_window_background</item>
+    </style>
 </resources>
