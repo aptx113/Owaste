@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.util.size
+import androidx.navigation.fragment.findNavController
+import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.databinding.FragmentQrcodeScannerBinding
 import com.google.android.gms.vision.CameraSource
@@ -134,6 +136,7 @@ class QRCodeScannerFragment : Fragment() {
                             OwasteRepository.onQRCodeScannedUpdateExp()
                         }
                     )
+                    this@QRCodeScannerFragment.findNavController().navigate(R.id.action_global_rewardCardFragment)
                 }
             }
         })

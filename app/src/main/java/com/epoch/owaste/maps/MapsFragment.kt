@@ -247,6 +247,7 @@ class MapsFragment :
         binding.fabAddRestaurant.setOnClickListener {
             restaurantDialog.show()
         }
+
         // create data of restaurants on Firestore
 //        for (i in 0 until restaurantsList.size) {
 //            viewModel.addRestaurant(restaurantsList[i])
@@ -254,6 +255,11 @@ class MapsFragment :
 //        }
 
 //        searchRestaurants()
+
+        binding.imgSearchIcon.setOnClickListener {
+
+        showMarkerSearchedByTitle(binding.autoCompleteTvSearchBar.text.toString())
+        }
 
         initOnCheckedChangeListener()
 
@@ -266,6 +272,16 @@ class MapsFragment :
         return binding.root
     }
 
+    private fun showMarkerSearchedByTitle (title: String) {
+
+        i(TAG, "search " + binding.autoCompleteTvSearchBar.text.toString())
+        for (marker in markersList) {
+            marker.isVisible = marker.title.equals(title, true)
+            if (binding.autoCompleteTvSearchBar.text.toString().isEmpty()) {
+                marker.isVisible = true
+            }
+        }
+    }
     private fun firebaseAuthStateListener() {
 
         authProvider = listOf(
@@ -532,7 +548,9 @@ class MapsFragment :
 //        }
     }
 
-    private fun getLocationPermission() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION){
+    private fun getLocationPermission() = runWithPermissions(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION){
 
         //Google Map 中顯示裝置位置，且裝置移動會跟著移動的那個藍點
         map.isMyLocationEnabled = true

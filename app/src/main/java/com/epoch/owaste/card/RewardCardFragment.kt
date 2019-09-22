@@ -33,6 +33,9 @@ class RewardCardFragment : Fragment() {
         binding.viewModel = viewModel
         binding.rvRewardCard.adapter = RewardCardAdapter(viewModel)
 
+        binding.imgBack.setOnClickListener {
+            
+        }
         // Inflate the layout for this fragment
         return binding.root
     }
