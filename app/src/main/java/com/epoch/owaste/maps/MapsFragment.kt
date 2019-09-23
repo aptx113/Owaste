@@ -241,13 +241,20 @@ class MapsFragment :
         }
 
         val restaurantDialog = Dialog(this.requireContext())
-        restaurantDialog.setCancelable(false)
+        restaurantDialog.setCancelable(true)
         restaurantDialog.setContentView(R.layout.fragment_new_restaurant_dialog)
 
         binding.fabAddRestaurant.setOnClickListener {
             restaurantDialog.show()
         }
 
+//        binding.let {
+//            it.cbLv1.isChecked = true
+//            it.cbLv2.isChecked = true
+//            it.cbLv3.isChecked = true
+//            it.cbLv4.isChecked = true
+//            it.cbLv5.isChecked = true
+//        }
         // create data of restaurants on Firestore
 //        for (i in 0 until restaurantsList.size) {
 //            viewModel.addRestaurant(restaurantsList[i])
@@ -398,22 +405,22 @@ class MapsFragment :
         marker?.let {
 
             marker.showInfoWindow()
-            viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener {
-                if (!it.isEmpty) {
-
-                    val placeIdOfClickedRestaurant = it.toObjects(Restaurant::class.java)[0].placeId
-                    viewModel.getPlaceDetails(placeIdOfClickedRestaurant)
-                    i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
-
-                } else {
-
-                    i(TAG, "QuerySnapshot = null")
-                }
-            })
-            binding.txtPlaceName.text = viewModel.placeDetails.value?.name
-            i(TAG, "place name = ${viewModel.placeDetails.value?.name}")
-            binding.cvPlaceDetails.visibility = View.VISIBLE
-            binding.txtPlaceName.visibility = View.VISIBLE
+//            viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener {
+//                if (!it.isEmpty) {
+//
+//                    val placeIdOfClickedRestaurant = it.toObjects(Restaurant::class.java)[0].placeId
+//                    viewModel.getPlaceDetails(placeIdOfClickedRestaurant)
+//                    i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
+//
+//                } else {
+//
+//                    i(TAG, "QuerySnapshot = null")
+//                }
+//            })
+//            binding.txtPlaceName.text = viewModel.placeDetails.value?.name
+//            i(TAG, "place name = ${viewModel.placeDetails.value?.name}")
+//            binding.cvPlaceDetails.visibility = View.VISIBLE
+//            binding.txtPlaceName.visibility = View.VISIBLE
         }
 
         return true

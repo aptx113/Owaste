@@ -10,6 +10,7 @@ import android.util.SparseArray
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.util.size
 import androidx.navigation.fragment.findNavController
@@ -108,7 +109,6 @@ class QRCodeScannerFragment : Fragment() {
                         Runnable {
 
                             val result: String? = qrcode?.valueAt(0)?.displayValue
-                            scanResult.text = result
                             // get level and card Id of the restaurants from QR code
                             OwasteRepository._currentQRCodeCardId.value =
                                 result?.let {
@@ -136,7 +136,6 @@ class QRCodeScannerFragment : Fragment() {
                             OwasteRepository.onQRCodeScannedUpdateExp()
                         }
                     )
-                    this@QRCodeScannerFragment.findNavController().navigate(R.id.action_global_rewardCardFragment)
                 }
             }
         })

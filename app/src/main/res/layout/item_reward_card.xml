@@ -48,17 +48,6 @@
             tools:text="兩隻小魚好吃甜不辣" />
 
         <ImageView
-            android:id="@+id/img_reward_card_restaurant_level_v2"
-            android:layout_width="@dimen/reward_card_level_20dp"
-            android:layout_height="@dimen/reward_card_level_20dp"
-            android:layout_marginTop="66dp"
-            android:src="@{rewardCard.restaurantLevel == 5 ? @drawable/icons8_treehouse_100 : (rewardCard.restaurantLevel == 4 ? @drawable/icons8_oak_tree_100 : (rewardCard.restaurantLevel == 3 ? @drawable/icons8_sprout_100 : (rewardCard.restaurantLevel == 2 ? @drawable/plant_2 : @drawable/icons8_slug_eating_80)))}"
-            app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
-            app:layout_constraintStart_toStartOf="@+id/img_bg_reward_card"
-            app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"
-            tools:src="@drawable/icons8_slug_eating_80"/>
-
-        <ImageView
             android:id="@+id/img_point_bg_earth"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -68,6 +57,17 @@
             app:layout_constraintStart_toStartOf="@+id/img_bg_reward_card"
             app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"
             app:srcCompat="@drawable/reward_bg_card_point" />
+
+        <ImageView
+            android:id="@+id/img_reward_card_restaurant_level_v2"
+            android:layout_width="@dimen/reward_card_level_50dp"
+            android:layout_height="@dimen/reward_card_level_50dp"
+            android:layout_marginTop="66dp"
+            android:src="@{rewardCard.restaurantLevel == 5 ? @drawable/icons8_treehouse_100 : (rewardCard.restaurantLevel == 4 ? @drawable/icons8_oak_tree_100 : (rewardCard.restaurantLevel == 3 ? @drawable/icons8_sprout_100 : (rewardCard.restaurantLevel == 2 ? @drawable/plant_2 : @drawable/icons8_slug_eating_80)))}"
+            app:layout_constraintEnd_toEndOf="@+id/img_bg_reward_card"
+            app:layout_constraintStart_toStartOf="@+id/img_bg_reward_card"
+            app:layout_constraintTop_toTopOf="@+id/img_bg_reward_card"
+            tools:src="@drawable/icons8_slug_eating_80" />
 
         <ImageView
             android:id="@+id/img_navigate_to_map"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:text="@{String.valueOf(rewardCard.points)}"
             android:textColor="@color/darker_green_FF658540"
-            android:textSize="36sp"
+            android:textSize="50sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/img_point_bg_earth"
             app:layout_constraintEnd_toEndOf="@+id/img_point_bg_earth"

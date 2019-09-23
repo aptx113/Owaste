@@ -209,6 +209,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/txt_open_time"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
@@ -297,6 +298,7 @@
                     android:layout_marginEnd="16dp"
                     android:src="@android:drawable/arrow_down_float"
                     android:tint="@color/light_green_A7D86D"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/txt_open_time"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/txt_open_time" />
@@ -325,7 +327,7 @@
                     android:id="@+id/btn_commit"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@color/light_green_A7D86D"
@@ -345,6 +347,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/edittxt_new_name"
                     app:layout_constraintTop_toTopOf="parent" />

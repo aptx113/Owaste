@@ -64,6 +64,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:src="@drawable/ic_back"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/txt_reward_card_title"
             app:layout_constraintStart_toStartOf="@+id/tb_reward_card"
             app:layout_constraintTop_toTopOf="@+id/txt_reward_card_title" />
@@ -73,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="4dp"
-            app:constraint_referenced_ids="tb_reward_card,txt_reward_card_title,img_back"
+            app:constraint_referenced_ids="tb_reward_card,txt_reward_card_title"
             app:layout_constraintBottom_toBottomOf="@+id/tb_reward_card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
