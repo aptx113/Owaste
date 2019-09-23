@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.toBitmap
@@ -171,8 +172,6 @@ class MapsFragment :
                     }
                 }
             }
-        } else {
-            Toast.makeText(this.context, "定位服務未開啟喔", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -214,7 +213,7 @@ class MapsFragment :
             i(TAG, "fab_current_location clicked")
 
             runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION) {
-                getLocation()
+                showDialogIfLocationServiceOff()
             }
         }
 
@@ -277,6 +276,20 @@ class MapsFragment :
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun showDialogIfLocationServiceOff() {
+        AlertDialog.Builder(this.requireContext())
+            .setTitle("如要繼續，請開啟裝置定位功能\n（需使用 Google 定位服務）")
+            .setPositiveButton("好窩") { _, _ ->
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                getLocation()
+            }
+            .setNegativeButton("先不要") { _, _ ->
+                Toast.makeText(this.context, "好定位不開嗎？", Toast.LENGTH_SHORT).show()
+            }
+            .create()
+            .show()
     }
 
     private fun showMarkerSearchedByTitle (title: String) {
