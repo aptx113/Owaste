@@ -280,7 +280,7 @@ class MapsFragment :
 
     private fun showDialogIfLocationServiceOff() {
         AlertDialog.Builder(this.requireContext())
-            .setTitle("如要繼續，請開啟裝置定位功能\n（需使用 Google 定位服務）")
+            .setTitle("如要繼續，請開啟裝置定位功能（需使用 Google 定位服務）")
             .setPositiveButton("好窩") { _, _ ->
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 getLocation()
@@ -313,9 +313,12 @@ class MapsFragment :
                 val user: FirebaseUser? = auth.currentUser
                 if (user == null) {
                     i(TAG, "User = $user")
-                    img_profile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
-                    txt_profile_name.text = getString(R.string.click_to_login_in)
-                    img_profile.isLongClickable = false
+                    binding.imgProfile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
+                    binding.txtProfileName.text = getString(R.string.click_to_login_in)
+                    binding.imgProfile.isLongClickable = false
+                    binding.fabAddRestaurant.hide()
+                    binding.fabCard.hide()
+                    binding.fabQrcode.hide()
                     binding.imgProfile.setOnClickListener {
                         val intent = AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -327,21 +330,26 @@ class MapsFragment :
                             RC_SIGN_IN
                         )
                     }
+
+//                    Toast.makeText(this.context, "登入成功 ! ", Toast.LENGTH_SHORT).show()
                 } else {
 
                     OwasteRepository.initCurrentUserIfFirstTime {  }
-                    Toast.makeText(this.context, "登入成功 ! ", Toast.LENGTH_SHORT).show()
+
+                    binding.fabAddRestaurant.show()
+                    binding.fabCard.show()
+                    binding.fabQrcode.show()
 
                     i(TAG, "current user = ${user.email}")
-                    img_profile.isClickable = false
-                    img_profile.isLongClickable = true
-                    txt_profile_name.text = user.displayName
-                    txt_user_level.text = getString(R.string.user_level)
+                    binding.imgProfile.isClickable = false
+                    binding.imgProfile.isLongClickable = true
+                    binding.txtProfileName.text = user.displayName
+                    binding.txtUserLevel.text = getString(R.string.user_level)
                     Glide.with(this).load(user.photoUrl).into(img_profile)
 
                     if (user.displayName != null) {
 
-                        txt_user_level.visibility = View.VISIBLE
+                        binding.txtUserLevel.visibility = View.VISIBLE
                     }
                 }
             }
