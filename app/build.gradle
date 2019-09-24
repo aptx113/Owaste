@@ -9,6 +9,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 android {
+
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -29,6 +30,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //資源類型為 string，名稱為 API_KEY，值為 GoogleMapKey
+            resValue("string", "API_KEY", GoogleMapsKeyForRelease)
+            //若需要在執行的程式碼（kt 或 java 檔）中引用該值，使用 buildConfigField (type: String, name: String, value: String)
+            buildConfigField("String", "API_KEY", GoogleMapsKeyForFileRelease)
         }
         debug {
             //資源類型為 string，名稱為 API_KEY，值為 GoogleMapKey

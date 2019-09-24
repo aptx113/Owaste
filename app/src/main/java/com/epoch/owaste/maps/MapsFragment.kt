@@ -90,6 +90,9 @@ class MapsFragment :
 
     @SuppressLint("MissingPermission")
     private fun getLocation() {
+
+        map.isMyLocationEnabled = true
+
         locationManager = activity?.getSystemService(LOCATION_SERVICE) as LocationManager
         hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
@@ -172,6 +175,8 @@ class MapsFragment :
                     }
                 }
             }
+        } else {
+            showDialogIfLocationServiceOff()
         }
     }
 
@@ -213,7 +218,7 @@ class MapsFragment :
             i(TAG, "fab_current_location clicked")
 
             runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION) {
-                showDialogIfLocationServiceOff()
+                getLocation()
             }
         }
 
