@@ -10,6 +10,9 @@
         <variable
             name="viewModel"
             type="com.epoch.owaste.maps.MapsViewModel" />
+        <variable
+            name="reataurant"
+            type="com.epoch.owaste.data.Restaurant" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -125,11 +128,11 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_place_details"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 map:cardBackgroundColor="@color/white_FFFFFF"
                 map:cardCornerRadius="@dimen/default_radius"
                 map:cardElevation="6dp"
@@ -147,13 +150,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:fontFamily="@font/noto_sans"
                         android:text="@{viewModel.placeDetails.name}"
                         android:textColor="@color/dark_green_89B358"
                         android:textSize="16sp"
                         map:layout_constraintStart_toStartOf="parent"
-                        map:layout_constraintTop_toTopOf="parent"
+                        map:layout_constraintTop_toBottomOf="@+id/rv_place_photo"
                         tools:text="兩隻小魚甜不辣" />
 
                     <ProgressBar
@@ -178,19 +181,21 @@
                         android:layout_marginTop="4dp"
                         android:isIndicator="true"
                         android:rating="3"
+                        android:visibility="gone"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating"
                         map:layout_constraintTop_toBottomOf="@+id/txt_place_name" />
 
                     <TextView
                         android:id="@+id/txt_rating"
                         style="@style/place_details_snippet"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/ratingbar_place_rating"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating"
                         tools:text="4.0" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/txt_rating_total_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
@@ -199,6 +204,7 @@
                         android:text="@string/txt_rating_total_left"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/ratingbar_place_rating"
                         map:layout_constraintStart_toEndOf="@+id/ratingbar_place_rating"
                         map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating" />
@@ -210,9 +216,10 @@
                         android:fontFamily="@font/noto_sans"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
-                        map:layout_constraintBottom_toBottomOf="@+id/textView2"
-                        map:layout_constraintStart_toEndOf="@+id/textView2"
-                        map:layout_constraintTop_toTopOf="@+id/textView2"
+                        android:visibility="gone"
+                        map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total_left"
+                        map:layout_constraintStart_toEndOf="@+id/txt_rating_total_left"
+                        map:layout_constraintTop_toTopOf="@+id/txt_rating_total_left"
                         tools:text="365" />
 
                     <TextView
@@ -223,6 +230,7 @@
                         android:text="@string/txt_rating_total_right"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating_total"
                         map:layout_constraintTop_toTopOf="@+id/txt_rating_total" />
@@ -234,6 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="2dp"
+                        android:visibility="gone"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_rating"
                         tools:text="四川料理" />
@@ -246,6 +255,7 @@
                         android:layout_marginStart="2dp"
                         android:text="@string/txt_dot_between_type_price_level"
                         android:textAlignment="center"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_place_type"
                         map:layout_constraintStart_toEndOf="@+id/txt_place_type"
                         map:layout_constraintTop_toTopOf="@+id/txt_place_type" />
@@ -258,10 +268,31 @@
                         android:fontFamily="@font/noto_sans"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_dot_between_type_price_level"
                         map:layout_constraintStart_toEndOf="@+id/txt_dot_between_type_price_level"
                         map:layout_constraintTop_toTopOf="@+id/txt_dot_between_type_price_level"
                         tools:text="$$" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_place_photo"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintStart_toStartOf="parent"
+                        map:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/img_restaurant_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@{reataurant.level == 5 ? @drawable/icons8_treehouse_100 : (reataurant.level == 4 ? @drawable/icons8_oak_tree_100 : (reataurant.level == 3 ? @drawable/icons8_sprout_100 : (reataurant.level == 2 ? @drawable/plant_2 : @drawable/icons8_slug_eating_80)))}"
+                        android:visibility="gone"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintTop_toBottomOf="@+id/rv_place_photo"
+                        tools:src="@drawable/icons8_slug_eating_80" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

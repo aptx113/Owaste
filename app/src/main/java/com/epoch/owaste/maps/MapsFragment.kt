@@ -430,21 +430,68 @@ class MapsFragment :
 
         marker?.let {
 
+            viewModel.setRestaurantToNull()
+
+            binding.ratingbarPlaceRating.visibility = View.GONE
+            binding.txtRating.visibility = View.GONE
+            binding.txtRatingTotal.visibility = View.GONE
+            binding.txtRatingTotalRight.visibility = View.GONE
+            binding.txtRatingTotalLeft.visibility = View.GONE
+            binding.txtPlaceType.visibility = View.GONE
+            binding.txtPriceLevel.visibility = View.GONE
+            binding.imgRestaurantLevel.visibility = View.GONE
+
             binding.txtPlaceName.text = marker.title
             binding.cvPlaceDetails.visibility = View.VISIBLE
-            binding.txtPlaceName.visibility = View.VISIBLE
-            viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener {
-                if (!it.isEmpty) {
+            binding.progressbarPlaceDetails.visibility = View.VISIBLE
+            viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
 
-                    val placeIdOfClickedRestaurant = it.toObjects(Restaurant::class.java)[0].placeId
+                    i(TAG, "QuerySnapshot = ${querySnapshot.toObjects(Restaurant::class.java)}")
+
+                    val placeIdOfClickedRestaurant = querySnapshot.toObjects(Restaurant::class.java)[0].placeId
                     viewModel.getPlaceDetails(placeIdOfClickedRestaurant)
-                    i(TAG, "QuerySnapshot = ${it.toObjects(Restaurant::class.java)}")
-                } else {
 
+                    viewModel.placeDetails.observe(this, Observer {
+                        it?.let {
+                            i(TAG, "viewModel.placeDetails = ${viewModel.placeDetails.value}")
+
+                            binding.progressbarPlaceDetails.visibility = View.GONE
+                            binding.imgRestaurantLevel.visibility = View.VISIBLE
+
+                            if (it.rating != null) {
+                                binding.ratingbarPlaceRating.rating = it.rating
+                                binding.ratingbarPlaceRating.visibility = View.VISIBLE
+                                binding.txtRating.text = it.rating.toString()
+                                binding.txtRating.visibility = View.VISIBLE
+                            }
+                            if (it.user_ratings_total != null) {
+                                binding.txtRatingTotal.text = it.user_ratings_total.toString()
+                                binding.txtRatingTotal.visibility = View.VISIBLE
+                                binding.txtRatingTotalRight.visibility = View.VISIBLE
+                                binding.txtRatingTotalLeft.visibility = View.VISIBLE
+                            }
+                            if (it.type != null) {
+                                binding.txtPlaceType.text = it.type.toString()
+                                binding.txtPlaceType.visibility = View.VISIBLE
+                            }
+                            if (it.price_level != null) {
+                                when (it.price_level) {
+                                    0 -> binding.txtDotBetweenTypePriceLevel.visibility = View.GONE
+                                    1 -> binding.txtPriceLevel.text = "$"
+                                    2 -> binding.txtPriceLevel.text = "$$"
+                                    3 -> binding.txtPriceLevel.text = "$$$"
+                                    4 -> binding.txtPriceLevel.text = "$$$$"
+                                }
+                                binding.txtPriceLevel.visibility = View.VISIBLE
+                            }
+                        }
+                    })
+//                    viewModel._placeDetails.value = null
+                } else {
                     i(TAG, "QuerySnapshot = null")
                 }
             })
-//            i(TAG, "place name = ${viewModel.placeDetails.value?.name}")
         }
 
         return true

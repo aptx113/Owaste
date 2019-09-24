@@ -68,6 +68,9 @@ class MapsViewModel: ViewModel() {
             }
     }
 
+    fun setRestaurantToNull() {
+        _placeDetails.value = null
+    }
     //get saved restaurants reference from Firestore
     private fun getSavedRestaurantsRef(): CollectionReference {
 

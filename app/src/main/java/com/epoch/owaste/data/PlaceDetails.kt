@@ -11,6 +11,8 @@ data class PlaceDetails (
     val name: String? = "",
     val place_id: String? = "",
     val rating: Float? = 0F,
-    val user_ratings_total: Long = 0L,
+    val user_ratings_total: Long? = 0L,
+    val type: List<String>? = null,
+    val price_level: Int? = 0,
     val reviews: List<PlaceReviews>? = null
 ) : Parcelable
