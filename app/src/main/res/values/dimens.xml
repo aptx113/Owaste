@@ -9,7 +9,7 @@
     <dimen name="point_icon_28dp">28dp</dimen>
     <dimen name="common_margin_16dp">16dp</dimen>
     <dimen name="checkbox">20dp</dimen>
-    <dimen name="default_radius">2dp</dimen>
+    <dimen name="default_radius">15dp</dimen>
     <dimen name="card_elevation">6dp</dimen>
     <dimen name="add_new_restaurant_edittext">1dp</dimen>
     <dimen name="add_new_restaurant_edittext_padding">8dp</dimen>

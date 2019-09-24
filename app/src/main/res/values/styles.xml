@@ -47,4 +47,13 @@
     <style name="add_new_restaurant_dialog">
         <item name="android:windowBackground">@color/dialog_window_background</item>
     </style>
+
+    <style name="place_details_snippet">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:fontFamily">@font/noto_sans</item>
+        <item name="android:textColor">@color/darker_green_FF658540</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

@@ -155,7 +155,7 @@ class MapsViewModel: ViewModel() {
 
     fun getPlaceDetails (placeId: String) {
 
-        coroutineScope.launch {
+        coroutineScope.launch (Dispatchers.Main) {
 
             val getResultDeferred =
                 OwasteApi.retrofitService.getPlaceDetailsAsync(placeId)
