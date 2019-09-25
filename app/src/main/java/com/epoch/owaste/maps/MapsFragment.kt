@@ -99,6 +99,8 @@ class MapsFragment :
 
         if (hasGps || hasNetwork) {
 
+            binding.fabCurrentLocation.setImageResource(R.drawable.ic_current_location)
+
             if (hasGps) {
                 i(TAG, "hasGps")
                 locationManager.requestLocationUpdates(
@@ -176,6 +178,7 @@ class MapsFragment :
                 }
             }
         } else {
+            binding.fabCurrentLocation.setImageResource(R.drawable.ic_location_service_off)
             showDialogIfLocationServiceOff()
         }
     }
