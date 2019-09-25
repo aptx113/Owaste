@@ -237,11 +237,21 @@ class MapsFragment :
             }
         }
         binding.fabCard.setOnClickListener {
-            this.findNavController().navigate(R.id.action_global_rewardCardFragment)
+            if (binding.clProfile.isClickable) {
+                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+            } else {
+
+                this.findNavController().navigate(R.id.action_global_rewardCardFragment)
+            }
         }
 
         binding.fabQrcode.setOnClickListener {
-            this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
+            if (binding.clProfile.isClickable) {
+                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+            } else {
+
+                this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
+            }
         }
 
         val restaurantDialog = Dialog(this.requireContext())
@@ -249,7 +259,12 @@ class MapsFragment :
         restaurantDialog.setContentView(R.layout.fragment_new_restaurant_dialog)
 
         binding.fabAddRestaurant.setOnClickListener {
-            restaurantDialog.show()
+            if (binding.clProfile.isClickable) {
+                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+            } else {
+
+                restaurantDialog.show()
+            }
         }
 
 //        binding.let {
@@ -316,15 +331,22 @@ class MapsFragment :
         val authListener: FirebaseAuth.AuthStateListener =
             FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
                 val user: FirebaseUser? = auth.currentUser
-                if (user == null) {
+                if (user?.displayName.isNullOrEmpty()) {
                     i(TAG, "User = $user")
                     binding.imgProfile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
                     binding.txtProfileName.text = getString(R.string.click_to_login_in)
                     binding.imgProfile.isLongClickable = false
-                    binding.fabAddRestaurant.hide()
-                    binding.fabCard.hide()
-                    binding.fabQrcode.hide()
-                    binding.imgProfile.setOnClickListener {
+//
+//                    binding.fabAddRestaurant.setOnClickListener {
+//                        Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+//                    }
+//                    binding.fabCard.setOnClickListener {
+//                        Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+//                    }
+//                    binding.fabQrcode.setOnClickListener {
+//                        Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+//                    }
+                    binding.clProfile.setOnClickListener {
                         val intent = AuthUI.getInstance()
                             .createSignInIntentBuilder()
                             .setAvailableProviders(authProvider)
@@ -341,21 +363,14 @@ class MapsFragment :
 
                     OwasteRepository.initCurrentUserIfFirstTime {  }
 
-                    binding.fabAddRestaurant.show()
-                    binding.fabCard.show()
-                    binding.fabQrcode.show()
-
-                    i(TAG, "current user = ${user.email}")
+                    i(TAG, "current user = ${user?.email}")
+                    binding.clProfile.isClickable = false
                     binding.imgProfile.isClickable = false
                     binding.imgProfile.isLongClickable = true
-                    binding.txtProfileName.text = user.displayName
+                    binding.txtProfileName.text = user?.displayName
                     binding.txtUserLevel.text = getString(R.string.user_level)
-                    Glide.with(this).load(user.photoUrl).into(img_profile)
-
-                    if (user.displayName != null) {
-
-                        binding.txtUserLevel.visibility = View.VISIBLE
-                    }
+                    binding.txtUserLevel.visibility = View.VISIBLE
+                    Glide.with(this).load(user?.photoUrl).into(img_profile)
                 }
             }
 
@@ -428,6 +443,8 @@ class MapsFragment :
 
     override fun onMarkerClick(marker: Marker?): Boolean {
 
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker?.position, 18f))
+
         marker?.let {
 
             viewModel.setRestaurantToNull()
@@ -443,6 +460,7 @@ class MapsFragment :
 
             binding.txtPlaceName.text = marker.title
             binding.cvPlaceDetails.visibility = View.VISIBLE
+            binding.rvPlacePhoto.visibility = View.GONE
             binding.progressbarPlaceDetails.visibility = View.VISIBLE
             viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener { querySnapshot ->
                 if (!querySnapshot.isEmpty) {

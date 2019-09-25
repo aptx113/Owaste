@@ -128,7 +128,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_place_details"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
@@ -150,7 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="16dp"
                         android:fontFamily="@font/noto_sans"
                         android:text="@{viewModel.placeDetails.name}"
                         android:textColor="@color/dark_green_89B358"
@@ -278,6 +278,7 @@
                         android:id="@+id/rv_place_photo"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
+                        android:visibility="gone"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toTopOf="parent" />
