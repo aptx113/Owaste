@@ -14,7 +14,7 @@ import retrofit2.http.Query
 
 private const val HOST_NAME = "maps.googleapis.com/maps"
 private const val BASE_URL = "https://$HOST_NAME/api/"
-private const val FIELDS = "formatted_address,formatted_phone_number,name,place_id,rating,user_ratings_total,reviews"
+private const val FIELDS = "formatted_address,formatted_phone_number,name,place_id,rating,user_ratings_total,reviews,opening_hours,"
 private const val LANGUAGE = "zh-TW"
 
 /**
