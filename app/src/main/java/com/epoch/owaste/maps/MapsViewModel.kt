@@ -5,6 +5,7 @@ import android.widget.CompoundButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide
 import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.Owaste
 import com.epoch.owaste.OwasteApi
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import kotlinx.android.synthetic.main.fragment_maps.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -188,6 +190,11 @@ class MapsViewModel: ViewModel() {
 //                } else {
 //                    i(TAG, "QuerySnapshot = null")
 //                }
+
+    }
+
+    fun getCurrentUserExp() {
+
 
     }
 }

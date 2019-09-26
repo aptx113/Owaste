@@ -42,21 +42,72 @@
                     android:visibility="visible"
                     map:layout_constraintBottom_toBottomOf="parent"
                     map:layout_constraintEnd_toEndOf="parent"
-                    map:layout_constraintStart_toStartOf="parent">
+                    map:layout_constraintStart_toStartOf="parent" >
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/txt_user_exp_goal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="@color/white_FFFFFF"
+                    android:textSize="8sp"
+                    map:layout_constraintBottom_toBottomOf="@+id/txt_user_level"
+                    map:layout_constraintEnd_toEndOf="@+id/progressbar_user_exp"
+                    map:layout_constraintTop_toTopOf="@+id/txt_user_level"
+                    tools:text="1000" />
+
+                <TextView
+                    android:id="@+id/txt_user_exp_slash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="1dp"
+                    android:text="TextView"
+                    android:textColor="@color/white_FFFFFF"
+                    android:textSize="8sp"
+                    map:layout_constraintBottom_toBottomOf="@+id/txt_user_exp_goal"
+                    map:layout_constraintEnd_toStartOf="@+id/txt_user_exp_goal"
+                    map:layout_constraintTop_toTopOf="@+id/txt_user_exp_goal"
+                    tools:text="/" />
+
+                <TextView
+                    android:id="@+id/txt_user_current_exp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="TextView"
+                    android:textColor="@color/white_FFFFFF"
+                    android:textSize="8sp"
+                    map:layout_constraintBottom_toBottomOf="@+id/txt_user_exp_slash"
+                    map:layout_constraintEnd_toStartOf="@+id/txt_user_exp_slash"
+                    map:layout_constraintTop_toTopOf="@+id/txt_user_exp_slash"
+                    tools:text="25" />
+
+                <ProgressBar
+                    android:id="@+id/progressbar_user_exp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="120dp"
+                    android:layout_height="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:max="100"
+                    android:progress="25"
+                    map:layout_constraintEnd_toEndOf="@+id/cl_profile"
+                    map:layout_constraintTop_toTopOf="@+id/txt_profile_name" />
 
                 <TextView
                     android:id="@+id/txt_user_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="4dp"
                     android:text="@string/user_level"
                     android:textColor="@color/white_FFFFFF"
-                    android:visibility="gone"
+                    android:textSize="8sp"
+                    android:visibility="visible"
                     map:layout_constraintBottom_toBottomOf="@+id/txt_profile_name"
-                    map:layout_constraintEnd_toEndOf="@+id/cl_profile"
-                    map:layout_constraintTop_toTopOf="@+id/txt_profile_name" />
+                    map:layout_constraintStart_toStartOf="@+id/progressbar_user_exp"
+                    map:layout_constraintTop_toBottomOf="@+id/progressbar_user_exp"
+                    tools:text="Lv. 10 你是減塑神" />
 
                 <ImageView
                     android:id="@+id/img_profile"
@@ -106,7 +157,8 @@
                 android:layout_height="0dp"
                 map:layout_constraintBottom_toTopOf="@+id/ml_above_map"
                 map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent">
+                map:layout_constraintTop_toTopOf="parent"
+                map:layout_constraintVertical_bias="0.0">
 
             </FrameLayout>
 
@@ -132,7 +184,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 map:cardBackgroundColor="@color/white_FFFFFF"
                 map:cardCornerRadius="@dimen/default_radius"
                 map:cardElevation="6dp"
@@ -143,7 +195,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_in_cv_place_details"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/txt_place_name"
@@ -167,7 +220,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="16dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_place_name" />
@@ -181,7 +234,7 @@
                         android:layout_marginTop="4dp"
                         android:isIndicator="true"
                         android:rating="3"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating"
                         map:layout_constraintTop_toBottomOf="@+id/txt_place_name" />
 
@@ -189,7 +242,7 @@
                         android:id="@+id/txt_rating"
                         style="@style/place_details_snippet"
                         android:layout_marginStart="16dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/ratingbar_place_rating"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating"
@@ -205,7 +258,7 @@
                         android:text="@string/txt_rating_total_left"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/ratingbar_place_rating"
                         map:layout_constraintStart_toEndOf="@+id/ratingbar_place_rating"
                         map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating" />
@@ -217,7 +270,7 @@
                         android:fontFamily="@font/noto_sans"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total_left"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating_total_left"
                         map:layout_constraintTop_toTopOf="@+id/txt_rating_total_left"
@@ -231,7 +284,7 @@
                         android:text="@string/txt_rating_total_right"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating_total"
                         map:layout_constraintTop_toTopOf="@+id/txt_rating_total" />
@@ -246,7 +299,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total_right"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating_total_right"
                         map:layout_constraintTop_toTopOf="@+id/txt_rating_total" />
@@ -259,7 +312,7 @@
                         android:fontFamily="@font/noto_sans"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_dot_between_type_price_level"
                         map:layout_constraintStart_toEndOf="@+id/txt_dot_between_type_price_level"
                         map:layout_constraintTop_toTopOf="@+id/txt_dot_between_type_price_level"
@@ -269,7 +322,7 @@
                         android:id="@+id/rv_place_photo"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toTopOf="parent" />
@@ -280,7 +333,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:src="@{reataurant.level == 5 ? @drawable/icons8_treehouse_100 : (reataurant.level == 4 ? @drawable/icons8_oak_tree_100 : (reataurant.level == 3 ? @drawable/icons8_sprout_100 : (reataurant.level == 2 ? @drawable/plant_2 : @drawable/icons8_slug_eating_80)))}"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_is_place_open"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintTop_toTopOf="@+id/txt_place_name"
@@ -295,6 +348,7 @@
                         android:layout_marginBottom="16dp"
                         android:textColor="@color/quantum_vanillared400"
                         android:textSize="14sp"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_rating"

@@ -457,7 +457,6 @@ class MapsFragment :
             binding.txtRatingTotal.visibility = View.GONE
             binding.txtRatingTotalRight.visibility = View.GONE
             binding.txtRatingTotalLeft.visibility = View.GONE
-            binding.txtPlaceType.visibility = View.GONE
             binding.txtPriceLevel.visibility = View.GONE
             binding.imgRestaurantLevel.visibility = View.GONE
 
@@ -492,10 +491,6 @@ class MapsFragment :
                                 binding.txtRatingTotalRight.visibility = View.VISIBLE
                                 binding.txtRatingTotalLeft.visibility = View.VISIBLE
                             }
-                            if (it.type != null) {
-                                binding.txtPlaceType.text = it.type.toString()
-                                binding.txtPlaceType.visibility = View.VISIBLE
-                            }
                             if (it.price_level != null) {
                                 when (it.price_level) {
                                     0 -> binding.txtDotBetweenTypePriceLevel.visibility = View.GONE
@@ -505,6 +500,15 @@ class MapsFragment :
                                     4 -> binding.txtPriceLevel.text = "$$$$"
                                 }
                                 binding.txtPriceLevel.visibility = View.VISIBLE
+                            }
+                            if (it.opening_hours != null) {
+                                if (it.opening_hours.open_now) {
+                                    binding.txtIsPlaceOpen.text = "營業中"
+                                    binding.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.darker_green_FF658540))
+                                } else {
+                                    binding.txtIsPlaceOpen.text = "休息中"
+                                    binding.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.quantum_vanillared400))
+                                }
                             }
                         }
                     })
