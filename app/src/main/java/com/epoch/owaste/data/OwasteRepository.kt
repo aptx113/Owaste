@@ -8,6 +8,7 @@ import com.epoch.owaste.Owaste
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 
@@ -43,11 +44,12 @@ object OwasteRepository {
 //    val currentLevelImage: LiveData<Int>
 //        get() = _currentLevelImage
 
-    fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
+    fun initCurrentUserIfFirstTime (onComplete: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
                 val newUser = User(
                     exp = 0,
+                    level = 1,
                     uid = FirebaseAuth.getInstance().currentUser!!.uid
                 )
                 currentUserDocRef.set(newUser).addOnSuccessListener {
@@ -117,7 +119,7 @@ object OwasteRepository {
             }
     }
 
-    fun getAllRewardCardsFromFirestore(listener: OnSuccessListener<QuerySnapshot>) {
+    fun getAllRewardCardsFromFirestore (listener: OnSuccessListener<QuerySnapshot>) {
 
         currentUserDocRef.collection(REWARD_CARD)
             .get().addOnSuccessListener(listener)
@@ -131,5 +133,10 @@ object OwasteRepository {
 //                    i(TAG, "該名使用者還沒有集點卡喔")
 //                }
 //            }
+    }
+
+    fun getCurrentUserExpToUpdateProgressBar (listener: OnSuccessListener<DocumentSnapshot>) {
+
+        currentUserDocRef.get().addOnSuccessListener(listener)
     }
 }

@@ -2,22 +2,20 @@ package com.epoch.owaste.maps
 
 import android.util.Log.*
 import android.widget.CompoundButton
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bumptech.glide.Glide
-import com.epoch.owaste.BuildConfig
-import com.epoch.owaste.Owaste
 import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
+import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.data.PlaceDetails
 import com.epoch.owaste.data.Restaurant
+import com.epoch.owaste.data.User
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.android.synthetic.main.fragment_maps.*
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,7 +30,7 @@ class MapsViewModel: ViewModel() {
     var firestoreDb = FirebaseFirestore.getInstance()
 
     // filter the markers according to checkbox status
-    val filterResultList : MutableList<Restaurant> = mutableListOf()
+    val filterResultList: MutableList<Restaurant> = mutableListOf()
 
     private val _restaurants = MutableLiveData<List<Restaurant>>()
     val restaurants: LiveData<List<Restaurant>>
@@ -57,7 +55,7 @@ class MapsViewModel: ViewModel() {
     }
 
     //add restaurants to Firestore
-    fun addRestaurant (restaurant: Restaurant) {
+    fun addRestaurant(restaurant: Restaurant) {
 
         firestoreDb.collection(RESTAURANT)
             .add(restaurant)
@@ -73,6 +71,7 @@ class MapsViewModel: ViewModel() {
     fun setRestaurantToNull() {
         _placeDetails.value = null
     }
+
     //get saved restaurants reference from Firestore
     private fun getSavedRestaurantsRef(): CollectionReference {
 
@@ -105,62 +104,62 @@ class MapsViewModel: ViewModel() {
 
     fun onCheckedChangeListener() = CompoundButton.OnCheckedChangeListener { checkBox, isChecked ->
 
-            val level1 = dataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
-            val level2 = dataList.value?.filter { it.level == 2 } as ArrayList<Restaurant>
-            val level3 = dataList.value?.filter { it.level == 3 } as ArrayList<Restaurant>
-            val level4 = dataList.value?.filter { it.level == 4 } as ArrayList<Restaurant>
-            val level5 = dataList.value?.filter { it.level == 5 } as ArrayList<Restaurant>
+        val level1 = dataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
+        val level2 = dataList.value?.filter { it.level == 2 } as ArrayList<Restaurant>
+        val level3 = dataList.value?.filter { it.level == 3 } as ArrayList<Restaurant>
+        val level4 = dataList.value?.filter { it.level == 4 } as ArrayList<Restaurant>
+        val level5 = dataList.value?.filter { it.level == 5 } as ArrayList<Restaurant>
 
-            i(TAG, "lv1 = $level1")
-            i(TAG, "lv2 = $level2")
-            i(TAG, "lv3 = $level3")
-            i(TAG, "lv4 = $level4")
-            i(TAG, "lv5 = $level5")
+        i(TAG, "lv1 = $level1")
+        i(TAG, "lv2 = $level2")
+        i(TAG, "lv3 = $level3")
+        i(TAG, "lv4 = $level4")
+        i(TAG, "lv5 = $level5")
 
-            when (checkBox?.id) {
-                R.id.cb_lv1 -> if (isChecked) {
-                    filterResultList.addAll(level1)
-                    i(TAG, "Add Lv1 to filterResultList = $filterResultList !")
-                } else {
-                    filterResultList.removeAll(level1)
-                    i(TAG, "Remove Lv1 from filterResultList = $filterResultList !")
-                }
-                R.id.cb_lv2 -> if (isChecked) {
-                    filterResultList.addAll(level2)
-                    i(TAG, "Add Lv2 to filterResultList = $filterResultList !")
-                } else {
-                    filterResultList.removeAll(level2)
-                    i(TAG, "Remove Lv2 from filterResultList = $filterResultList !")
-                }
-                R.id.cb_lv3 -> if (isChecked) {
-                    filterResultList.addAll(level3)
-                    i(TAG, "Add Lv3 to filterResultList = $filterResultList !")
-                } else {
-                    filterResultList.removeAll(level3)
-                    i(TAG, "Remove Lv3 from filterResultList = $filterResultList !")
-                }
-                R.id.cb_lv4 -> if (isChecked) {
-                    filterResultList.addAll(level4)
-                    i(TAG, "Add Lv4 to filterResultList = $filterResultList !")
-                } else {
-                    filterResultList.removeAll(level4)
-                    i(TAG, "Remove Lv4 from filterResultList = $filterResultList !")
-                }
-                R.id.cb_lv5 -> if (isChecked) {
-                    filterResultList.addAll(level5)
-                    i(TAG, "Add Lv5 to filterResultList = $filterResultList !")
-                } else {
-                    filterResultList.removeAll(level5)
-                    i(TAG, "Remove Lv5 from filterResultList = $filterResultList !")
-                }
+        when (checkBox?.id) {
+            R.id.cb_lv1 -> if (isChecked) {
+                filterResultList.addAll(level1)
+                i(TAG, "Add Lv1 to filterResultList = $filterResultList !")
+            } else {
+                filterResultList.removeAll(level1)
+                i(TAG, "Remove Lv1 from filterResultList = $filterResultList !")
             }
-            _restaurants.value = filterResultList
-            i(TAG, "filterResultList = $filterResultList")
+            R.id.cb_lv2 -> if (isChecked) {
+                filterResultList.addAll(level2)
+                i(TAG, "Add Lv2 to filterResultList = $filterResultList !")
+            } else {
+                filterResultList.removeAll(level2)
+                i(TAG, "Remove Lv2 from filterResultList = $filterResultList !")
+            }
+            R.id.cb_lv3 -> if (isChecked) {
+                filterResultList.addAll(level3)
+                i(TAG, "Add Lv3 to filterResultList = $filterResultList !")
+            } else {
+                filterResultList.removeAll(level3)
+                i(TAG, "Remove Lv3 from filterResultList = $filterResultList !")
+            }
+            R.id.cb_lv4 -> if (isChecked) {
+                filterResultList.addAll(level4)
+                i(TAG, "Add Lv4 to filterResultList = $filterResultList !")
+            } else {
+                filterResultList.removeAll(level4)
+                i(TAG, "Remove Lv4 from filterResultList = $filterResultList !")
+            }
+            R.id.cb_lv5 -> if (isChecked) {
+                filterResultList.addAll(level5)
+                i(TAG, "Add Lv5 to filterResultList = $filterResultList !")
+            } else {
+                filterResultList.removeAll(level5)
+                i(TAG, "Remove Lv5 from filterResultList = $filterResultList !")
+            }
         }
+        _restaurants.value = filterResultList
+        i(TAG, "filterResultList = $filterResultList")
+    }
 
-    fun getPlaceDetails (placeId: String) {
+    fun getPlaceDetails(placeId: String) {
 
-        coroutineScope.launch (Dispatchers.Main) {
+        coroutineScope.launch(Dispatchers.Main) {
 
             val getResultDeferred =
                 OwasteApi.retrofitService.getPlaceDetailsAsync(placeId)
@@ -175,7 +174,10 @@ class MapsViewModel: ViewModel() {
         }
     }
 
-    fun getClickedRestaurantFromFirestoreByName (title: String, listener: OnSuccessListener<QuerySnapshot>) {
+    fun getClickedRestaurantFromFirestoreByName(
+        title: String,
+        listener: OnSuccessListener<QuerySnapshot>
+    ) {
 
         getSavedRestaurantsRef()
             .whereEqualTo("name", title)
@@ -193,8 +195,12 @@ class MapsViewModel: ViewModel() {
 
     }
 
-    fun getCurrentUserExp() {
+    fun getCurrentUserExpToUpdateProgressBar(listener: OnSuccessListener<DocumentSnapshot>) {
 
-
+        OwasteRepository.getCurrentUserExpToUpdateProgressBar(listener)
+//            val totalExp = Integer.parseInt(it.get("exp").toString())
+//            val displayExp = totalExp - 100 * ( (1 + (user.level - 1)) * (user.level - 1) / 2 )
+//            progressBar.progress = displayExp
+//            progressBar.max = user.level * 100
     }
 }

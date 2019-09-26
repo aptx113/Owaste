@@ -6,8 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class User (
 
-    val exp: Long,
-    val uid: String
-) : Parcelable {
-    constructor() : this(0, "")
-}
+    val exp: Long = 0L,
+    val level: Int = 0,
+    val uid: String = ""
+) : Parcelable

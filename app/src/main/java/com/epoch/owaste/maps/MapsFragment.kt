@@ -5,14 +5,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.*
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.util.Log.*
 import android.view.LayoutInflater
@@ -22,8 +20,6 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -33,13 +29,11 @@ import com.bumptech.glide.Glide
 import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
-import com.epoch.owaste.data.PlaceDetails
 import com.epoch.owaste.data.Restaurant
+import com.epoch.owaste.data.User
 import com.epoch.owaste.databinding.FragmentMapsBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -79,6 +73,7 @@ class MapsFragment :
     private lateinit var binding: FragmentMapsBinding
     private lateinit var viewModel: MapsViewModel
     private lateinit var onCheckedChangeListener: CompoundButton.OnCheckedChangeListener
+    private var user: FirebaseUser? = null
 
     lateinit var mapFragment: SupportMapFragment
     val markersList = ArrayList<Marker>()
@@ -297,13 +292,14 @@ class MapsFragment :
         userSignOut()
         initPlaceApiCLient()
 
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
     private fun showDialogIfLocationServiceOff() {
         AlertDialog.Builder(this.requireContext())
-            .setTitle("如要繼續，請開啟裝置定位功能（需使用 Google 定位服務）")
+            .setTitle("如要繼續，請開啟裝置定位功能\n（需使用 Google 定位服務）")
             .setPositiveButton("好窩") { _, _ ->
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 getLocation()
@@ -333,22 +329,17 @@ class MapsFragment :
 
         val authListener: FirebaseAuth.AuthStateListener =
             FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
-                val user: FirebaseUser? = auth.currentUser
+                user = auth.currentUser
                 if (user?.displayName.isNullOrEmpty()) {
                     i(TAG, "User = $user")
                     binding.imgProfile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
-                    binding.txtProfileName.text = getString(R.string.click_to_login_in)
+                    binding.txtProfileName.text = this.context?.getString(R.string.click_to_login_in)
                     binding.imgProfile.isLongClickable = false
-//
-//                    binding.fabAddRestaurant.setOnClickListener {
-//                        Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-//                    }
-//                    binding.fabCard.setOnClickListener {
-//                        Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-//                    }
-//                    binding.fabQrcode.setOnClickListener {
-//                        Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-//                    }
+                    binding.txtUserLevel.visibility = View.GONE
+                    binding.progressbarUserExp.visibility = View.GONE
+                    binding.txtUserExpGoal.visibility = View.GONE
+                    binding.txtUserExpSlash.visibility = View.GONE
+                    binding.txtUserCurrentExp.visibility = View.GONE
                     binding.clProfile.setOnClickListener {
                         val intent = AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -365,15 +356,46 @@ class MapsFragment :
                 } else {
 
                     OwasteRepository.initCurrentUserIfFirstTime {  }
-
                     i(TAG, "current user = ${user?.email}")
                     binding.clProfile.isClickable = false
                     binding.imgProfile.isClickable = false
                     binding.imgProfile.isLongClickable = true
                     binding.txtProfileName.text = user?.displayName
-                    binding.txtUserLevel.text = getString(R.string.user_level)
                     binding.txtUserLevel.visibility = View.VISIBLE
                     Glide.with(this).load(user?.photoUrl).into(img_profile)
+
+                    viewModel.getCurrentUserExpToUpdateProgressBar(OnSuccessListener { document ->
+                        val userData = document.toObject(User::class.java)
+                        i(TAG, "userData = $userData")
+                        userData?.let {
+
+                            val totalExp = Integer.parseInt(document.get("exp").toString())
+                            val displayExp = totalExp - 100 * ( (1 + (userData.level - 1)) * (userData.level - 1) / 2 )
+                            binding.progressbarUserExp.progress = displayExp
+                            binding.progressbarUserExp.max = userData.level * 100
+                            binding.progressbarUserExp.visibility = View.VISIBLE
+                            binding.txtUserExpGoal.text = (userData.level * 100).toString()
+                            binding.txtUserExpGoal.visibility = View.VISIBLE
+                            binding.txtUserCurrentExp.text = displayExp.toString()
+                            binding.txtUserCurrentExp.visibility = View.VISIBLE
+                            binding.txtUserExpSlash.visibility = View.VISIBLE
+                            i(TAG, "totalExp = $totalExp, displayExp = $displayExp")
+
+                            when (userData.level) {
+                                1 -> binding.txtUserLevel.text = "Lv.1"
+                                2 -> binding.txtUserLevel.text = "Lv.2"
+                                3 -> binding.txtUserLevel.text = "Lv.3"
+                                4 -> binding.txtUserLevel.text = "Lv.4"
+                                5 -> binding.txtUserLevel.text = "Lv.5"
+                                6 -> binding.txtUserLevel.text = "Lv.6"
+                                7 -> binding.txtUserLevel.text = "Lv.7"
+                                8 -> binding.txtUserLevel.text = "Lv.8"
+                                9 -> binding.txtUserLevel.text = "Lv.9"
+                                10 -> binding.txtUserLevel.text = "Lv.10"
+                            }
+                            binding.txtUserLevel.visibility = View.VISIBLE
+                        }
+                    })
                 }
             }
 
