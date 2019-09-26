@@ -2,19 +2,13 @@ package com.epoch.owaste.maps
 
 import android.util.Log.*
 import android.widget.CompoundButton
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
-import com.epoch.owaste.data.OwasteRepository
-import com.epoch.owaste.data.PlaceDetails
-import com.epoch.owaste.data.Restaurant
-import com.epoch.owaste.data.User
+import com.epoch.owaste.data.*
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +37,10 @@ class MapsViewModel: ViewModel() {
     private val _placeDetails = MutableLiveData<PlaceDetails>()
     val placeDetails: LiveData<PlaceDetails>
         get() = _placeDetails
+
+    private val _photos = MutableLiveData<List<Photo>>()
+    val photos: LiveData<List<Photo>>
+        get() = _photos
 
     private var viewModelJob = Job()
 
@@ -168,6 +166,8 @@ class MapsViewModel: ViewModel() {
                 val placeDetailsResult = getResultDeferred.await()
                 _placeDetails.value = placeDetailsResult.result
                 i(TAG, "placeDetails = ${placeDetails.value}")
+                _photos.value = placeDetails.value?.photos
+                i(TAG, "photos = ${photos.value}")
             } catch (e: Exception) {
                 i(TAG, "exception = ${e.message}")
             }
@@ -198,9 +198,6 @@ class MapsViewModel: ViewModel() {
     fun getCurrentUserExpToUpdateProgressBar(listener: OnSuccessListener<DocumentSnapshot>) {
 
         OwasteRepository.getCurrentUserExpToUpdateProgressBar(listener)
-//            val totalExp = Integer.parseInt(it.get("exp").toString())
-//            val displayExp = totalExp - 100 * ( (1 + (user.level - 1)) * (user.level - 1) / 2 )
-//            progressBar.progress = displayExp
-//            progressBar.max = user.level * 100
     }
+
 }

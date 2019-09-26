@@ -194,13 +194,15 @@
                 map:cardElevation="6dp"
                 map:layout_constraintBottom_toTopOf="@+id/fab_qrcode"
                 map:layout_constraintEnd_toEndOf="parent"
-                map:layout_constraintStart_toStartOf="parent">
+                map:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_in_cv_place_details"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible">
+                    android:visibility="visible"
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/txt_place_name"
@@ -214,7 +216,8 @@
                         android:textSize="16sp"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/rv_place_photo"
-                        tools:text="兩隻小魚甜不辣" />
+                        tools:text="兩隻小魚甜不辣"
+                        tools:visibility="visible" />
 
                     <ProgressBar
                         android:id="@+id/progressbar_place_details"
@@ -227,7 +230,8 @@
                         android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
-                        map:layout_constraintTop_toBottomOf="@+id/txt_place_name" />
+                        map:layout_constraintTop_toBottomOf="@+id/txt_place_name"
+                        tools:visibility="visible" />
 
                     <RatingBar
                         android:id="@+id/ratingbar_place_rating"
@@ -240,7 +244,8 @@
                         android:rating="3"
                         android:visibility="gone"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating"
-                        map:layout_constraintTop_toBottomOf="@+id/txt_place_name" />
+                        map:layout_constraintTop_toBottomOf="@+id/txt_place_name"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txt_rating"
@@ -250,7 +255,8 @@
                         map:layout_constraintBottom_toBottomOf="@+id/ratingbar_place_rating"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating"
-                        tools:text="4.0" />
+                        tools:text="4.0"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txt_rating_total_left"
@@ -265,7 +271,8 @@
                         android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/ratingbar_place_rating"
                         map:layout_constraintStart_toEndOf="@+id/ratingbar_place_rating"
-                        map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating" />
+                        map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txt_rating_total"
@@ -278,7 +285,8 @@
                         map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total_left"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating_total_left"
                         map:layout_constraintTop_toTopOf="@+id/txt_rating_total_left"
-                        tools:text="365" />
+                        tools:text="365"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txt_rating_total_right"
@@ -291,7 +299,8 @@
                         android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating_total"
-                        map:layout_constraintTop_toTopOf="@+id/txt_rating_total" />
+                        map:layout_constraintTop_toTopOf="@+id/txt_rating_total"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txt_dot_between_type_price_level"
@@ -306,7 +315,8 @@
                         android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="@+id/txt_rating_total_right"
                         map:layout_constraintStart_toEndOf="@+id/txt_rating_total_right"
-                        map:layout_constraintTop_toTopOf="@+id/txt_rating_total" />
+                        map:layout_constraintTop_toTopOf="@+id/txt_rating_total"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txt_price_level"
@@ -320,16 +330,22 @@
                         map:layout_constraintBottom_toBottomOf="@+id/txt_dot_between_type_price_level"
                         map:layout_constraintStart_toEndOf="@+id/txt_dot_between_type_price_level"
                         map:layout_constraintTop_toTopOf="@+id/txt_dot_between_type_price_level"
-                        tools:text="$$" />
+                        tools:text="$$"
+                        tools:visibility="visible" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_place_photo"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:visibility="gone"
+                        android:orientation="horizontal"
+                        map:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
-                        map:layout_constraintTop_toTopOf="parent" />
+                        map:layout_constraintTop_toTopOf="parent"
+                        map:photos="@{viewModel.photos}"
+                        tools:visibility="visible"
+                        tools:listitem="@layout/item_place_details_photo"/>
 
                     <ImageView
                         android:id="@+id/img_restaurant_level"
@@ -341,7 +357,8 @@
                         map:layout_constraintBottom_toBottomOf="@+id/txt_is_place_open"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintTop_toTopOf="@+id/txt_place_name"
-                        tools:src="@drawable/icons8_slug_eating_80" />
+                        tools:src="@drawable/icons8_slug_eating_80"
+                        tools:visibility="visible" />
 
                     <TextView
                         android:id="@+id/txt_is_place_open"
@@ -356,7 +373,8 @@
                         map:layout_constraintBottom_toBottomOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_rating"
-                        tools:text="營業中" />
+                        tools:text="營業中"
+                        tools:visibility="visible" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

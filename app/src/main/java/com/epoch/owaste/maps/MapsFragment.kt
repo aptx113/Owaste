@@ -73,7 +73,6 @@ class MapsFragment :
     private lateinit var binding: FragmentMapsBinding
     private lateinit var viewModel: MapsViewModel
     private lateinit var onCheckedChangeListener: CompoundButton.OnCheckedChangeListener
-    private var user: FirebaseUser? = null
 
     lateinit var mapFragment: SupportMapFragment
     val markersList = ArrayList<Marker>()
@@ -285,6 +284,8 @@ class MapsFragment :
         showMarkerSearchedByTitle(binding.autoCompleteTvSearchBar.text.toString())
         }
 
+        binding.rvPlacePhoto.adapter = PlaceDetailsPhotoAdapter()
+
         initOnCheckedChangeListener()
 
         firebaseAuthStateListener()
@@ -329,7 +330,7 @@ class MapsFragment :
 
         val authListener: FirebaseAuth.AuthStateListener =
             FirebaseAuth.AuthStateListener { auth: FirebaseAuth ->
-                user = auth.currentUser
+                val user: FirebaseUser? = auth.currentUser
                 if (user?.displayName.isNullOrEmpty()) {
                     i(TAG, "User = $user")
                     binding.imgProfile.setImageResource(R.drawable.common_google_signin_btn_icon_light_normal)
@@ -481,6 +482,7 @@ class MapsFragment :
             binding.txtRatingTotalLeft.visibility = View.GONE
             binding.txtPriceLevel.visibility = View.GONE
             binding.imgRestaurantLevel.visibility = View.GONE
+            binding.txtIsPlaceOpen.visibility = View.INVISIBLE
 
             binding.txtPlaceName.text = marker.title
             binding.cvPlaceDetails.visibility = View.VISIBLE
@@ -531,6 +533,7 @@ class MapsFragment :
                                     binding.txtIsPlaceOpen.text = "休息中"
                                     binding.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.quantum_vanillared400))
                                 }
+                                binding.txtIsPlaceOpen.visibility = View.VISIBLE
                             }
                         }
                     })
