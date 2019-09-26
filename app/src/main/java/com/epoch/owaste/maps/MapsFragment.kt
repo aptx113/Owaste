@@ -208,6 +208,7 @@ class MapsFragment :
 
         binding.let {
             it.lifecycleOwner = this
+            it.viewModel = this@MapsFragment.viewModel
         }
 
         binding.fabCurrentLocation.setOnClickListener {
@@ -483,6 +484,7 @@ class MapsFragment :
             binding.txtPriceLevel.visibility = View.GONE
             binding.imgRestaurantLevel.visibility = View.GONE
             binding.txtIsPlaceOpen.visibility = View.INVISIBLE
+            binding.rvPlacePhoto.visibility = View.GONE
 
             binding.txtPlaceName.text = marker.title
             binding.cvPlaceDetails.visibility = View.VISIBLE
@@ -503,6 +505,9 @@ class MapsFragment :
                             binding.progressbarPlaceDetails.visibility = View.GONE
                             binding.imgRestaurantLevel.visibility = View.VISIBLE
 
+                            if (it.photos != null) {
+                                binding.rvPlacePhoto.visibility = View.VISIBLE
+                            }
                             if (it.rating != null) {
                                 binding.ratingbarPlaceRating.rating = it.rating
                                 binding.ratingbarPlaceRating.visibility = View.VISIBLE

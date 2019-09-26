@@ -30,6 +30,7 @@ fun bindRecyclerViewWithRewardCards(recyclerView: RecyclerView, rewardCards: Lis
 
 @BindingAdapter("photos")
 fun bindRecyclerViewWithPhotos(recyclerView: RecyclerView, photos: List<Photo>?) {
+    i("Eltin", "bindRecyclerViewWithPhotos.List<Photo> = $photos")
     photos?.let {
         i("Eltin", "bindRecyclerViewWithPhotos.List<Photo> = $it")
         recyclerView.adapter?.apply {

@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_place_details_photo.view.*
 
 private const val HOST_NAME = "maps.googleapis.com/maps"
 private const val BASE_URL = "https://$HOST_NAME/api/"
-private const val END_POINT = "place/photos?"
+private const val END_POINT = "place/photo?"
 private const val MAX_HEIGHT = "maxheight=1600"
 private const val PHOTO_REF = "&photoreference="
 private const val KEY = "&key="
