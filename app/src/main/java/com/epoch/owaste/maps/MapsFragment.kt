@@ -220,50 +220,11 @@ class MapsFragment :
             }
         }
 
-        binding.imgSearchIcon.setOnClickListener {
-            binding.let {
-                it.cbLv1.visibility = View.VISIBLE
-                it.cbLv2.visibility = View.VISIBLE
-                it.cbLv3.visibility = View.VISIBLE
-                it.cbLv4.visibility = View.VISIBLE
-                it.cbLv5.visibility = View.VISIBLE
-                it.imgFilterLv1.visibility = View.VISIBLE
-                it.imgFilterLv2.visibility = View.VISIBLE
-                it.imgFilterLv3.visibility = View.VISIBLE
-                it.imgFilterLv4.visibility = View.VISIBLE
-                it.imgFilterLv5.visibility = View.VISIBLE
-            }
-        }
-        binding.fabCard.setOnClickListener {
-            if (binding.clProfile.isClickable) {
-                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-            } else {
+        navigateToRewardCards()
 
-                this.findNavController().navigate(R.id.action_global_rewardCardFragment)
-            }
-        }
+        navigateToQrCodeScanner()
 
-        binding.fabQrcode.setOnClickListener {
-            if (binding.clProfile.isClickable) {
-                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-            } else {
-
-                this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
-            }
-        }
-
-        val restaurantDialog = Dialog(this.requireContext())
-        restaurantDialog.setCancelable(true)
-        restaurantDialog.setContentView(R.layout.fragment_new_restaurant_dialog)
-
-        binding.fabAddRestaurant.setOnClickListener {
-            if (binding.clProfile.isClickable) {
-                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-            } else {
-
-                restaurantDialog.show()
-            }
-        }
+        navigateToAddRestaurant()
 
 //        binding.let {
 //            it.cbLv1.isChecked = true
@@ -297,6 +258,43 @@ class MapsFragment :
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun navigateToRewardCards() {
+        binding.fabCard.setOnClickListener {
+            if (binding.clProfile.isClickable) {
+                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+            } else {
+
+                this.findNavController().navigate(R.id.action_global_rewardCardFragment)
+            }
+        }
+    }
+
+    private fun navigateToQrCodeScanner() {
+        binding.fabQrcode.setOnClickListener {
+            if (binding.clProfile.isClickable) {
+                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+            } else {
+
+                this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
+            }
+        }
+    }
+
+    private fun navigateToAddRestaurant() {
+        val restaurantDialog = Dialog(this.requireContext())
+        restaurantDialog.setCancelable(true)
+        restaurantDialog.setContentView(R.layout.fragment_new_restaurant_dialog)
+
+        binding.fabAddRestaurant.setOnClickListener {
+            if (binding.clProfile.isClickable) {
+                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+            } else {
+
+                restaurantDialog.show()
+            }
+        }
     }
 
     private fun showDialogIfLocationServiceOff() {
@@ -470,11 +468,11 @@ class MapsFragment :
 
     override fun onMarkerClick(marker: Marker?): Boolean {
 
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker?.position, 18f))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker?.position, map.cameraPosition.zoom))
 
         marker?.let {
 
-            viewModel.setRestaurantToNull()
+            viewModel.resetRestaurantDetailsToNull()
 
             binding.ratingbarPlaceRating.visibility = View.GONE
             binding.txtRating.visibility = View.GONE

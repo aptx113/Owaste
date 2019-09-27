@@ -35,13 +35,14 @@ fun bindRecyclerViewWithPhotos(recyclerView: RecyclerView, photos: List<Photo>?)
         i("Eltin", "bindRecyclerViewWithPhotos.List<Photo> = $it")
         recyclerView.adapter?.apply {
             when (this) {
-                is PlaceDetailsPhotoAdapter -> {
-                    when (itemCount) {
-                        0 -> submitList(it)
-                        it.size -> notifyDataSetChanged()
-                        else -> submitList(it)
-                    }
-                }
+                is PlaceDetailsPhotoAdapter -> submitList(it)
+//                {
+//                    when (itemCount) {
+//                        0 -> submitList(it)
+//                        it.size -> notifyDataSetChanged()
+//                        else -> submitList(it)
+//                    }
+//                }
             }
         }
     }
