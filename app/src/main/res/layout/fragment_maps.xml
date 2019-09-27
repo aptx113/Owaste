@@ -14,7 +14,6 @@
             name="reataurant"
             type="com.epoch.owaste.data.Restaurant" />
     </data>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -165,6 +164,17 @@
                 map:layout_constraintVertical_bias="0.0">
 
             </FrameLayout>
+
+            <ImageView
+                android:id="@+id/img_dummy"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                map:layout_constraintBottom_toBottomOf="@+id/fl_map"
+                map:layout_constraintEnd_toEndOf="parent"
+                map:layout_constraintStart_toStartOf="@+id/fl_map"
+                map:layout_constraintTop_toTopOf="@+id/fl_map"
+                map:srcCompat="@color/transparent_00FFFFFF" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_current_location"

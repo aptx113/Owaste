@@ -221,6 +221,7 @@ class MapsFragment :
         firebaseAuthStateListener()
         userSignOut()
         initPlaceApiCLient()
+        dismissPlaceDetailOnMapClicked()
 
         // create data of restaurants on Firestore
 //        for (i in 0 until restaurantsList.size) {
@@ -230,6 +231,27 @@ class MapsFragment :
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun dismissPlaceDetailOnMapClicked() {
+        binding.imgDummy.setOnClickListener {
+            i(TAG, "imgDummy clicked !")
+            binding.clInCvPlaceDetails.visibility = View.GONE
+            binding.imgDummy.visibility = View.GONE
+            i(TAG, "imgDummy GONE")
+//            binding.ratingbarPlaceRating.visibility = View.GONE
+//            binding.txtRating.visibility = View.GONE
+//            binding.txtRatingTotal.visibility = View.GONE
+//            binding.txtRatingTotalRight.visibility = View.GONE
+//            binding.txtRatingTotalLeft.visibility = View.GONE
+//            binding.txtPriceLevel.visibility = View.GONE
+//            binding.imgRestaurantLevel.visibility = View.GONE
+//            binding.txtIsPlaceOpen.visibility = View.GONE
+//            binding.rvPlacePhoto.visibility = View.GONE
+//            binding.txtPlaceName.visibility = View.GONE
+//            binding.cvPlaceDetails.visibility = View.GONE
+//            binding.progressbarPlaceDetails.visibility = View.GONE
+        }
     }
 
     private fun onFabCurrentLocationClicked() {
@@ -466,7 +488,8 @@ class MapsFragment :
         marker?.let {
 
             viewModel.resetRestaurantDetailsToNull()
-
+            binding.imgDummy.visibility = View.VISIBLE
+            i(TAG, "imgDummy VISIBLE")
             binding.ratingbarPlaceRating.visibility = View.GONE
             binding.txtRating.visibility = View.GONE
             binding.txtRatingTotal.visibility = View.GONE
@@ -474,13 +497,13 @@ class MapsFragment :
             binding.txtRatingTotalLeft.visibility = View.GONE
             binding.txtPriceLevel.visibility = View.GONE
             binding.imgRestaurantLevel.visibility = View.GONE
-            binding.txtIsPlaceOpen.visibility = View.INVISIBLE
+            binding.txtIsPlaceOpen.visibility = View.GONE
             binding.rvPlacePhoto.visibility = View.GONE
 
             binding.txtPlaceName.text = marker.title
             binding.cvPlaceDetails.visibility = View.VISIBLE
-            binding.rvPlacePhoto.visibility = View.GONE
             binding.progressbarPlaceDetails.visibility = View.VISIBLE
+            binding.clInCvPlaceDetails.visibility = View.VISIBLE
             viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener { querySnapshot ->
                 if (!querySnapshot.isEmpty) {
 
@@ -688,6 +711,10 @@ class MapsFragment :
         map.uiSettings.isMapToolbarEnabled = false
         map.uiSettings.isCompassEnabled = false
         map.setOnMarkerClickListener(this)
+
+        // Tried to restrict panning of map
+//        val TAIWAN = LatLngBounds(LatLng(22.0, 120.0), LatLng(25.0, 122.0))
+//        map.setLatLngBoundsForCameraTarget(TAIWAN)
 
         viewModel.restaurants.observe(this, Observer {
             addMarkersToMap()
