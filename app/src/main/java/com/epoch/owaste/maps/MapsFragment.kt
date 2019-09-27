@@ -209,55 +209,48 @@ class MapsFragment :
         binding.let {
             it.lifecycleOwner = this
             it.viewModel = this@MapsFragment.viewModel
+            it.rvPlacePhoto.adapter = PlaceDetailsPhotoAdapter()
         }
 
-        binding.fabCurrentLocation.setOnClickListener {
-
-            i(TAG, "fab_current_location clicked")
-
-            runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION) {
-                getLocation()
-            }
-        }
-
+        onFabCurrentLocationClicked()
         navigateToRewardCards()
-
         navigateToQrCodeScanner()
-
         navigateToAddRestaurant()
+        displaySearchResultByTitle()
+        initOnCheckedChangeListener()
+        firebaseAuthStateListener()
+        userSignOut()
+        initPlaceApiCLient()
 
-//        binding.let {
-//            it.cbLv1.isChecked = true
-//            it.cbLv2.isChecked = true
-//            it.cbLv3.isChecked = true
-//            it.cbLv4.isChecked = true
-//            it.cbLv5.isChecked = true
-//        }
         // create data of restaurants on Firestore
 //        for (i in 0 until restaurantsList.size) {
 //            viewModel.addRestaurant(restaurantsList[i])
 //            i(TAG, "restaurants added on Firestore : ${restaurantsList[i].name}")
 //        }
 
-//        searchRestaurants()
-
-        binding.imgSearchIcon.setOnClickListener {
-
-        showMarkerSearchedByTitle(binding.autoCompleteTvSearchBar.text.toString())
-        }
-
-        binding.rvPlacePhoto.adapter = PlaceDetailsPhotoAdapter()
-
-        initOnCheckedChangeListener()
-
-        firebaseAuthStateListener()
-
-        userSignOut()
-        initPlaceApiCLient()
-
-
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun onFabCurrentLocationClicked() {
+        binding.fabCurrentLocation.setOnClickListener {
+
+            i(TAG, "fab_current_location clicked")
+
+            runWithPermissions(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) {
+                getLocation()
+            }
+        }
+    }
+
+    private fun displaySearchResultByTitle() {
+        binding.imgSearchIcon.setOnClickListener {
+
+            showMarkerSearchedByTitle(binding.autoCompleteTvSearchBar.text.toString())
+        }
     }
 
     private fun navigateToRewardCards() {
