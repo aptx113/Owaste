@@ -15,7 +15,7 @@ import java.lang.ref.PhantomReference
 
 private const val HOST_NAME = "maps.googleapis.com/maps"
 private const val BASE_URL = "https://$HOST_NAME/api/"
-private const val FIELDS = "formatted_address,formatted_phone_number,name,place_id,rating,user_ratings_total,reviews,opening_hours,photos"
+private const val FIELDS = "formatted_address,formatted_phone_number,name,place_id,rating,user_ratings_total,reviews,opening_hours,photos,price_level"
 private const val LANGUAGE = "zh-TW"
 private const val MAX_HEIGHT = 1600
 

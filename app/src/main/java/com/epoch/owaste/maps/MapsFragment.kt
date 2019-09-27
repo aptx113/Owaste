@@ -11,6 +11,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.*
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.util.Log.*
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -221,7 +223,7 @@ class MapsFragment :
         firebaseAuthStateListener()
         userSignOut()
         initPlaceApiCLient()
-        dismissPlaceDetailOnMapClicked()
+
 
         // create data of restaurants on Firestore
 //        for (i in 0 until restaurantsList.size) {
@@ -234,11 +236,13 @@ class MapsFragment :
     }
 
     private fun dismissPlaceDetailOnMapClicked() {
-        binding.imgDummy.setOnClickListener {
-            i(TAG, "imgDummy clicked !")
+        map.setOnMapClickListener {
+
+            i(TAG, "map clicked !")
             binding.clInCvPlaceDetails.visibility = View.GONE
-            binding.imgDummy.visibility = View.GONE
-            i(TAG, "imgDummy GONE")
+        }
+//            binding.imgDummy.visibility = View.GONE
+//            i(TAG, "imgDummy GONE")
 //            binding.ratingbarPlaceRating.visibility = View.GONE
 //            binding.txtRating.visibility = View.GONE
 //            binding.txtRatingTotal.visibility = View.GONE
@@ -251,7 +255,6 @@ class MapsFragment :
 //            binding.txtPlaceName.visibility = View.GONE
 //            binding.cvPlaceDetails.visibility = View.GONE
 //            binding.progressbarPlaceDetails.visibility = View.GONE
-        }
     }
 
     private fun onFabCurrentLocationClicked() {
@@ -483,13 +486,13 @@ class MapsFragment :
 
     override fun onMarkerClick(marker: Marker?): Boolean {
 
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker?.position, map.cameraPosition.zoom))
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker?.position, map.cameraPosition.zoom), 500, null)
 
         marker?.let {
 
             viewModel.resetRestaurantDetailsToNull()
-            binding.imgDummy.visibility = View.VISIBLE
-            i(TAG, "imgDummy VISIBLE")
+//            binding.imgDummy.visibility = View.VISIBLE
+//            i(TAG, "imgDummy VISIBLE")
             binding.ratingbarPlaceRating.visibility = View.GONE
             binding.txtRating.visibility = View.GONE
             binding.txtRatingTotal.visibility = View.GONE
@@ -499,6 +502,7 @@ class MapsFragment :
             binding.imgRestaurantLevel.visibility = View.GONE
             binding.txtIsPlaceOpen.visibility = View.GONE
             binding.rvPlacePhoto.visibility = View.GONE
+            binding.txtDotBetweenTypePriceLevel.visibility = View.GONE
 
             binding.txtPlaceName.text = marker.title
             binding.cvPlaceDetails.visibility = View.VISIBLE
@@ -519,9 +523,6 @@ class MapsFragment :
                             binding.progressbarPlaceDetails.visibility = View.GONE
                             binding.imgRestaurantLevel.visibility = View.VISIBLE
 
-                            if (it.photos != null) {
-                                binding.rvPlacePhoto.visibility = View.VISIBLE
-                            }
                             if (it.rating != null) {
                                 binding.ratingbarPlaceRating.rating = it.rating
                                 binding.ratingbarPlaceRating.visibility = View.VISIBLE
@@ -534,15 +535,15 @@ class MapsFragment :
                                 binding.txtRatingTotalRight.visibility = View.VISIBLE
                                 binding.txtRatingTotalLeft.visibility = View.VISIBLE
                             }
-                            if (it.price_level != null) {
+                            if (it.price_level != null && it.price_level != 0 && it.price_level != 1) {
+
                                 when (it.price_level) {
-                                    0 -> binding.txtDotBetweenTypePriceLevel.visibility = View.GONE
-                                    1 -> binding.txtPriceLevel.text = "$"
-                                    2 -> binding.txtPriceLevel.text = "$$"
-                                    3 -> binding.txtPriceLevel.text = "$$$"
-                                    4 -> binding.txtPriceLevel.text = "$$$$"
+                                    2 -> binding.txtPriceLevel.text = "$"
+                                    3 -> binding.txtPriceLevel.text = "$$"
+                                    4 -> binding.txtPriceLevel.text = "$$$"
                                 }
                                 binding.txtPriceLevel.visibility = View.VISIBLE
+                                binding.txtDotBetweenTypePriceLevel.visibility = View.VISIBLE
                             }
                             if (it.opening_hours != null) {
                                 if (it.opening_hours.open_now) {
@@ -553,10 +554,13 @@ class MapsFragment :
                                     binding.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.quantum_vanillared400))
                                 }
                                 binding.txtIsPlaceOpen.visibility = View.VISIBLE
+                            } else {
+                                binding.txtIsPlaceOpen.visibility = View.INVISIBLE
                             }
                         }
                     })
 //                    viewModel._placeDetails.value = null
+                    dismissPlaceDetailOnMapClicked()
                 } else {
                     i(TAG, "QuerySnapshot = null")
                 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.OwasteApiService
+import com.epoch.owaste.R
 import com.epoch.owaste.data.Photo
 import com.epoch.owaste.data.RewardCard
 import com.epoch.owaste.databinding.ItemPlaceDetailsPhotoBinding
@@ -37,6 +38,7 @@ class PlaceDetailsPhotoAdapter :
 
         val photo = getItem(position)
 
+//        holder.itemView.img_place_details_photo.setImageResource(R.drawable.bg_new_rewardcard)
         i(TAG, "photos.photo_reference = ${photo.photo_reference}")
 
         if (photoRefToUrl.containsKey(photo.photo_reference)) {
@@ -45,14 +47,17 @@ class PlaceDetailsPhotoAdapter :
 
             Glide.with(holder.itemView.context)
                 .load(photoRefToUrl[photo.photo_reference])
+                .placeholder(R.drawable.bg_new_rewardcard)
                 .into(holder.itemView.img_place_details_photo)
         } else {
             photoRefToUrl[photo.photo_reference] =
                 BASE_URL + END_POINT + MAX_HEIGHT + PHOTO_REF +
                         photo.photo_reference + KEY + BuildConfig.API_KEY
             i(TAG, "put photoRefToUrl = ${photoRefToUrl[photo.photo_reference]}")
+
             Glide.with(holder.itemView.context)
                 .load(photoRefToUrl[photo.photo_reference])
+                .placeholder(R.drawable.bg_new_rewardcard)
                 .into(holder.itemView.img_place_details_photo)
         }
         holder.bind(photo)
