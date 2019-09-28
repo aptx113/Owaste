@@ -46,6 +46,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.fragment_maps.*
+import kotlinx.android.synthetic.main.item_place_details_photo.*
 import java.util.*
 
 /**
@@ -233,6 +234,12 @@ class MapsFragment :
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        i(TAG, "MapsFragment onResume")
+        OwasteRepository.initUserLevelWhenBackToMap()
+    }
+
     private fun dismissPlaceDetailOnMapClicked() {
         binding.imgDummy.setOnClickListener {
             i(TAG, "imgDummy clicked !")
@@ -371,6 +378,7 @@ class MapsFragment :
                 } else {
 
                     OwasteRepository.initCurrentUserIfFirstTime {  }
+
                     i(TAG, "current user = ${user?.email}")
                     binding.clProfile.isClickable = false
                     binding.imgProfile.isClickable = false
@@ -487,6 +495,8 @@ class MapsFragment :
 
         marker?.let {
 
+            binding.txtPlaceName.text = it.title
+            binding.txtPlaceName.visibility = View.VISIBLE
             viewModel.resetRestaurantDetailsToNull()
             binding.imgDummy.visibility = View.VISIBLE
             i(TAG, "imgDummy VISIBLE")
@@ -500,7 +510,6 @@ class MapsFragment :
             binding.txtIsPlaceOpen.visibility = View.GONE
             binding.rvPlacePhoto.visibility = View.GONE
 
-            binding.txtPlaceName.text = marker.title
             binding.cvPlaceDetails.visibility = View.VISIBLE
             binding.progressbarPlaceDetails.visibility = View.VISIBLE
             binding.clInCvPlaceDetails.visibility = View.VISIBLE
@@ -517,7 +526,7 @@ class MapsFragment :
                             i(TAG, "viewModel.placeDetails = ${viewModel.placeDetails.value}")
 
                             binding.progressbarPlaceDetails.visibility = View.GONE
-                            binding.imgRestaurantLevel.visibility = View.VISIBLE
+//                            binding.imgRestaurantLevel.visibility = View.VISIBLE
 
                             if (it.photos != null) {
                                 binding.rvPlacePhoto.visibility = View.VISIBLE

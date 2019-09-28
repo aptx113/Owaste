@@ -108,13 +108,40 @@ object OwasteRepository {
 
         currentUserDocRef.get()
             .addOnSuccessListener {
-                val currentExp = it.get("exp") as Long
-                i(TAG, "current Exp = $currentExp")
+                val totalExp = it.get("exp") as Long
+                i(TAG, "total Exp = $totalExp")
                 currentUserDocRef.update(mapOf(
-                        "exp" to currentExp.plus(currentQRCodeLevel.value!!.toLong() * 10)
+                        "exp" to totalExp.plus(currentQRCodeLevel.value!!.toLong() * 10)
                     )).addOnSuccessListener {
 
-                i(TAG, "cuurrent Exp updated = $currentExp")
+                i(TAG, "total Exp updated = $totalExp")
+                }
+            }
+    }
+
+    fun initUserLevelWhenBackToMap() {
+
+        currentUserDocRef.get()
+            .addOnSuccessListener {
+                val totalExp = it.get("exp") as Long
+                val userLevel: Int
+//                i(TAG, "total Exp = $totalExp, current level = $currentLevel")
+                userLevel = when {
+                    totalExp < 99 -> 1
+                    totalExp in 100..299 -> 2
+                    totalExp in 300..599 -> 3
+                    totalExp in 600..999 -> 4
+                    totalExp in 1000..1499 -> 5
+                    totalExp in 1500..2099 -> 6
+                    totalExp in 2100..2799 -> 7
+                    totalExp in 2800..3599 -> 8
+                    totalExp in 3600..4499 -> 9
+                    else -> 10
+                }
+                currentUserDocRef.update(mapOf(
+                    "level" to userLevel
+                )).addOnSuccessListener {
+                    i(TAG, "current level = $userLevel")
                 }
             }
     }
