@@ -3,7 +3,7 @@
     <dimen name="fab_72dp">72dp</dimen>
     <dimen name="search_bar_corner_40dp">40dp</dimen>
     <dimen name="profile_corner_20dp">20dp</dimen>
-    <dimen name="filter_icon_28dp">28dp</dimen>
+    <dimen name="filter_icon">20dp</dimen>
     <dimen name="reward_card_level_20dp">20dp</dimen>
     <dimen name="reward_card_level_50dp">50dp</dimen>
     <dimen name="point_icon_28dp">28dp</dimen>
@@ -14,4 +14,6 @@
     <dimen name="add_new_restaurant_edittext">1dp</dimen>
     <dimen name="add_new_restaurant_edittext_padding">8dp</dimen>
     <dimen name="add_new_restaurant_edittext_corner">10dp</dimen>
+    <dimen name="checkbox_width">30dp</dimen>
+    <dimen name="checkbox_height">20dp</dimen>
 </resources>
