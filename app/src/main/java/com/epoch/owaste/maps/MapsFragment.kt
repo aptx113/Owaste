@@ -280,7 +280,7 @@ class MapsFragment :
             .setTitle("改變心意吧")
             .setMessage("好想正常發揮喔\n敗偷你到設定開權限好ㄇ")
             .setPositiveButton("好啦開起來") { _, _ -> req.openAppSettings() }
-            .setNegativeButton("不動如山原本山4我") { _, _ -> req.cancel() }
+            .setNegativeButton("不動如山元本山4我") { _, _ -> req.cancel() }
             .setCancelable(false)
             .show()
     }
