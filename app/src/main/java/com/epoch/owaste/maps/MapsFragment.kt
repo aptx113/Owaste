@@ -11,7 +11,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.*
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.util.Log.*
 import android.view.LayoutInflater
@@ -22,7 +21,6 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -176,7 +174,6 @@ class MapsFragment :
             }
         } else {
             binding.fabCurrentLocation.setImageResource(R.drawable.ic_location_service_off)
-            showDialogIfLocationServiceOff()
         }
     }
 
@@ -239,7 +236,8 @@ class MapsFragment :
     override fun onResume() {
         super.onResume()
         i(TAG, "MapsFragment onResume")
-        OwasteRepository.initUserLevelWhenBackToMap()
+        if (FirebaseAuth.getInstance().currentUser != null) {
+        OwasteRepository.initUserLevelWhenBackToMap() }
     }
 
     private fun dismissPlaceDetailOnMapClicked() {
@@ -273,7 +271,12 @@ class MapsFragment :
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) {
-                getLocation()
+                if ( !hasGps && !hasNetwork) {
+                    showDialogIfLocationServiceOff()
+                    getLocation()
+                } else {
+                    getLocation()
+                }
             }
         }
     }
@@ -501,8 +504,6 @@ class MapsFragment :
             binding.txtPlaceName.text = it.title
             binding.txtPlaceName.visibility = View.VISIBLE
             viewModel.resetRestaurantDetailsToNull()
-//            binding.imgDummy.visibility = View.VISIBLE
-//            i(TAG, "imgDummy VISIBLE")
             binding.ratingbarPlaceRating.visibility = View.GONE
             binding.txtRating.visibility = View.GONE
             binding.txtRatingTotal.visibility = View.GONE
@@ -532,6 +533,9 @@ class MapsFragment :
                             binding.progressbarPlaceDetails.visibility = View.GONE
 //                            binding.imgRestaurantLevel.visibility = View.VISIBLE
 
+                            if (it.photos != null) {
+                                binding.rvPlacePhoto.visibility = View.VISIBLE
+                            }
                             if (it.rating != null) {
                                 binding.ratingbarPlaceRating.rating = it.rating
                                 binding.ratingbarPlaceRating.visibility = View.VISIBLE
