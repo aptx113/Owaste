@@ -5,6 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.res.Resources
@@ -47,6 +48,8 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
+import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
+import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
 import kotlinx.android.synthetic.main.fragment_maps.*
 import kotlinx.android.synthetic.main.item_place_details_photo.*
 import java.util.*
@@ -76,9 +79,10 @@ class MapsFragment :
     private lateinit var binding: FragmentMapsBinding
     private lateinit var viewModel: MapsViewModel
     private lateinit var onCheckedChangeListener: CompoundButton.OnCheckedChangeListener
-
+    private lateinit var quickPermissionsOptions: QuickPermissionsOptions
     lateinit var mapFragment: SupportMapFragment
     val markersList = ArrayList<Marker>()
+
     /**
      * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
      * 此處加入Google組態。
@@ -180,6 +184,12 @@ class MapsFragment :
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+            i(TAG, "MapsFragment onAttach")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -195,6 +205,12 @@ class MapsFragment :
         mapView = mapFragment.view
         i("Eltin", "mapView=$mapView")
 
+        quickPermissionsOptions = QuickPermissionsOptions(
+        permanentlyDeniedMessage = "這樣全部打槍真的母湯啦\n現在你要手動去開了",
+        rationaleMethod = { rationaleCallback(it) },
+        permanentDeniedMethod = { permissionPermanentlyDenied(it) },
+        permissionsDeniedMethod = { whenPermissionAreDenied(it)}
+    )
         onCheckedChangeListener = viewModel.onCheckedChangeListener()
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        val mapFragment = childFragmentManager
@@ -239,7 +255,45 @@ class MapsFragment :
     override fun onResume() {
         super.onResume()
         i(TAG, "MapsFragment onResume")
-        OwasteRepository.initUserLevelWhenBackToMap()
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            OwasteRepository.initUserLevelWhenBackToMap()
+        }
+    }
+
+    fun rationaleCallback(req: QuickPermissionsRequest) {
+        // this will be called when permission is denied once or more time.
+        i(TAG, "rationaleCallback : this will be called when permission is denied once or more time")
+        AlertDialog.Builder(this.requireContext())
+            .setTitle("不要拒絕我嘛")
+            .setMessage("給我權限當你可靠的小夥伴啦\n再給你一次機會喔")
+            .setPositiveButton("好吧") { _, _ -> req.proceed() }
+            .setNegativeButton("ㄅ要") { _, _ -> req.cancel() }
+            .setCancelable(false)
+            .show()
+    }
+
+    fun permissionPermanentlyDenied(req: QuickPermissionsRequest) {
+        // this will be called when some/all permissions required by the method are permanently
+        // denied.
+        i(TAG, "permissionPermanentlyDenied : this will be called when some/all permissions required by the method are permanently denied")
+        AlertDialog.Builder(this.requireContext())
+            .setTitle("改變心意吧")
+            .setMessage("好想正常發揮喔\n敗偷你到設定開權限好ㄇ")
+            .setPositiveButton("好啦開起來") { _, _ -> req.openAppSettings() }
+            .setNegativeButton("不動如山原本山4我") { _, _ -> req.cancel() }
+            .setCancelable(false)
+            .show()
+    }
+
+    fun whenPermissionAreDenied(req: QuickPermissionsRequest) {
+        // handle something when permissions are not granted and the request method cannot be called.
+        i(TAG, "whenPermissionAreDenied : handle something when permissions are not granted and the request method cannot be called")
+        AlertDialog.Builder(this.requireContext())
+            .setTitle("快餵食權限給我")
+            .setMessage("♫ 我的字典裡沒有～放棄～\n因～為已～鎖定你～ ♫")
+            .setPositiveButton("怕.jpg") { _, _ -> }
+            .setCancelable(false)
+            .show()
     }
 
     private fun dismissPlaceDetailOnMapClicked() {
@@ -271,7 +325,7 @@ class MapsFragment :
 
             runWithPermissions(
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION, options = quickPermissionsOptions
             ) {
                 getLocation()
             }
@@ -532,6 +586,9 @@ class MapsFragment :
                             binding.progressbarPlaceDetails.visibility = View.GONE
 //                            binding.imgRestaurantLevel.visibility = View.VISIBLE
 
+                            if (it.photos != null) {
+                                binding.rvPlacePhoto.visibility = View.VISIBLE
+                            }
                             if (it.rating != null) {
                                 binding.ratingbarPlaceRating.rating = it.rating
                                 binding.ratingbarPlaceRating.visibility = View.VISIBLE
@@ -710,7 +767,8 @@ class MapsFragment :
 
     private fun getLocationPermission() = runWithPermissions(
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION){
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        options = quickPermissionsOptions){
 
         //Google Map 中顯示裝置位置，且裝置移動會跟著移動的那個藍點
         map.isMyLocationEnabled = true
