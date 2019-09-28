@@ -2,6 +2,7 @@ package com.epoch.owaste.maps
 
 import android.util.Log.*
 import android.widget.CompoundButton
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,8 @@ import com.epoch.owaste.R
 import com.epoch.owaste.data.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.*
+import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
+import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -45,6 +48,8 @@ class MapsViewModel: ViewModel() {
     private var viewModelJob = Job()
 
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    val mapsFragment = MapsFragment()
 
     init {
 //        getRestaurantsFromFirestore()
@@ -200,5 +205,4 @@ class MapsViewModel: ViewModel() {
 
         OwasteRepository.getCurrentUserExpToUpdateProgressBar(listener)
     }
-
 }
