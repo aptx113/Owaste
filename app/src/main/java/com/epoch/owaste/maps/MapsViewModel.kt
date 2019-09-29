@@ -95,6 +95,7 @@ class MapsViewModel: ViewModel() {
 
             val savedRestaurantList: MutableList<Restaurant> = mutableListOf()
             for (doc in value!!) {
+                i(TAG, "doc = ${doc.data}")
                 val restaurant = doc.toObject(Restaurant::class.java)
                 savedRestaurantList.add(restaurant)
             }

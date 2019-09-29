@@ -16,4 +16,5 @@
     <dimen name="add_new_restaurant_edittext_corner">10dp</dimen>
     <dimen name="checkbox_width">30dp</dimen>
     <dimen name="checkbox_height">20dp</dimen>
+    <dimen name="ic_clear_search_bar">25dp</dimen>
 </resources>

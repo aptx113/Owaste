@@ -430,7 +430,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_marginEnd="4dp"
+                        android:layout_marginEnd="24dp"
                         android:backgroundTint="@color/transparent_00FFFFFF"
                         android:cursorVisible="true"
                         android:hint="@string/search_title"
@@ -447,10 +447,9 @@
                         android:layout_height="@dimen/checkbox_height"
                         android:scaleX="0.8"
                         android:scaleY="0.8"
-                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv1"
-                        map:layout_constraintEnd_toEndOf="@+id/img_filter_lv2"
-                        map:layout_constraintStart_toStartOf="@+id/img_filter_lv2"
-                        map:layout_constraintTop_toBottomOf="@+id/img_filter_lv2" />
+                        map:layout_constraintBottom_toBottomOf="@+id/img_filter_lv2"
+                        map:layout_constraintEnd_toStartOf="@+id/img_filter_lv2"
+                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv2" />
 
                     <CheckBox
                         android:id="@+id/cb_lv4"
@@ -458,34 +457,32 @@
                         android:layout_height="@dimen/checkbox_height"
                         android:scaleX="0.8"
                         android:scaleY="0.8"
-                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv3"
-                        map:layout_constraintEnd_toEndOf="@+id/img_filter_lv4"
-                        map:layout_constraintHorizontal_bias="0.5"
-                        map:layout_constraintStart_toStartOf="@+id/img_filter_lv4"
-                        map:layout_constraintTop_toBottomOf="@+id/img_filter_lv4" />
+                        map:layout_constraintBottom_toBottomOf="@+id/img_filter_lv4"
+                        map:layout_constraintEnd_toStartOf="@+id/img_filter_lv4"
+                        map:layout_constraintTop_toBottomOf="@+id/img_filter_lv4"
+                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv4" />
 
                     <ImageView
                         android:id="@+id/img_filter_lv2"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginEnd="49dp"
+                        android:layout_marginEnd="28dp"
+                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv3"
                         map:layout_constraintEnd_toStartOf="@+id/img_filter_lv3"
                         map:layout_constraintHorizontal_bias="0.5"
                         map:layout_constraintStart_toEndOf="@+id/img_filter_lv1"
-                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv1"
+                        map:layout_constraintTop_toTopOf="@+id/cb_lv3"
                         map:srcCompat="@drawable/plant_2" />
 
                     <CheckBox
                         android:id="@+id/cb_lv1"
                         android:layout_width="@dimen/checkbox_width"
                         android:layout_height="@dimen/checkbox_height"
-                        android:layout_marginBottom="12dp"
                         android:scaleX="0.8"
                         android:scaleY="0.8"
-                        map:layout_constraintBottom_toBottomOf="parent"
-                        map:layout_constraintEnd_toEndOf="@+id/img_filter_lv1"
-                        map:layout_constraintStart_toStartOf="@+id/img_filter_lv1"
-                        map:layout_constraintTop_toBottomOf="@+id/img_filter_lv1" />
+                        map:layout_constraintBottom_toBottomOf="@+id/img_filter_lv1"
+                        map:layout_constraintEnd_toStartOf="@+id/img_filter_lv1"
+                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv1" />
 
                     <CheckBox
                         android:id="@+id/cb_lv5"
@@ -493,32 +490,34 @@
                         android:layout_height="@dimen/checkbox_height"
                         android:scaleX="0.8"
                         android:scaleY="0.8"
-                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv4"
-                        map:layout_constraintEnd_toEndOf="@+id/img_filter_lv5"
-                        map:layout_constraintHorizontal_bias="0.5"
-                        map:layout_constraintStart_toStartOf="@+id/img_filter_lv5"
-                        map:layout_constraintTop_toBottomOf="@+id/img_filter_lv5" />
+                        map:layout_constraintBottom_toBottomOf="@+id/img_filter_lv5"
+                        map:layout_constraintEnd_toStartOf="@+id/img_filter_lv5"
+                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv5" />
 
                     <ImageView
                         android:id="@+id/img_filter_lv5"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginEnd="14dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        map:layout_constraintBottom_toBottomOf="parent"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintHorizontal_bias="0.5"
                         map:layout_constraintStart_toEndOf="@+id/img_filter_lv4"
-                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv4"
+                        map:layout_constraintTop_toBottomOf="@+id/cl_searchbar_seperation"
                         map:srcCompat="@drawable/icons8_treehouse_100" />
 
                     <ImageView
                         android:id="@+id/img_filter_lv4"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginEnd="49dp"
+                        android:layout_marginEnd="29dp"
+                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv5"
                         map:layout_constraintEnd_toStartOf="@+id/img_filter_lv5"
                         map:layout_constraintHorizontal_bias="0.5"
                         map:layout_constraintStart_toEndOf="@+id/img_filter_lv3"
-                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv3"
+                        map:layout_constraintTop_toTopOf="@+id/cb_lv5"
                         map:srcCompat="@drawable/icons8_oak_tree_100" />
 
                     <CheckBox
@@ -527,35 +526,45 @@
                         android:layout_height="@dimen/checkbox_height"
                         android:scaleX="0.8"
                         android:scaleY="0.8"
-                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv2"
-                        map:layout_constraintEnd_toEndOf="@+id/img_filter_lv3"
-                        map:layout_constraintHorizontal_bias="0.5"
-                        map:layout_constraintStart_toStartOf="@+id/img_filter_lv3"
-                        map:layout_constraintTop_toBottomOf="@+id/img_filter_lv3" />
+                        map:layout_constraintBottom_toBottomOf="@+id/img_filter_lv3"
+                        map:layout_constraintEnd_toStartOf="@+id/img_filter_lv3"
+                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv3" />
 
                     <ImageView
                         android:id="@+id/img_filter_lv3"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginEnd="49dp"
+                        android:layout_marginEnd="28dp"
+                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv4"
                         map:layout_constraintEnd_toStartOf="@+id/img_filter_lv4"
                         map:layout_constraintHorizontal_bias="0.5"
                         map:layout_constraintStart_toEndOf="@+id/img_filter_lv2"
-                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv2"
+                        map:layout_constraintTop_toTopOf="@+id/cb_lv4"
                         map:srcCompat="@drawable/icons8_sprout_100" />
 
                     <ImageView
                         android:id="@+id/img_filter_lv1"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginStart="14dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="49dp"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginEnd="28dp"
+                        map:layout_constraintBottom_toBottomOf="@+id/cb_lv2"
                         map:layout_constraintEnd_toStartOf="@+id/img_filter_lv2"
                         map:layout_constraintHorizontal_bias="0.5"
                         map:layout_constraintStart_toStartOf="parent"
-                        map:layout_constraintTop_toBottomOf="@+id/auto_complete_tv_search_bar"
+                        map:layout_constraintTop_toTopOf="@+id/cb_lv2"
                         map:srcCompat="@drawable/icons8_slug_eating_80" />
+
+                    <ImageView
+                        android:id="@+id/img_clear_search_text"
+                        android:layout_width="@dimen/ic_clear_search_bar"
+                        android:layout_height="@dimen/ic_clear_search_bar"
+                        android:visibility="invisible"
+                        map:layout_constraintBottom_toBottomOf="@+id/img_search_icon"
+                        map:layout_constraintEnd_toStartOf="@+id/img_search_icon"
+                        map:layout_constraintStart_toEndOf="@+id/auto_complete_tv_search_bar"
+                        map:layout_constraintTop_toTopOf="@+id/img_search_icon"
+                        map:srcCompat="@drawable/ic_clear_search_bar" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

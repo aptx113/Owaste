@@ -65,7 +65,7 @@ class MapsFragment :
     companion object {
         const val RC_SIGN_IN: Int = 101
         const val TAG = "Eltin_MapsFragment"
-        const val LOCATION_UPDATE_MIN_TIME = 5000L
+        const val LOCATION_UPDATE_MIN_TIME = 500L
         const val LOCATION_UPDATE_MIN_DISTANCE = 10F
     }
 
@@ -239,6 +239,8 @@ class MapsFragment :
         firebaseAuthStateListener()
         userSignOut()
         initPlaceApiCLient()
+        clearSearchBarText()
+        showClearSymbolOnSearchBarClicked()
 
 
         // create data of restaurants on Firestore
@@ -792,6 +794,23 @@ class MapsFragment :
         viewModel.restaurants.observe(this, Observer {
             addMarkersToMap()
         })
+    }
+
+    private fun clearSearchBarText() {
+
+        binding.imgClearSearchText.setOnClickListener {
+
+            binding.autoCompleteTvSearchBar.setText("")
+            addMarkersToMap()
+        }
+    }
+
+    private fun showClearSymbolOnSearchBarClicked() {
+
+        binding.autoCompleteTvSearchBar.setOnClickListener {
+
+            binding.imgClearSearchText.visibility = View.VISIBLE
+        }
     }
 //        private fun addRestaurant(viewModel: MapsViewModel) {
 //        binding.fabAddRestaurant.setOnClickListener {
