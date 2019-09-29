@@ -498,10 +498,9 @@
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
                         android:layout_marginBottom="8dp"
                         map:layout_constraintBottom_toBottomOf="parent"
-                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintEnd_toStartOf="@+id/txt_clear_filter"
                         map:layout_constraintHorizontal_bias="0.5"
                         map:layout_constraintStart_toEndOf="@+id/img_filter_lv4"
                         map:layout_constraintTop_toBottomOf="@+id/cl_searchbar_seperation"
@@ -545,7 +544,7 @@
                         android:id="@+id/img_filter_lv1"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginStart="36dp"
+                        android:layout_marginStart="32dp"
                         android:layout_marginEnd="28dp"
                         map:layout_constraintBottom_toBottomOf="@+id/cb_lv2"
                         map:layout_constraintEnd_toStartOf="@+id/img_filter_lv2"
@@ -564,6 +563,16 @@
                         map:layout_constraintEnd_toStartOf="@+id/img_search_icon"
                         map:layout_constraintTop_toTopOf="@+id/img_search_icon"
                         map:srcCompat="@drawable/ic_clear_search_bar" />
+
+                    <TextView
+                        android:id="@+id/txt_clear_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/txt_clear_filter"
+                        map:layout_constraintBottom_toBottomOf="@+id/img_filter_lv5"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintTop_toTopOf="@+id/img_filter_lv5" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

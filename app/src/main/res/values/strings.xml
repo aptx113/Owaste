@@ -36,4 +36,5 @@
     <string name="txt_rating_total_left">(</string>
     <string name="txt_rating_total_right">)</string>
     <string name="txt_dot_between_type_price_level">·</string>
+    <string name="txt_clear_filter">清除</string>
 </resources>
