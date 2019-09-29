@@ -430,14 +430,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:layout_marginEnd="24dp"
                         android:backgroundTint="@color/transparent_00FFFFFF"
                         android:cursorVisible="true"
                         android:hint="@string/search_title"
                         android:imeActionLabel="Done"
                         android:imeOptions="actionDone"
-                        android:singleLine="true"
-                        map:layout_constraintEnd_toStartOf="@+id/img_search_icon"
+                        android:maxLines="1"
+                        map:layout_constraintEnd_toStartOf="@+id/img_clear_search_text"
                         map:layout_constraintStart_toStartOf="@+id/cl_searchbar_seperation"
                         map:layout_constraintTop_toTopOf="parent" />
 
@@ -559,10 +558,10 @@
                         android:id="@+id/img_clear_search_text"
                         android:layout_width="@dimen/ic_clear_search_bar"
                         android:layout_height="@dimen/ic_clear_search_bar"
-                        android:visibility="invisible"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="visible"
                         map:layout_constraintBottom_toBottomOf="@+id/img_search_icon"
                         map:layout_constraintEnd_toStartOf="@+id/img_search_icon"
-                        map:layout_constraintStart_toEndOf="@+id/auto_complete_tv_search_bar"
                         map:layout_constraintTop_toTopOf="@+id/img_search_icon"
                         map:srcCompat="@drawable/ic_clear_search_bar" />
 

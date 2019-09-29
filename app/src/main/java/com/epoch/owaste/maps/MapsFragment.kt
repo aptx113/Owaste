@@ -302,6 +302,7 @@ class MapsFragment :
 
             i(TAG, "map clicked !")
             binding.clInCvPlaceDetails.visibility = View.GONE
+            binding.autoCompleteTvSearchBar.isCursorVisible = false
         }
 //            binding.imgDummy.visibility = View.GONE
 //            i(TAG, "imgDummy GONE")
@@ -342,6 +343,7 @@ class MapsFragment :
         binding.imgSearchIcon.setOnClickListener {
 
             showMarkerSearchedByTitle(binding.autoCompleteTvSearchBar.text.toString())
+            binding.autoCompleteTvSearchBar.isCursorVisible = false
         }
     }
 
@@ -399,11 +401,24 @@ class MapsFragment :
     private fun showMarkerSearchedByTitle (title: String) {
 
         i(TAG, "search " + binding.autoCompleteTvSearchBar.text.toString())
-        for (marker in markersList) {
-            marker.isVisible = marker.title.equals(title, true)
-            if (binding.autoCompleteTvSearchBar.text.toString().isEmpty()) {
-                marker.isVisible = true
+        if ( !binding.autoCompleteTvSearchBar.text.isNullOrEmpty() ) {
+
+            for (marker in markersList) {
+
+                marker.isVisible = marker.title.equals(title, true)
+//                if (marker.title.equals(title, true)) {
+//
+//                    marker.isVisible = marker.title.equals(title, true)
+//                    i(TAG, "marker = ${marker.title}")
+//                } else {
+//                    Toast.makeText(this.requireContext(), "尚未收錄此店家，歡迎使用新增功能！", Toast.LENGTH_LONG).show()
+//                }
+    //            if (binding.autoCompleteTvSearchBar.text.toString().isEmpty()) {
+    //                marker.isVisible = true
+    //            }
             }
+        } else {
+            Toast.makeText(this.requireContext(), "尚未輸入完整店家名稱喔", Toast.LENGTH_SHORT).show()
         }
     }
     private fun firebaseAuthStateListener() {
@@ -802,6 +817,7 @@ class MapsFragment :
 
             binding.autoCompleteTvSearchBar.setText("")
             addMarkersToMap()
+            binding.imgClearSearchText.visibility = View.INVISIBLE
         }
     }
 
@@ -810,6 +826,7 @@ class MapsFragment :
         binding.autoCompleteTvSearchBar.setOnClickListener {
 
             binding.imgClearSearchText.visibility = View.VISIBLE
+            binding.autoCompleteTvSearchBar.isCursorVisible = true
         }
     }
 //        private fun addRestaurant(viewModel: MapsViewModel) {
