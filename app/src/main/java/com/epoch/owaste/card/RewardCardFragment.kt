@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.epoch.owaste.MarginItemDecoration
 import com.epoch.owaste.R
 import com.epoch.owaste.databinding.FragmentRewardCardBinding
 
@@ -32,7 +33,8 @@ class RewardCardFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.rvRewardCard.adapter = RewardCardAdapter(viewModel)
-
+//        binding.rvRewardCard.addItemDecoration(MarginItemDecoration(
+//            resources.getDimension(R.dimen.reward_card_decor).toInt()))
 
         binding.imgBack.setOnClickListener {
 
