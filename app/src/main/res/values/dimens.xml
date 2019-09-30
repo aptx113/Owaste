@@ -19,4 +19,7 @@
     <dimen name="ic_clear_search_bar">25dp</dimen>
     <dimen name="place_comment_profile_pic">40dp</dimen>
     <dimen name="reward_card_decor">16dp</dimen>
+    <dimen name="place_detail_level">20dp</dimen>
+    <dimen name="under_line_for_showing_comment">1dp</dimen>
+    <dimen name="expand_comment_arrow">20dp</dimen>
 </resources>

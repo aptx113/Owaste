@@ -207,14 +207,16 @@
 
                     <TextView
                         android:id="@+id/txt_place_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:fontFamily="@font/noto_sans"
                         android:text="@{viewModel.placeDetails.name}"
                         android:textColor="@color/dark_green_89B358"
                         android:textSize="16sp"
+                        map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/rv_place_photo"
                         tools:text="兩隻小魚甜不辣"
@@ -350,12 +352,12 @@
 
                     <ImageView
                         android:id="@+id/img_restaurant_level"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/place_detail_level"
+                        android:layout_height="@dimen/place_detail_level"
                         android:layout_marginEnd="16dp"
                         android:src="@{reataurant.level == 5 ? @drawable/icons8_treehouse_100 : (reataurant.level == 4 ? @drawable/icons8_oak_tree_100 : (reataurant.level == 3 ? @drawable/icons8_sprout_100 : (reataurant.level == 2 ? @drawable/plant_2 : @drawable/icons8_slug_eating_80)))}"
                         android:visibility="gone"
-                        map:layout_constraintBottom_toBottomOf="@+id/txt_is_place_open"
+                        map:layout_constraintBottom_toBottomOf="@+id/ratingbar_place_rating"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintTop_toTopOf="@+id/ratingbar_place_rating"
                         tools:src="@drawable/icons8_slug_eating_80"
@@ -381,12 +383,34 @@
                         android:id="@+id/rv_place_comment"
                         android:layout_width="0dp"
                         android:layout_height="300dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
+                        android:visibility="gone"
                         map:layout_constraintBottom_toBottomOf="parent"
                         map:layout_constraintEnd_toEndOf="parent"
-                        map:layout_constraintStart_toStartOf="parent" />
+                        map:layout_constraintStart_toStartOf="parent"
+                        tools:listitem="@layout/item_place_comment"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/txt_place_detiail_show_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/noto_sans"
+                        android:text="@string/txt_place_detiail_show_comment"
+                        android:textColor="@color/darker_green_FF658540"
+                        android:textSize="14sp"
+                        map:layout_constraintEnd_toStartOf="@+id/img_expand_comment_arrow"
+                        map:layout_constraintTop_toBottomOf="@+id/img_restaurant_level" />
+
+                    <ImageView
+                        android:id="@+id/img_expand_comment_arrow"
+                        android:layout_width="@dimen/expand_comment_arrow"
+                        android:layout_height="@dimen/expand_comment_arrow"
+                        android:layout_marginEnd="12dp"
+                        map:layout_constraintBottom_toBottomOf="@+id/txt_place_detiail_show_comment"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintTop_toTopOf="@+id/txt_place_detiail_show_comment"
+                        map:srcCompat="@drawable/ic_expand_down_arrow" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

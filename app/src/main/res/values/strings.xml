@@ -37,4 +37,5 @@
     <string name="txt_rating_total_right">)</string>
     <string name="txt_dot_between_type_price_level">·</string>
     <string name="txt_clear_filter">清除</string>
+    <string name="txt_place_detiail_show_comment">查看評論</string>
 </resources>

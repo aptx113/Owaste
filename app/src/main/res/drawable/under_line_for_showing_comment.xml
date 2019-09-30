@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="line">
+    <stroke
+        android:color="@color/darker_green_FF658540"
+        android:width="@dimen/under_line_for_showing_comment" />
+</shape>

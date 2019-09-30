@@ -241,6 +241,7 @@ class MapsFragment :
         initPlaceApiCLient()
         clearSearchBarText()
         showClearSymbolOnSearchBarClicked()
+        handlePlaceCommentVisibility()
 
 
         // create data of restaurants on Firestore
@@ -827,6 +828,23 @@ class MapsFragment :
 
             binding.imgClearSearchText.visibility = View.VISIBLE
             binding.autoCompleteTvSearchBar.isCursorVisible = true
+        }
+    }
+
+    private fun handlePlaceCommentVisibility() {
+
+        binding.txtPlaceDetiailShowComment.setOnClickListener {
+
+            if (!binding.rvPlaceComment.isVisible) {
+                binding.rvPlaceComment.visibility = View.VISIBLE
+            } else binding.rvPlaceComment.visibility = View.GONE
+        }
+
+        binding.imgExpandCommentArrow.setOnClickListener {
+
+            if (!binding.rvPlaceComment.isVisible) {
+                binding.rvPlaceComment.visibility = View.VISIBLE
+            } else binding.rvPlaceComment.visibility = View.GONE
         }
     }
 //        private fun addRestaurant(viewModel: MapsViewModel) {
