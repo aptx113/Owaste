@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="review"
+            type="com.epoch.owaste.data.PlaceReviews" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_place_review_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_place_review_profile_pic"
+            android:layout_width="@dimen/place_review_profile_pic"
+            android:layout_height="@dimen/place_review_profile_pic"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:imageUrl="@{review.profile_photo_url}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars[0]" />
+
+        <TextView
+            android:id="@+id/txt_place_review_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:textColor="@color/darker_green_FF658540"
+            android:textSize="14sp"
+            android:text="@{review.author_name}"
+            app:layout_constraintStart_toEndOf="@+id/img_place_review_profile_pic"
+            app:layout_constraintTop_toTopOf="@+id/img_place_review_profile_pic"
+            tools:text="李大芝" />
+
+        <TextView
+            android:id="@+id/txt_review_relative_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/noto_sans"
+            android:textColor="@color/dark_green_89B358"
+            android:textSize="12sp"
+            android:text="@{review.relative_time_description}"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBar_place_review_rating"
+            app:layout_constraintStart_toEndOf="@+id/ratingBar_place_review_rating"
+            app:layout_constraintTop_toTopOf="@+id/ratingBar_place_review_rating"
+            tools:text="2週前" />
+
+        <RatingBar
+            android:id="@+id/ratingBar_place_review_rating"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:rating="@{review.rating}"
+            app:layout_constraintBottom_toBottomOf="@+id/img_place_review_profile_pic"
+            app:layout_constraintStart_toEndOf="@+id/img_place_review_profile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/txt_place_review_profile_name" />
+
+        <ImageView
+            android:id="@+id/img_place_review_profile_pic_frame"
+            android:layout_width="@dimen/place_review_profile_pic"
+            android:layout_height="@dimen/place_review_profile_pic"
+            app:layout_constraintBottom_toBottomOf="@+id/img_place_review_profile_pic"
+            app:layout_constraintEnd_toEndOf="@+id/img_place_review_profile_pic"
+            app:layout_constraintTop_toTopOf="@+id/img_place_review_profile_pic"
+            app:srcCompat="@drawable/circluar_frame" />
+
+        <TextView
+            android:id="@+id/txt_place_review_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/noto_sans"
+            android:textColor="@color/darker_green_FF658540"
+            android:textSize="14sp"
+            android:text="@{review.text}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_place_review_profile_pic_frame"
+            tools:text="皮薄餡多料美味 !" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

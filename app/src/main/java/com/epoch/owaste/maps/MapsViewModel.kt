@@ -45,11 +45,13 @@ class MapsViewModel: ViewModel() {
     val photos: LiveData<List<Photo>>
         get() = _photos
 
+    private val _reviews = MutableLiveData<List<PlaceReviews>>()
+    val reviews: LiveData<List<PlaceReviews>>
+        get() = _reviews
+
     private var viewModelJob = Job()
 
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    val mapsFragment = MapsFragment()
 
     init {
 //        getRestaurantsFromFirestore()
@@ -175,6 +177,8 @@ class MapsViewModel: ViewModel() {
                 i(TAG, "placeDetails = ${placeDetails.value}")
                 _photos.value = placeDetails.value?.photos
                 i(TAG, "photos = ${photos.value}")
+                _reviews.value = placeDetails.value?.reviews
+                i(TAG, "reviews = ${reviews.value}")
             } catch (e: Exception) {
                 i(TAG, "exception = ${e.message}")
             }

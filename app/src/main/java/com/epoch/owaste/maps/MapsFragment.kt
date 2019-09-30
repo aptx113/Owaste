@@ -228,6 +228,7 @@ class MapsFragment :
             it.lifecycleOwner = this
             it.viewModel = this@MapsFragment.viewModel
             it.rvPlacePhoto.adapter = PlaceDetailsPhotoAdapter()
+            it.rvPlaceReviews.adapter = PlaceDetailsReviewsAdapter()
         }
 
         onFabCurrentLocationClicked()
@@ -242,6 +243,7 @@ class MapsFragment :
         clearSearchBarText()
         showClearSymbolOnSearchBarClicked()
         handlePlaceCommentVisibility()
+        clearFilter()
 
 
         // create data of restaurants on Firestore
@@ -259,6 +261,14 @@ class MapsFragment :
         i(TAG, "MapsFragment onResume")
         if (FirebaseAuth.getInstance().currentUser != null) {
             OwasteRepository.initUserLevelWhenBackToMap()
+        }
+        binding.let {
+
+            it.cbLv1.isChecked = false
+            it.cbLv2.isChecked = false
+            it.cbLv3.isChecked = false
+            it.cbLv4.isChecked = false
+            it.cbLv5.isChecked = false
         }
     }
 
@@ -604,6 +614,8 @@ class MapsFragment :
                             i(TAG, "viewModel.placeDetails = ${viewModel.placeDetails.value}")
 
                             binding.progressbarPlaceDetails.visibility = View.GONE
+                            binding.txtPlaceDetiailShowReviews.visibility = View.VISIBLE
+                            binding.imgExpandReviewsArrow.visibility = View.VISIBLE
 //                            binding.imgRestaurantLevel.visibility = View.VISIBLE
 
                             if (it.photos != null) {
@@ -778,8 +790,18 @@ class MapsFragment :
                 )
             )
 
+
             i(TAG, "markerList = ${markersList[i]}")
         }
+
+//        binding.let {
+//
+//            it.cbLv1.isChecked = true
+//            it.cbLv2.isChecked = true
+//            it.cbLv3.isChecked = true
+//            it.cbLv4.isChecked = true
+//            it.cbLv5.isChecked = true
+//        }
 //        if (viewModel.restaurants.value != null) {
 //
 //        }
@@ -818,7 +840,7 @@ class MapsFragment :
 
             binding.autoCompleteTvSearchBar.setText("")
             addMarkersToMap()
-            binding.imgClearSearchText.visibility = View.INVISIBLE
+//            binding.imgClearSearchText.visibility = View.INVISIBLE
         }
     }
 
@@ -826,25 +848,59 @@ class MapsFragment :
 
         binding.autoCompleteTvSearchBar.setOnClickListener {
 
-            binding.imgClearSearchText.visibility = View.VISIBLE
+//            binding.imgClearSearchText.visibility = View.VISIBLE
             binding.autoCompleteTvSearchBar.isCursorVisible = true
         }
     }
 
     private fun handlePlaceCommentVisibility() {
 
-        binding.txtPlaceDetiailShowComment.setOnClickListener {
+        binding.txtPlaceDetiailShowReviews.setOnClickListener {
 
-            if (!binding.rvPlaceComment.isVisible) {
-                binding.rvPlaceComment.visibility = View.VISIBLE
-            } else binding.rvPlaceComment.visibility = View.GONE
+            i(TAG, "rvPlaceComment isVisible = ${binding.rvPlaceReviews.isVisible}")
+            if (!binding.rvPlaceReviews.isVisible) {
+                binding.rvPlaceReviews.visibility = View.VISIBLE
+                binding.imgSeparation.visibility = View.VISIBLE
+                binding.imgExpandReviewsArrow.setImageResource(R.drawable.ic_expand_up_arrow)
+            } else {
+                binding.rvPlaceReviews.visibility = View.GONE
+                binding.imgSeparation.visibility = View.GONE
+                binding.imgExpandReviewsArrow.setImageResource(R.drawable.ic_expand_down_arrow)
+            }
         }
 
-        binding.imgExpandCommentArrow.setOnClickListener {
+        binding.imgExpandReviewsArrow.setOnClickListener {
 
-            if (!binding.rvPlaceComment.isVisible) {
-                binding.rvPlaceComment.visibility = View.VISIBLE
-            } else binding.rvPlaceComment.visibility = View.GONE
+            i(TAG, "rvPlaceComment isVisible = ${binding.rvPlaceReviews.isVisible}")
+            if (!binding.rvPlaceReviews.isVisible) {
+                binding.rvPlaceReviews.visibility = View.VISIBLE
+                binding.imgSeparation.visibility = View.VISIBLE
+                binding.imgExpandReviewsArrow.setImageResource(R.drawable.ic_expand_up_arrow)
+            } else {
+                binding.rvPlaceReviews.visibility = View.GONE
+                binding.imgSeparation.visibility = View.GONE
+                binding.imgExpandReviewsArrow.setImageResource(R.drawable.ic_expand_down_arrow)
+            }
+        }
+
+        i(TAG, "rvPlaceComment isVisible = ${binding.rvPlaceReviews.isVisible}")
+    }
+
+    private fun clearFilter() {
+
+        binding.txtClearFilter.setOnClickListener {
+
+            addMarkersToMap()
+            i(TAG, "map clears !")
+            i(TAG, "marker list = $markersList")
+            binding.let {
+
+                it.cbLv1.isChecked = false
+                it.cbLv2.isChecked = false
+                it.cbLv3.isChecked = false
+                it.cbLv4.isChecked = false
+                it.cbLv5.isChecked = false
+            }
         }
     }
 //        private fun addRestaurant(viewModel: MapsViewModel) {

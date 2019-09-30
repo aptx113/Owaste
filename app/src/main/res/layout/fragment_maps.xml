@@ -231,7 +231,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="16dp"
                         android:visibility="gone"
-                        map:layout_constraintBottom_toTopOf="@+id/rv_place_comment"
+                        map:layout_constraintBottom_toTopOf="@+id/rv_place_reviews"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_place_name"
                         tools:visibility="visible" />
@@ -373,44 +373,63 @@
                         android:textColor="@color/quantum_vanillared400"
                         android:textSize="14sp"
                         android:visibility="gone"
-                        map:layout_constraintBottom_toTopOf="@+id/rv_place_comment"
+                        map:layout_constraintBottom_toTopOf="@+id/rv_place_reviews"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_rating"
                         tools:text="營業中"
                         tools:visibility="visible" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_place_comment"
+                        android:id="@+id/rv_place_reviews"
                         android:layout_width="0dp"
-                        android:layout_height="300dp"
+                        android:layout_height="150dp"
+                        android:orientation="vertical"
                         android:visibility="gone"
+                        map:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         map:layout_constraintBottom_toBottomOf="parent"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
-                        tools:listitem="@layout/item_place_comment"
+                        map:reviews="@{viewModel.reviews}"
+                        tools:listitem="@layout/item_place_review"
                         tools:visibility="visible" />
 
                     <TextView
-                        android:id="@+id/txt_place_detiail_show_comment"
+                        android:id="@+id/txt_place_detiail_show_reviews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="16dp"
                         android:fontFamily="@font/noto_sans"
                         android:text="@string/txt_place_detiail_show_comment"
                         android:textColor="@color/darker_green_FF658540"
                         android:textSize="14sp"
-                        map:layout_constraintEnd_toStartOf="@+id/img_expand_comment_arrow"
-                        map:layout_constraintTop_toBottomOf="@+id/img_restaurant_level" />
+                        android:visibility="gone"
+                        map:layout_constraintBottom_toTopOf="@+id/rv_place_reviews"
+                        map:layout_constraintEnd_toStartOf="@+id/img_expand_reviews_arrow"
+                        tools:visibility="visible" />
 
                     <ImageView
-                        android:id="@+id/img_expand_comment_arrow"
+                        android:id="@+id/img_expand_reviews_arrow"
                         android:layout_width="@dimen/expand_comment_arrow"
                         android:layout_height="@dimen/expand_comment_arrow"
                         android:layout_marginEnd="12dp"
-                        map:layout_constraintBottom_toBottomOf="@+id/txt_place_detiail_show_comment"
+                        android:visibility="gone"
+                        map:layout_constraintBottom_toBottomOf="@+id/txt_place_detiail_show_reviews"
                         map:layout_constraintEnd_toEndOf="parent"
-                        map:layout_constraintTop_toTopOf="@+id/txt_place_detiail_show_comment"
-                        map:srcCompat="@drawable/ic_expand_down_arrow" />
+                        map:layout_constraintTop_toTopOf="@+id/txt_place_detiail_show_reviews"
+                        map:srcCompat="@drawable/ic_expand_down_arrow"
+                        tools:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/img_separation"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="gone"
+                        map:layout_constraintBottom_toTopOf="@+id/rv_place_reviews"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintStart_toStartOf="parent"
+                        map:srcCompat="@drawable/under_line_for_showing_comment" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -579,7 +598,7 @@
                         android:id="@+id/img_filter_lv1"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="30dp"
                         android:layout_marginEnd="28dp"
                         map:layout_constraintBottom_toBottomOf="@+id/cb_lv2"
                         map:layout_constraintEnd_toStartOf="@+id/img_filter_lv2"

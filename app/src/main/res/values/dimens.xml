@@ -17,7 +17,7 @@
     <dimen name="checkbox_width">30dp</dimen>
     <dimen name="checkbox_height">20dp</dimen>
     <dimen name="ic_clear_search_bar">25dp</dimen>
-    <dimen name="place_comment_profile_pic">40dp</dimen>
+    <dimen name="place_review_profile_pic">40dp</dimen>
     <dimen name="reward_card_decor">16dp</dimen>
     <dimen name="place_detail_level">20dp</dimen>
     <dimen name="under_line_for_showing_comment">1dp</dimen>
