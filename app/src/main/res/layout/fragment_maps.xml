@@ -229,7 +229,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="16dp"
                         android:visibility="gone"
-                        map:layout_constraintBottom_toBottomOf="parent"
+                        map:layout_constraintBottom_toTopOf="@+id/rv_place_comment"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_place_name"
                         tools:visibility="visible" />
@@ -371,11 +371,22 @@
                         android:textColor="@color/quantum_vanillared400"
                         android:textSize="14sp"
                         android:visibility="gone"
-                        map:layout_constraintBottom_toBottomOf="parent"
+                        map:layout_constraintBottom_toTopOf="@+id/rv_place_comment"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toBottomOf="@+id/txt_rating"
                         tools:text="營業中"
                         tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_place_comment"
+                        android:layout_width="0dp"
+                        android:layout_height="300dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        map:layout_constraintBottom_toBottomOf="parent"
+                        map:layout_constraintEnd_toEndOf="parent"
+                        map:layout_constraintStart_toStartOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -544,7 +555,7 @@
                         android:id="@+id/img_filter_lv1"
                         android:layout_width="@dimen/filter_icon"
                         android:layout_height="@dimen/filter_icon"
-                        android:layout_marginStart="32dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="28dp"
                         map:layout_constraintBottom_toBottomOf="@+id/cb_lv2"
                         map:layout_constraintEnd_toStartOf="@+id/img_filter_lv2"
