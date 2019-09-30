@@ -36,4 +36,12 @@
     <action
         android:id="@+id/action_global_newRestaurantDialogFragment"
         app:destination="@id/newRestaurantDialogFragment" />
+    <fragment
+        android:id="@+id/restaurantLevelInfoFragment"
+        android:name="com.epoch.owaste.RestaurantLevelInfoFragment"
+        android:label="RestaurantLevelInfoFragment"
+        tools:layout="@layout/fragment_restaurant_level_info"/>
+    <action
+        android:id="@+id/action_global_restaurantLevelInfoFragment"
+        app:destination="@id/restaurantLevelInfoFragment" />
 </navigation>

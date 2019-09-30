@@ -235,6 +235,7 @@ class MapsFragment :
         navigateToRewardCards()
         navigateToQrCodeScanner()
         navigateToAddRestaurant()
+        navigateToLevelInfo()
         displaySearchResultByTitle()
         initOnCheckedChangeListener()
         firebaseAuthStateListener()
@@ -395,6 +396,16 @@ class MapsFragment :
         }
     }
 
+    private fun navigateToLevelInfo() {
+
+        val levelInfoDialog = Dialog(this.requireContext())
+        levelInfoDialog.setCancelable(true)
+        levelInfoDialog.setContentView(R.layout.fragment_restaurant_level_info)
+
+        binding.imgLevelInfo.setOnClickListener {
+            levelInfoDialog.show()
+        }
+    }
     private fun showDialogIfLocationServiceOff() {
         AlertDialog.Builder(this.requireContext())
             .setTitle("如要繼續，請開啟裝置定位功能\n（需使用 Google 定位服務）")
