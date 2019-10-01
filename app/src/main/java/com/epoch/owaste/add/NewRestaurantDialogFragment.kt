@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 
 import com.epoch.owaste.R
@@ -46,7 +47,8 @@ class NewRestaurantDialogFragment : DialogFragment() {
 
         binding.btnCommit.setOnClickListener {
             i("Eltin_", "commit !")
-            dismiss()
+            Toast.makeText(this.context, "感謝您的協助！審核結果會寄送到您的信箱", Toast.LENGTH_SHORT).show()
+            this.dismiss()
         }
         // Inflate the layout for this fragment
         return binding.root

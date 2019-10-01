@@ -82,6 +82,7 @@ class MapsFragment :
     private lateinit var quickPermissionsOptions: QuickPermissionsOptions
     lateinit var mapFragment: SupportMapFragment
     val markersList = ArrayList<Marker>()
+    private var userData: User? = null
 
     /**
      * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
@@ -262,6 +263,7 @@ class MapsFragment :
         i(TAG, "MapsFragment onResume")
         if (FirebaseAuth.getInstance().currentUser != null) {
             OwasteRepository.initUserLevelWhenBackToMap()
+            binding.progressbarUserExp.max = userData?.level?.times(100) ?: 0
         }
         binding.let {
 
@@ -390,7 +392,6 @@ class MapsFragment :
             if (binding.clProfile.isClickable) {
                 Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
             } else {
-
                 restaurantDialog.show()
             }
         }
@@ -488,23 +489,23 @@ class MapsFragment :
                     Glide.with(this).load(user?.photoUrl).into(img_profile)
 
                     viewModel.getCurrentUserExpToUpdateProgressBar(OnSuccessListener { document ->
-                        val userData = document.toObject(User::class.java)
+                        userData = document.toObject(User::class.java)
                         i(TAG, "userData = $userData")
                         userData?.let {
 
                             val totalExp = Integer.parseInt(document.get("exp").toString())
-                            val displayExp = totalExp - 100 * ( (1 + (userData.level - 1)) * (userData.level - 1) / 2 )
+                            val displayExp = totalExp - 100 * ( (1 + (userData?.level?.minus(1))!!) * (userData!!.level - 1) / 2 )
                             binding.progressbarUserExp.progress = displayExp
-                            binding.progressbarUserExp.max = userData.level * 100
+                            binding.progressbarUserExp.max = userData!!.level * 100
                             binding.progressbarUserExp.visibility = View.VISIBLE
-                            binding.txtUserExpGoal.text = (userData.level * 100).toString()
+                            binding.txtUserExpGoal.text = (userData!!.level * 100).toString()
                             binding.txtUserExpGoal.visibility = View.VISIBLE
                             binding.txtUserCurrentExp.text = displayExp.toString()
                             binding.txtUserCurrentExp.visibility = View.VISIBLE
                             binding.txtUserExpSlash.visibility = View.VISIBLE
                             i(TAG, "totalExp = $totalExp, displayExp = $displayExp")
 
-                            when (userData.level) {
+                            when (userData!!.level) {
                                 1 -> binding.txtUserLevel.text = "Lv.1"
                                 2 -> binding.txtUserLevel.text = "Lv.2"
                                 3 -> binding.txtUserLevel.text = "Lv.3"
