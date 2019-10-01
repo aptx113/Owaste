@@ -403,7 +403,7 @@ class MapsFragment :
         levelInfoDialog.setCancelable(true)
         levelInfoDialog.setContentView(R.layout.fragment_restaurant_level_info)
 
-        binding.imgLevelInfo.setOnClickListener {
+        binding.fabLevelInfo.setOnClickListener {
             levelInfoDialog.show()
         }
     }

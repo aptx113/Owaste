@@ -167,11 +167,26 @@
             </FrameLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_level_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="visible"
+                map:backgroundTint="@color/white_FFFFFF"
+                map:borderWidth="0dp"
+                map:fabSize="mini"
+                map:layout_constraintBottom_toTopOf="@+id/fab_current_location"
+                map:layout_constraintEnd_toEndOf="parent"
+                map:maxImageSize="24dp"
+                map:srcCompat="@drawable/ic_info_2" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_current_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:visibility="visible"
                 map:backgroundTint="@color/white_FFFFFF"
                 map:borderWidth="0dp"
@@ -180,16 +195,6 @@
                 map:layout_constraintEnd_toEndOf="parent"
                 map:maxImageSize="24dp"
                 map:srcCompat="@drawable/ic_current_location" />
-
-            <ImageView
-                android:id="@+id/img_level_info"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                map:layout_constraintEnd_toEndOf="parent"
-                map:layout_constraintTop_toBottomOf="@+id/cv_searchbar_filter"
-                map:srcCompat="@drawable/ic_info" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_place_details"
