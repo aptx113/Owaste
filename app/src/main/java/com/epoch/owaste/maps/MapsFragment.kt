@@ -12,7 +12,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.location.*
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.util.Log.*
 import android.view.LayoutInflater
@@ -51,7 +50,6 @@ import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
 import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
 import kotlinx.android.synthetic.main.fragment_maps.*
-import kotlinx.android.synthetic.main.item_place_details_photo.*
 import java.util.*
 
 /**
@@ -63,32 +61,32 @@ class MapsFragment :
     GoogleMap.OnMarkerClickListener {
 
     companion object {
+        val TAG = "Eltin_" + this::class.java.simpleName
         const val RC_SIGN_IN: Int = 101
-        const val TAG = "Eltin_MapsFragment"
         const val LOCATION_UPDATE_MIN_TIME = 500L
         const val LOCATION_UPDATE_MIN_DISTANCE = 10F
     }
 
     private lateinit var map: GoogleMap
     private lateinit var locationManager: LocationManager
+    private lateinit var binding: FragmentMapsBinding
+    private lateinit var viewModel: MapsViewModel
+    private lateinit var onCheckedChangeListener: CompoundButton.OnCheckedChangeListener
+    private lateinit var quickPermissionsOptions: QuickPermissionsOptions
+    private lateinit var mapFragment: SupportMapFragment
     private var hasGps = false
     private var hasNetwork = false
     private var locationGps: Location? = null
     private var locationNetwork: Location? = null
     private var mapView: View? = null
-    private lateinit var binding: FragmentMapsBinding
-    private lateinit var viewModel: MapsViewModel
-    private lateinit var onCheckedChangeListener: CompoundButton.OnCheckedChangeListener
-    private lateinit var quickPermissionsOptions: QuickPermissionsOptions
-    lateinit var mapFragment: SupportMapFragment
-    val markersList = ArrayList<Marker>()
     private var userData: User? = null
+    private val markersList = ArrayList<Marker>()
 
     /**
      * 定義「AuthUI.IdpConfig」清單，將App支援的身份提供商組態（identity provider config）加入List。
      * 此處加入Google組態。
      */
-    lateinit var authProvider: List<AuthUI.IdpConfig>
+    private lateinit var authProvider: List<AuthUI.IdpConfig>
 
     @SuppressLint("MissingPermission")
     private fun getLocation() {
@@ -206,10 +204,10 @@ class MapsFragment :
         i("Eltin", "mapView=$mapView")
 
         quickPermissionsOptions = QuickPermissionsOptions(
-        permanentlyDeniedMessage = "這樣全部打槍真的母湯啦\n現在你要手動去開了",
+        permanentlyDeniedMessage = getString(R.string.permanently_denied_message),
         rationaleMethod = { rationaleCallback(it) },
         permanentDeniedMethod = { permissionPermanentlyDenied(it) },
-        permissionsDeniedMethod = { whenPermissionAreDenied(it)}
+        permissionsDeniedMethod = { whenPermissionsAreDenied(it)}
     )
         onCheckedChangeListener = viewModel.onCheckedChangeListener()
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -247,21 +245,16 @@ class MapsFragment :
         handlePlaceCommentVisibility()
         clearFilter()
 
-
-        // create data of restaurants on Firestore
-//        for (i in 0 until restaurantsList.size) {
-//            viewModel.addRestaurant(restaurantsList[i])
-//            i(TAG, "restaurants added on Firestore : ${restaurantsList[i].name}")
-//        }
-
         // Inflate the layout for this fragment
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
+
         i(TAG, "MapsFragment onResume")
         if (FirebaseAuth.getInstance().currentUser != null) {
+
             OwasteRepository.initUserLevelWhenBackToMap()
             binding.progressbarUserExp.max = userData?.level?.times(100) ?: 0
         }
@@ -275,66 +268,57 @@ class MapsFragment :
         }
     }
 
-    fun rationaleCallback(req: QuickPermissionsRequest) {
+    private fun rationaleCallback(req: QuickPermissionsRequest) {
+
         // this will be called when permission is denied once or more time.
         i(TAG, "rationaleCallback : this will be called when permission is denied once or more time")
         AlertDialog.Builder(this.requireContext())
-            .setTitle("不要拒絕我嘛")
-            .setMessage("給我權限當你可靠的小夥伴啦\n再給你一次機會喔")
-            .setPositiveButton("好吧") { _, _ -> req.proceed() }
-            .setNegativeButton("ㄅ要") { _, _ -> req.cancel() }
+            .setTitle(getString(R.string.rationale_callback_title))
+            .setMessage(getString(R.string.rationale_callback_message))
+            .setPositiveButton(getString(R.string.rationale_callback_positive_button)) { _, _ -> req.proceed() }
+            .setNegativeButton(getString(R.string.rationale_callback_negative_button)) { _, _ -> req.cancel() }
             .setCancelable(false)
             .show()
     }
 
     fun permissionPermanentlyDenied(req: QuickPermissionsRequest) {
+
         // this will be called when some/all permissions required by the method are permanently
         // denied.
         i(TAG, "permissionPermanentlyDenied : this will be called when some/all permissions required by the method are permanently denied")
         AlertDialog.Builder(this.requireContext())
-            .setTitle("改變心意吧")
-            .setMessage("好想正常發揮喔\n敗偷你到設定開權限好ㄇ")
-            .setPositiveButton("好啦開起來") { _, _ -> req.openAppSettings() }
-            .setNegativeButton("不動如山元本山4我") { _, _ -> req.cancel() }
+            .setTitle(getString(R.string.permission_permanently_denied_title))
+            .setMessage(getString(R.string.permission_permanently_denied_message))
+            .setPositiveButton(getString(R.string.permission_permanently_denied_positive_button)) { _, _ -> req.openAppSettings() }
+            .setNegativeButton(getString(R.string.permission_permanently_denied_negative_button)) { _, _ -> req.cancel() }
             .setCancelable(false)
             .show()
     }
 
-    fun whenPermissionAreDenied(req: QuickPermissionsRequest) {
+    fun whenPermissionsAreDenied(req: QuickPermissionsRequest) {
+
         // handle something when permissions are not granted and the request method cannot be called.
-        i(TAG, "whenPermissionAreDenied : handle something when permissions are not granted and the request method cannot be called")
+        i(TAG, "whenPermissionsAreDenied : handle something when permissions are not granted and the request method cannot be called")
         AlertDialog.Builder(this.requireContext())
-            .setTitle("快餵食權限給我")
-            .setMessage("♫ 我的字典裡沒有～放棄～\n因～為已～鎖定你～ ♫")
-            .setPositiveButton("怕.jpg") { _, _ -> }
+            .setTitle(getString(R.string.when_permissions_are_denied_title))
+            .setMessage(getString(R.string.when_permissions_are_denied_message))
+            .setPositiveButton(getString(R.string.when_permissions_are_denied_positive_button)) { _, _ -> }
             .setCancelable(false)
             .show()
     }
 
     private fun dismissPlaceDetailOnMapClicked() {
+
         map.setOnMapClickListener {
 
             i(TAG, "map clicked !")
             binding.clInCvPlaceDetails.visibility = View.GONE
             binding.autoCompleteTvSearchBar.isCursorVisible = false
         }
-//            binding.imgDummy.visibility = View.GONE
-//            i(TAG, "imgDummy GONE")
-//            binding.ratingbarPlaceRating.visibility = View.GONE
-//            binding.txtRating.visibility = View.GONE
-//            binding.txtRatingTotal.visibility = View.GONE
-//            binding.txtRatingTotalRight.visibility = View.GONE
-//            binding.txtRatingTotalLeft.visibility = View.GONE
-//            binding.txtPriceLevel.visibility = View.GONE
-//            binding.imgRestaurantLevel.visibility = View.GONE
-//            binding.txtIsPlaceOpen.visibility = View.GONE
-//            binding.rvPlacePhoto.visibility = View.GONE
-//            binding.txtPlaceName.visibility = View.GONE
-//            binding.cvPlaceDetails.visibility = View.GONE
-//            binding.progressbarPlaceDetails.visibility = View.GONE
     }
 
     private fun onFabCurrentLocationClicked() {
+
         binding.fabCurrentLocation.setOnClickListener {
 
             i(TAG, "fab_current_location clicked")
@@ -344,6 +328,7 @@ class MapsFragment :
                 Manifest.permission.ACCESS_COARSE_LOCATION, options = quickPermissionsOptions
             ) {
                 if ( !hasGps && !hasNetwork) {
+
                     showDialogIfLocationServiceOff()
                     getLocation()
                 } else {
@@ -354,6 +339,7 @@ class MapsFragment :
     }
 
     private fun displaySearchResultByTitle() {
+
         binding.imgSearchIcon.setOnClickListener {
 
             showMarkerSearchedByTitle(binding.autoCompleteTvSearchBar.text.toString())
@@ -362,35 +348,45 @@ class MapsFragment :
     }
 
     private fun navigateToRewardCards() {
-        binding.fabCard.setOnClickListener {
-            if (binding.clProfile.isClickable) {
-                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-            } else {
 
+        binding.fabCard.setOnClickListener {
+
+            if (binding.clProfile.isClickable) {
+
+                Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
+                    .show()
+            } else {
                 this.findNavController().navigate(R.id.action_global_rewardCardFragment)
             }
         }
     }
 
     private fun navigateToQrCodeScanner() {
-        binding.fabQrcode.setOnClickListener {
-            if (binding.clProfile.isClickable) {
-                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
-            } else {
 
+        binding.fabQrcode.setOnClickListener {
+
+            if (binding.clProfile.isClickable) {
+
+                Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
+                    .show()
+            } else {
                 this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
             }
         }
     }
 
     private fun navigateToAddRestaurant() {
+
         val restaurantDialog = Dialog(this.requireContext())
         restaurantDialog.setCancelable(true)
         restaurantDialog.setContentView(R.layout.fragment_new_restaurant_dialog)
 
         binding.fabAddRestaurant.setOnClickListener {
+
             if (binding.clProfile.isClickable) {
-                Toast.makeText(this.context, "欲使用會員功能請先點擊下方按鈕登入喔", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 restaurantDialog.show()
             }
@@ -408,14 +404,15 @@ class MapsFragment :
         }
     }
     private fun showDialogIfLocationServiceOff() {
+
         AlertDialog.Builder(this.requireContext())
-            .setTitle("如要繼續，請開啟裝置定位功能\n（需使用 Google 定位服務）")
-            .setPositiveButton("好窩") { _, _ ->
+            .setTitle(getString(R.string.if_location_service_off))
+            .setPositiveButton(getString(R.string.if_location_service_off_positive_button)) { _, _ ->
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 getLocation()
             }
-            .setNegativeButton("先不要") { _, _ ->
-                Toast.makeText(this.context, "好定位不開嗎？", Toast.LENGTH_SHORT).show()
+            .setNegativeButton(getString(R.string.if_location_service_off_negative_button)) { _, _ ->
+                Toast.makeText(this.context, getString(R.string.if_location_service_off_negative_button_clicked), Toast.LENGTH_SHORT).show()
             }
             .create()
             .show()
@@ -441,7 +438,7 @@ class MapsFragment :
     //            }
             }
         } else {
-            Toast.makeText(this.requireContext(), "尚未輸入完整店家名稱喔", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.requireContext(), getString(R.string.empty_search), Toast.LENGTH_SHORT).show()
         }
     }
     private fun firebaseAuthStateListener() {

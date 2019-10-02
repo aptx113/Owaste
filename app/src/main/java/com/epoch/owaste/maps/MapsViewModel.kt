@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
-class MapsViewModel: ViewModel() {
+class MapsViewModel : ViewModel() {
 
     private val TAG = "Eltin_" + this.javaClass.simpleName
     private val RESTAURANT = "restaurants"
@@ -73,6 +73,7 @@ class MapsViewModel: ViewModel() {
             }
     }
 
+    // add comment
     fun resetRestaurantDetailsToNull() {
         _placeDetails.value = null
         _photos.value = null
@@ -111,6 +112,7 @@ class MapsViewModel: ViewModel() {
 
     fun onCheckedChangeListener() = CompoundButton.OnCheckedChangeListener { checkBox, isChecked ->
 
+        // move outside
         val level1 = dataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
         val level2 = dataList.value?.filter { it.level == 2 } as ArrayList<Restaurant>
         val level3 = dataList.value?.filter { it.level == 3 } as ArrayList<Restaurant>
@@ -124,13 +126,14 @@ class MapsViewModel: ViewModel() {
         i(TAG, "lv5 = $level5")
 
         when (checkBox?.id) {
-            R.id.cb_lv1 -> if (isChecked) {
-                filterResultList.addAll(level1)
-                i(TAG, "Add Lv1 to filterResultList = $filterResultList !")
-            } else {
-                filterResultList.removeAll(level1)
-                i(TAG, "Remove Lv1 from filterResultList = $filterResultList !")
-            }
+            R.id.cb_lv1 ->
+                if (isChecked) {
+                    filterResultList.addAll(level1)
+                    i(TAG, "Add Lv1 to filterResultList = $filterResultList !")
+                } else {
+                    filterResultList.removeAll(level1)
+                    i(TAG, "Remove Lv1 from filterResultList = $filterResultList !")
+                }
             R.id.cb_lv2 -> if (isChecked) {
                 filterResultList.addAll(level2)
                 i(TAG, "Add Lv2 to filterResultList = $filterResultList !")

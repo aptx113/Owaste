@@ -4,8 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PlaceDetails (
-
+data class PlaceDetails(
     val formatted_address: String? = "",
     val formatted_phone_number: String? = "",
     val name: String? = "",
