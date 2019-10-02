@@ -4,19 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="placeDetails"
-            type="com.epoch.owaste.data.PlaceDetails"/>
+            type="com.epoch.owaste.data.PlaceDetails" />
+
         <variable
             name="viewModel"
             type="com.epoch.owaste.maps.MapsViewModel" />
+
         <variable
             name="reataurant"
             type="com.epoch.owaste.data.Restaurant" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:context=".maps.MapsFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                map:layoutDescription="@xml/motion_profile"
                 map:layout_constraintBottom_toBottomOf="parent"
                 map:layout_constraintStart_toStartOf="parent">
 
@@ -41,7 +44,7 @@
                     android:visibility="visible"
                     map:layout_constraintBottom_toBottomOf="parent"
                     map:layout_constraintEnd_toEndOf="parent"
-                    map:layout_constraintStart_toStartOf="parent" >
+                    map:layout_constraintStart_toStartOf="parent">
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,9 +95,9 @@
                     android:layout_marginEnd="16dp"
                     android:max="100"
                     android:progress="25"
+                    android:visibility="gone"
                     map:layout_constraintEnd_toEndOf="@+id/cl_profile"
-                    map:layout_constraintTop_toTopOf="@+id/txt_profile_name"
-                    android:visibility="gone" />
+                    map:layout_constraintTop_toTopOf="@+id/txt_profile_name" />
 
                 <TextView
                     android:id="@+id/txt_user_level"
@@ -160,9 +163,7 @@
                 map:layout_constraintBottom_toTopOf="@+id/ml_above_map"
                 map:layout_constraintStart_toStartOf="parent"
                 map:layout_constraintTop_toTopOf="parent"
-                map:layout_constraintVertical_bias="0.0">
-
-            </FrameLayout>
+                map:layout_constraintVertical_bias="0.0" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_level_info"
@@ -201,8 +202,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:visibility="gone"
                 android:clickable="true"
+                android:visibility="gone"
                 map:cardBackgroundColor="@color/white_FFFFFF"
                 map:cardCornerRadius="@dimen/default_radius"
                 map:cardElevation="6dp"
@@ -352,15 +353,15 @@
                         android:id="@+id/rv_place_photo"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
-                        android:visibility="gone"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         map:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         map:layout_constraintEnd_toEndOf="parent"
                         map:layout_constraintStart_toStartOf="parent"
                         map:layout_constraintTop_toTopOf="parent"
                         map:photos="@{viewModel.photos}"
-                        tools:visibility="visible"
-                        tools:listitem="@layout/item_place_details_photo"/>
+                        tools:listitem="@layout/item_place_details_photo"
+                        tools:visibility="visible" />
 
                     <ImageView
                         android:id="@+id/img_restaurant_level"
@@ -671,7 +672,7 @@
                 map:layout_constraintBottom_toBottomOf="@+id/fl_map"
                 map:layout_constraintEnd_toEndOf="parent"
                 map:layout_constraintStart_toStartOf="parent"
-                map:maxImageSize="36dp"/>
+                map:maxImageSize="36dp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_add_restaurant"
