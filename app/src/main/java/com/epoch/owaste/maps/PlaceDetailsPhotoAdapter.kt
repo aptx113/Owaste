@@ -26,7 +26,7 @@ private const val TAG = "Eltin_PlaceDetailsPhotoAdapter"
 class PlaceDetailsPhotoAdapter :
     ListAdapter<Photo, PlaceDetailsPhotoAdapter.PhotoViewHolder>(DiffCallback) {
 
-    val photoRefToUrl = mutableMapOf<String, String>()
+    private val photoRefToUrl = mutableMapOf<String, String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
 
@@ -38,7 +38,6 @@ class PlaceDetailsPhotoAdapter :
 
         val photo = getItem(position)
 
-//        holder.itemView.img_place_details_photo.setImageResource(R.drawable.bg_new_rewardcard)
         i(TAG, "photos.photo_reference = ${photo.photo_reference}")
 
         if (photoRefToUrl.containsKey(photo.photo_reference)) {
@@ -50,6 +49,7 @@ class PlaceDetailsPhotoAdapter :
                 .placeholder(R.drawable.bg_new_rewardcard)
                 .into(holder.itemView.img_place_details_photo)
         } else {
+
             photoRefToUrl[photo.photo_reference] =
                 BASE_URL + END_POINT + MAX_HEIGHT + PHOTO_REF +
                         photo.photo_reference + KEY + BuildConfig.API_KEY
