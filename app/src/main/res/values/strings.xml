@@ -53,14 +53,37 @@
     <string name="when_permissions_are_denied_message">♫ 我的字典裡沒有～放棄～因～為已～鎖定你～ ♫</string>
     <string name="when_permissions_are_denied_positive_button">怕.jpg</string>
 
-    <!--Toast-->
+    <!--toast-->
     <string name="login_hint_on_fab_clicked">欲使用會員功能請先點擊下方按鈕登入喔</string>
     <string name="if_location_service_off">如要繼續，請開啟裝置定位功能\n(需使用 Google 定位服務)</string>
     <string name="if_location_service_off_positive_button">好窩</string>
     <string name="if_location_service_off_negative_button">先不要</string>
     <string name="if_location_service_off_negative_button_clicked">好定位不開嗎？</string>
     <string name="empty_search">尚未輸入完整店家名稱喔</string>
+    <string name="log_out">怎麼登出得這麼突然…</string>
 
+    <!--price level-->
+    <string name="price_level_2">$</string>
+    <string name="price_level_3">$$</string>
+    <string name="price_level_4">$$$</string>
+
+    <!--user level-->
+    <string name="user_level_1">Lv.1</string>
+    <string name="user_level_2">Lv.2</string>
+    <string name="user_level_3">Lv.3</string>
+    <string name="user_level_4">Lv.4</string>
+    <string name="user_level_5">Lv.5</string>
+    <string name="user_level_6">Lv.6</string>
+    <string name="user_level_7">Lv.7</string>
+    <string name="user_level_8">Lv.8</string>
+    <string name="user_level_9">Lv.9</string>
+    <string name="user_level_10">Lv.10</string>
+
+    <!--is place open-->
+    <string name="place_open">營業中</string>
+    <string name="place_close">休息中</string>
+
+    <string name="map_style_failed">Map style loads failed</string>
 
 
 
