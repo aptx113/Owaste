@@ -27,23 +27,25 @@ import java.io.IOException
  */
 class QRCodeScannerFragment : Fragment() {
 
-    lateinit var binding: FragmentQrcodeScannerBinding
-    lateinit var qrCodeScanner: SurfaceView
-    lateinit var scanResult: TextView
-    lateinit var cameraSource: CameraSource
-    lateinit var barcodeDetector: BarcodeDetector
+    val TAG = "Eltin_" + this::class.java.simpleName
+    private lateinit var binding: FragmentQrcodeScannerBinding
+    private lateinit var qrCodeScanner: SurfaceView
+    private lateinit var scanResult: TextView
+    private lateinit var cameraSource: CameraSource
+    private lateinit var barcodeDetector: BarcodeDetector
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-//        getCameraPermission()
-
         binding = FragmentQrcodeScannerBinding.inflate(inflater, container, false)
 
-        qrCodeScanner = binding.svQrCodeScanner
-        scanResult = binding.txtScanResult
+        binding.let {
+
+            qrCodeScanner = it.svQrCodeScanner
+            scanResult = it.txtScanResult
+        }
 
         barcodeDetector = BarcodeDetector.Builder(this.requireContext())
             .setBarcodeFormats(Barcode.QR_CODE)
@@ -63,36 +65,38 @@ class QRCodeScannerFragment : Fragment() {
 
             override fun surfaceCreated(surfaceHolder: SurfaceHolder?) {
                 if (ActivityCompat.checkSelfPermission(
-                        this@QRCodeScannerFragment.requireContext(), Manifest.permission.CAMERA
+                        this@QRCodeScannerFragment.requireContext(),
+                        Manifest.permission.CAMERA
                     ) != PackageManager.PERMISSION_GRANTED) {
 
                     try {
                         runWithPermissions(Manifest.permission.CAMERA) {
 
                             cameraSource.start(surfaceHolder)
-                            i("Eltin_QRCodeF", "好啦准你開相機")
-                            i("Eltin_QRCodeF",
-                                "window width = $windowWidth , " +
+                            i(TAG, "好啦准你開相機")
+                            i(TAG, "window width = $windowWidth , " +
                             "window height = $windowHeight")
                         }
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
                 } else {
+
                         cameraSource.start(surfaceHolder)
-                        i("Eltin_QRCodeF", "VIP pass 相機直接開起來")
+                        i(TAG, "VIP pass 相機直接開起來")
                 }
             }
 
-            override fun surfaceChanged(p0: SurfaceHolder?, p1: Int, p2: Int, p3: Int) {
+            override fun surfaceChanged(surfaceHolder: SurfaceHolder?, format: Int, width: Int, height: Int) {
             }
 
-            override fun surfaceDestroyed(p0: SurfaceHolder?) {
+            override fun surfaceDestroyed(surfaceHolder: SurfaceHolder?) {
                 cameraSource.stop()
             }
         })
 
         barcodeDetector.setProcessor(object : Detector.Processor<Barcode> {
+
             override fun release() {
 
             }
@@ -102,8 +106,8 @@ class QRCodeScannerFragment : Fragment() {
                 val qrcode: SparseArray<Barcode>? = detections?.detectedItems
 
                 if (qrcode?.size != 0) {
-                    scanResult.post(
-                        Runnable {
+
+                    scanResult.post(Runnable {
 
                             val result: String? = qrcode?.valueAt(0)?.displayValue
                             // get level and card Id of the restaurants from QR code
@@ -119,14 +123,10 @@ class QRCodeScannerFragment : Fragment() {
                                 result?.let {
                                     it.substring(it.indexOf("c") + 1)
                                 }
-//                            OwasteRepository._currentLevelImage.value =
-//                                result?.let {
-//                                    it.substring(it.indexOf("d") + 1).toInt()
-//                                }
-                            i("Eltin_QRCodeF", "OwasteRepository._currentLevelsOfAllCards.value = ${OwasteRepository._currentQRCodeLevel.value}")
-                            i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
-                            i("Eltin_QRCodeF", "OwasteRepository._currentQRCodeRestaurantName.value = ${OwasteRepository._currentQRCodeRestaurantName.value}")
-//                            i("Eltin_QRCodeF", "OwasteRepository._currentLevelImage.value = ${OwasteRepository._currentLevelImage.value}")
+
+                            i(TAG, "OwasteRepository._currentLevelsOfAllCards.value = ${OwasteRepository._currentQRCodeLevel.value}")
+                            i(TAG, "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
+                            i(TAG, "OwasteRepository._currentQRCodeRestaurantName.value = ${OwasteRepository._currentQRCodeRestaurantName.value}")
 
                             barcodeDetector.release()
                             OwasteRepository.onQRCodeScannedUpdateCard()
