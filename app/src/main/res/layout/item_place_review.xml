@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="review"
             type="com.epoch.owaste.data.PlaceReviews" />
@@ -31,9 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/noto_sans"
+            android:text="@{review.author_name}"
             android:textColor="@color/darker_green_FF658540"
             android:textSize="14sp"
-            android:text="@{review.author_name}"
             app:layout_constraintStart_toEndOf="@+id/img_place_review_profile_pic"
             app:layout_constraintTop_toTopOf="@+id/img_place_review_profile_pic"
             tools:text="李大芝" />
@@ -44,9 +45,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:fontFamily="@font/noto_sans"
+            android:text="@{review.relative_time_description}"
             android:textColor="@color/dark_green_89B358"
             android:textSize="12sp"
-            android:text="@{review.relative_time_description}"
             app:layout_constraintBottom_toBottomOf="@+id/ratingBar_place_review_rating"
             app:layout_constraintStart_toEndOf="@+id/ratingBar_place_review_rating"
             app:layout_constraintTop_toTopOf="@+id/ratingBar_place_review_rating"
@@ -81,9 +82,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/noto_sans"
+            android:text="@{review.text}"
             android:textColor="@color/darker_green_FF658540"
             android:textSize="14sp"
-            android:text="@{review.text}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

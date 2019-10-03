@@ -47,7 +47,7 @@ class NewRestaurantDialogFragment : DialogFragment() {
 
         binding.btnCommit.setOnClickListener {
             i("Eltin_", "commit !")
-            Toast.makeText(this.context, "感謝您的協助！審核結果會寄送到您的信箱", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, getString(R.string.on_commit_new_restaurant), Toast.LENGTH_SHORT).show()
             this.dismiss()
         }
         // Inflate the layout for this fragment

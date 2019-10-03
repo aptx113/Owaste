@@ -17,7 +17,6 @@ private const val HOST_NAME = "maps.googleapis.com/maps"
 private const val BASE_URL = "https://$HOST_NAME/api/"
 private const val FIELDS = "formatted_address,formatted_phone_number,name,place_id,rating,user_ratings_total,reviews,opening_hours,photos,price_level"
 private const val LANGUAGE = "zh-TW"
-private const val MAX_HEIGHT = 1600
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -71,12 +70,6 @@ interface OwasteApiService {
         @Query("key") key: String = BuildConfig.API_KEY,
         @Query("language") language: String = LANGUAGE
     ): Deferred<PlaceDetailsResult>
-
-//    fun getPlacePhotosAsync(
-//        @Query("key") key: String = BuildConfig.API_KEY,
-//        @Query("photoreference") photoReference: String,
-//        @Query("maxheight") maxHeight: Int = MAX_HEIGHT
-//    ): Deferred<>
 }
 
 /**

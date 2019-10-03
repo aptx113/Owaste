@@ -4,8 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PlaceReviews (
-
+data class PlaceReviews(
     val author_name: String? = "",
     val author_url: String? = "",
     val language: String? = "",

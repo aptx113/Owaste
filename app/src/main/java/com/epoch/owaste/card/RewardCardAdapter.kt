@@ -12,11 +12,13 @@ class RewardCardAdapter(val viewModel: RewardCardViewModel) :
     ListAdapter<RewardCard, RewardCardAdapter.RewardCardViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RewardCardViewHolder {
+
         return RewardCardViewHolder(ItemRewardCardBinding
             .inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RewardCardViewHolder, position: Int) {
+
         val rewardCard = getItem(position)
 
         holder.bind(rewardCard, viewModel)

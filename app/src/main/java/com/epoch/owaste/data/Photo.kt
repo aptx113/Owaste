@@ -4,8 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Photo (
-
+data class Photo(
     val photo_reference: String,
     val height: Long?,
     val width: Long?

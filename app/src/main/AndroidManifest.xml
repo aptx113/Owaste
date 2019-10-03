@@ -22,6 +22,7 @@
 
         <activity android:name=".MainActivity"
                   android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"
                   android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

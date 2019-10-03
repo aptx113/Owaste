@@ -38,4 +38,56 @@
     <string name="txt_dot_between_type_price_level">·</string>
     <string name="txt_clear_filter">清除</string>
     <string name="txt_place_detiail_show_comment">查看評論</string>
+
+    <!--permission dialog-->
+    <string name="permanently_denied_message">全部打槍真的母湯\n現在你要手動去開囉</string>
+    <string name="rationale_callback_title">不要拒絕我嘛</string>
+    <string name="rationale_callback_message">給我權限當你可靠的小夥伴啦\n再給你一次機會喔</string>
+    <string name="rationale_callback_positive_button">好吧</string>
+    <string name="rationale_callback_negative_button">ㄅ要</string>
+    <string name="permission_permanently_denied_title">改變心意吧</string>
+    <string name="permission_permanently_denied_message">好想正常發揮喔\n敗偷你到設定開權限好ㄇ</string>
+    <string name="permission_permanently_denied_positive_button">好啦開起來</string>
+    <string name="permission_permanently_denied_negative_button">不動如山元本山4我</string>
+    <string name="when_permissions_are_denied_title">快餵食權限給我</string>
+    <string name="when_permissions_are_denied_message">♫ 我的字典裡沒有～放棄～因～為已～鎖定你～ ♫</string>
+    <string name="when_permissions_are_denied_positive_button">怕.jpg</string>
+
+    <!--toast-->
+    <string name="login_hint_on_fab_clicked">欲使用會員功能請先點擊下方按鈕登入喔</string>
+    <string name="if_location_service_off">如要繼續，請開啟裝置定位功能\n(需使用 Google 定位服務)</string>
+    <string name="if_location_service_off_positive_button">好窩</string>
+    <string name="if_location_service_off_negative_button">先不要</string>
+    <string name="if_location_service_off_negative_button_clicked">好定位不開嗎？</string>
+    <string name="empty_search">尚未輸入完整店家名稱喔</string>
+    <string name="log_out">怎麼登出得這麼突然…</string>
+
+    <!--price level-->
+    <string name="price_level_2">$</string>
+    <string name="price_level_3">$$</string>
+    <string name="price_level_4">$$$</string>
+
+    <!--user level-->
+    <string name="user_level_1">Lv.1</string>
+    <string name="user_level_2">Lv.2</string>
+    <string name="user_level_3">Lv.3</string>
+    <string name="user_level_4">Lv.4</string>
+    <string name="user_level_5">Lv.5</string>
+    <string name="user_level_6">Lv.6</string>
+    <string name="user_level_7">Lv.7</string>
+    <string name="user_level_8">Lv.8</string>
+    <string name="user_level_9">Lv.9</string>
+    <string name="user_level_10">Lv.10</string>
+
+    <!--is place open-->
+    <string name="place_open">營業中</string>
+    <string name="place_close">休息中</string>
+
+    <string name="map_style_failed">Map style loads failed</string>
+
+    <string name="on_commit_new_restaurant">感謝您的協助！審核結果會寄送到您的信箱</string>
+
+    <string name="add_points_n_exp_1">點數新增成功！經驗值 + </string>
+    <string name="add_points_n_exp_2">　exp！</string>
+
 </resources>

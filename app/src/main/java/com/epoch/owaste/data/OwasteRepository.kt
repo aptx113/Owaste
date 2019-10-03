@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.epoch.owaste.Owaste
+import com.epoch.owaste.R
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -14,9 +15,12 @@ import com.google.firebase.firestore.QuerySnapshot
 
 object OwasteRepository {
 
-    private const val TAG = "Eltin_OwasteR"
+    private val TAG = "Eltin_" + this.javaClass.simpleName
     private const val CARD_ID = "cardId"
     private const val REWARD_CARD = "rewardcards"
+    private const val POINTS = "points"
+    private const val EXP = "exp"
+    private const val LEVEL = "level"
 
     private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
@@ -40,11 +44,7 @@ object OwasteRepository {
     val allRewardCards: LiveData<List<RewardCard>>
         get() = _allRewardCards
 
-//    val _currentLevelImage = MutableLiveData<Int>()
-//    val currentLevelImage: LiveData<Int>
-//        get() = _currentLevelImage
-
-    fun initCurrentUserIfFirstTime (onComplete: () -> Unit) {
+    fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
                 val newUser = User(
@@ -66,20 +66,20 @@ object OwasteRepository {
             .whereEqualTo(CARD_ID, currentQRCodeCardId.value?.toLong())
             .get()
             .addOnSuccessListener { querySnapshot ->
+
                 if (querySnapshot.isEmpty) {
+
                     val newRewardCard = RewardCard(
                         cardId = currentQRCodeCardId.value!!.toLong(),
                         points = 1,
                         restaurantLevel = currentQRCodeLevel.value!!.toInt(),
                         restaurantName = currentQRCodeRestaurantName.value!!
-//                        levelIcon = currentLevelImage.value!!
                     )
                     currentUserDocRef.collection(REWARD_CARD)
                         .add(newRewardCard)
                         .addOnSuccessListener {
                             i(TAG, "Add new reward card, document UID = ${it.id}")
                         }
-//                    Toast.makeText(Owaste.instance.applicationContext, "卡片及點數新增成功！經驗值 + ${currentQRCodeLevel.value!!.toLong() * 10} exp！", Toast.LENGTH_SHORT).show()
                 } else {
 
                     i(TAG, "get QuerySnapshot = ${querySnapshot.toObjects(RewardCard::class.java)}")
@@ -90,16 +90,21 @@ object OwasteRepository {
                             val getCardIdDocRef = it.documents[0].reference
                             getCardIdDocRef.get().addOnSuccessListener { documentSnapshot ->
 
-                                val currentPoints = documentSnapshot.get("points") as Long
+                                val currentPoints = documentSnapshot.get(POINTS) as Long
 
                                 getCardIdDocRef
-                                    .update(mapOf("points" to currentPoints.plus(1)))
+                                    .update(mapOf(POINTS to currentPoints.plus(1)))
                                     .addOnSuccessListener {
                                         i(TAG, "get QuerySnapshot updated = ${querySnapshot.toObjects(RewardCard::class.java)}")
                                     }
                             }
                         }
-                    Toast.makeText(Owaste.instance.applicationContext, "點數新增成功！經驗值 + ${currentQRCodeLevel.value!!.toLong() * 10} exp！", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        Owaste.instance.applicationContext,
+                        Owaste.instance.getString(R.string.add_points_n_exp_1) +
+                                currentQRCodeLevel.value!!.toLong() * 10 +
+                                Owaste.instance.getString(R.string.add_points_n_exp_2),
+                        Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -108,10 +113,13 @@ object OwasteRepository {
 
         currentUserDocRef.get()
             .addOnSuccessListener {
-                val totalExp = it.get("exp") as Long
+
+                val totalExp = it.get(EXP) as Long
+
                 i(TAG, "total Exp = $totalExp")
+
                 currentUserDocRef.update(mapOf(
-                        "exp" to totalExp.plus(currentQRCodeLevel.value!!.toLong() * 10)
+                        EXP to totalExp.plus(currentQRCodeLevel.value!!.toLong() * 10)
                     )).addOnSuccessListener {
 
                 i(TAG, "total Exp updated = $totalExp")
@@ -123,9 +131,10 @@ object OwasteRepository {
 
         currentUserDocRef.get()
             .addOnSuccessListener {
-                val totalExp = it.get("exp") as Long
+
+                val totalExp = it.get(EXP) as Long
                 val userLevel: Int
-//                i(TAG, "total Exp = $totalExp, current level = $currentLevel")
+
                 userLevel = when {
                     totalExp < 99 -> 1
                     totalExp in 100..299 -> 2
@@ -138,31 +147,20 @@ object OwasteRepository {
                     totalExp in 3600..4499 -> 9
                     else -> 10
                 }
-                currentUserDocRef.update(mapOf(
-                    "level" to userLevel
-                )).addOnSuccessListener {
+                currentUserDocRef.update(mapOf(LEVEL to userLevel))
+                    .addOnSuccessListener {
                     i(TAG, "current level = $userLevel")
                 }
             }
     }
 
-    fun getAllRewardCardsFromFirestore (listener: OnSuccessListener<QuerySnapshot>) {
+    fun getAllRewardCardsFromFirestore(listener: OnSuccessListener<QuerySnapshot>) {
 
         currentUserDocRef.collection(REWARD_CARD)
             .get().addOnSuccessListener(listener)
-//            .addOnSuccessListener {
-//                if (!it.isEmpty) {
-//
-//                    val allRewardCardsResult = it.toObjects(RewardCard::class.java)
-//                    _allRewardCards.value = allRewardCardsResult
-//                    i(TAG, "rewardCards.value = ${allRewardCards.value}")
-//                } else {
-//                    i(TAG, "該名使用者還沒有集點卡喔")
-//                }
-//            }
     }
 
-    fun getCurrentUserExpToUpdateProgressBar (listener: OnSuccessListener<DocumentSnapshot>) {
+    fun getCurrentUserExpToUpdateProgressBar(listener: OnSuccessListener<DocumentSnapshot>) {
 
         currentUserDocRef.get().addOnSuccessListener(listener)
     }

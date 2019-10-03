@@ -16,11 +16,14 @@ import com.epoch.owaste.maps.PlaceDetailsReviewsAdapter
 
 @BindingAdapter("rewardcards")
 fun bindRecyclerViewWithRewardCards(recyclerView: RecyclerView, rewardCards: List<RewardCard>?) {
+
     rewardCards?.let {
         i("Eltin", "bindRecyclerViewWithRewardCards.List<RewardCard> = $it")
         recyclerView.adapter?.apply {
+
             when (this) {
                 is RewardCardAdapter -> {
+
                     when (itemCount) {
                         0 -> submitList(it)
                         it.size -> notifyDataSetChanged()
@@ -28,26 +31,21 @@ fun bindRecyclerViewWithRewardCards(recyclerView: RecyclerView, rewardCards: Lis
                     }
                 }
             }
-
         }
     }
 }
 
 @BindingAdapter("photos")
 fun bindRecyclerViewWithPhotos(recyclerView: RecyclerView, photos: List<Photo>?) {
+
     i("Eltin", "bindRecyclerViewWithPhotos.List<Photo> = $photos")
+
     photos?.let {
         i("Eltin", "bindRecyclerViewWithPhotos.List<Photo> = $it")
         recyclerView.adapter?.apply {
+
             when (this) {
                 is PlaceDetailsPhotoAdapter -> submitList(it)
-//                {
-//                    when (itemCount) {
-//                        0 -> submitList(it)
-//                        it.size -> notifyDataSetChanged()
-//                        else -> submitList(it)
-//                    }
-//                }
             }
         }
     }
@@ -55,9 +53,12 @@ fun bindRecyclerViewWithPhotos(recyclerView: RecyclerView, photos: List<Photo>?)
 
 @BindingAdapter("reviews")
 fun bindRecyclerViewWithPlaceReviews(recyclerView: RecyclerView, rewardCards: List<PlaceReviews>?) {
+
     rewardCards?.let {
+
         i("Eltin", "bindRecyclerViewWithPlaceReviews.List<PlaceReviews> = $it")
         recyclerView.adapter?.apply {
+
             when (this) {
                 is PlaceDetailsReviewsAdapter -> submitList(it)
             }
@@ -71,9 +72,12 @@ fun bindRecyclerViewWithPlaceReviews(recyclerView: RecyclerView, rewardCards: Li
  */
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
+
     i("Eltin", "imageUrl = $imgUrl")
     imgUrl?.let {
+
         val imgUri = it.toUri().buildUpon().build()
+
         Glide.with(imgView.context)
             .load(imgUri)
             .apply(

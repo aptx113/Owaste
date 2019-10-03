@@ -36,9 +36,6 @@ class RewardCardFragment : Fragment() {
 //        binding.rvRewardCard.addItemDecoration(MarginItemDecoration(
 //            resources.getDimension(R.dimen.reward_card_decor).toInt()))
 
-        binding.imgBack.setOnClickListener {
-
-        }
         // Inflate the layout for this fragment
         return binding.root
     }

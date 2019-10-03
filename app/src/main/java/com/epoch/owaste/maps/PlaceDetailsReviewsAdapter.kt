@@ -10,6 +10,7 @@ import com.epoch.owaste.databinding.ItemPlaceReviewBinding
 
 class PlaceDetailsReviewsAdapter :
     ListAdapter<PlaceReviews, PlaceDetailsReviewsAdapter.ReviewViewHolder>(DiffCallback){
+
     class ReviewViewHolder(private var binding: ItemPlaceReviewBinding):
         RecyclerView.ViewHolder(binding.root) {
 

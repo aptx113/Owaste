@@ -8,11 +8,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/add_new_restaurant_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white_FFFFFF"
         android:layout_gravity="center"
-        style="@style/add_new_restaurant_dialog">
+        android:background="@color/white_FFFFFF">
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -287,9 +287,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/txt_open_time_sun"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_open_time"
-                    android:visibility="gone" />
+                    app:layout_constraintTop_toBottomOf="@+id/txt_open_time" />
 
                 <ImageView
                     android:id="@+id/img_expand"
