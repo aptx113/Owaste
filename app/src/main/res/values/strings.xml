@@ -40,7 +40,7 @@
     <string name="txt_place_detiail_show_comment">查看評論</string>
 
     <!--permission dialog-->
-    <string name="permanently_denied_message">全部打槍真的母湯\n現在你要手動去開了</string>
+    <string name="permanently_denied_message">全部打槍真的母湯\n現在你要手動去開囉</string>
     <string name="rationale_callback_title">不要拒絕我嘛</string>
     <string name="rationale_callback_message">給我權限當你可靠的小夥伴啦\n再給你一次機會喔</string>
     <string name="rationale_callback_positive_button">好吧</string>
@@ -85,6 +85,7 @@
 
     <string name="map_style_failed">Map style loads failed</string>
 
+    <string name="on_commit_new_restaurant">感謝您的協助！審核結果會寄送到您的信箱</string>
 
 
 

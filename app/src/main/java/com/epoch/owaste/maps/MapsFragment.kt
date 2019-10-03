@@ -168,13 +168,17 @@ class MapsFragment :
                     locationNetwork = localNetworkLocation
                 }
 
+                val gpsAccuracy = locationGps?.accuracy
+                val networkAccuracy = locationNetwork?.accuracy
                 if (locationGps != null && locationNetwork != null) {
-                    if (locationGps!!.accuracy > localNetworkLocation!!.accuracy) {
-                        i(TAG, "Network Latitude :" + locationNetwork!!.latitude)
-                        i(TAG, "Network Longitude :" + locationNetwork!!.longitude)
-                    } else {
-                        i(TAG, "Gps Latitude :" + locationGps!!.latitude)
-                        i(TAG, "Gps Longitude :" + locationGps!!.longitude)
+                    if (gpsAccuracy != null && networkAccuracy != null) {
+                        if (gpsAccuracy > networkAccuracy) {
+                            i(TAG, "Network Latitude :" + locationNetwork!!.latitude)
+                            i(TAG, "Network Longitude :" + locationNetwork!!.longitude)
+                        } else {
+                            i(TAG, "Gps Latitude :" + locationGps!!.latitude)
+                            i(TAG, "Gps Longitude :" + locationGps!!.longitude)
+                        }
                     }
                 }
             }
