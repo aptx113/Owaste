@@ -6,6 +6,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.epoch.owaste.Owaste
 import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
 import com.epoch.owaste.data.*
@@ -49,9 +51,9 @@ class MapsViewModel : ViewModel() {
     val reviews: LiveData<List<PlaceReviews>>
         get() = _reviews
 
-    private var viewModelJob = Job()
+//    private var viewModelJob = Job()
 
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+//    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
         i(TAG, "LiveData<List<Restaurant>> = ${restaurants.value}")
@@ -162,7 +164,7 @@ class MapsViewModel : ViewModel() {
 
     fun getPlaceDetails(placeId: String) {
 
-        coroutineScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.Main) {
 
             val getResultDeferred =
                 OwasteApi.retrofitService.getPlaceDetailsAsync(placeId)

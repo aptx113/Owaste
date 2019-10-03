@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.epoch.owaste.Owaste
+import com.epoch.owaste.R
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -98,7 +99,12 @@ object OwasteRepository {
                                     }
                             }
                         }
-                    Toast.makeText(Owaste.instance.applicationContext, "點數新增成功！經驗值 + ${currentQRCodeLevel.value!!.toLong() * 10} exp！", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        Owaste.instance.applicationContext,
+                        Owaste.instance.getString(R.string.add_points_n_exp_1) +
+                                currentQRCodeLevel.value!!.toLong() * 10 +
+                                Owaste.instance.getString(R.string.add_points_n_exp_2),
+                        Toast.LENGTH_SHORT).show()
                 }
             }
     }

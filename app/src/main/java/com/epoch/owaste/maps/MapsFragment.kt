@@ -5,8 +5,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.Context.LOCATION_SERVICE
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -89,6 +89,85 @@ class MapsFragment :
      */
     private lateinit var authProvider: List<AuthUI.IdpConfig>
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        viewModel = ViewModelProviders.of(this)
+            .get(MapsViewModel::class.java)
+
+        mapFragment = SupportMapFragment()
+        childFragmentManager.beginTransaction().replace(R.id.fl_map, mapFragment).commitNow()
+
+        mapFragment.getMapAsync(this) // return OnMapReadyCallback
+        mapView = mapFragment.view
+        i("Eltin", "mapView=$mapView")
+
+        quickPermissionsOptions = QuickPermissionsOptions(
+            permanentlyDeniedMessage = getString(R.string.permanently_denied_message),
+            rationaleMethod = { rationaleCallback(it) },
+            permanentDeniedMethod = { permissionPermanentlyDenied(it) },
+            permissionsDeniedMethod = { whenPermissionsAreDenied(it)}
+        )
+        onCheckedChangeListener = viewModel.onCheckedChangeListener()
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//        val mapFragment = childFragmentManager
+//            .findFragmentById(R.id.fl_map) as SupportMapFragment
+//
+//        mapFragment.getMapAsync(this)
+//
+//        mapView = mapFragment.view
+
+        viewModel.getRestaurantsFromFirestore()
+        i(TAG, "LiveData<List<Restaurant>> = ${viewModel.restaurants.value}")
+
+        binding = FragmentMapsBinding.inflate(inflater, container, false)
+
+        binding.let {
+            it.lifecycleOwner = this
+            it.viewModel = this@MapsFragment.viewModel
+            it.rvPlacePhoto.adapter = PlaceDetailsPhotoAdapter()
+            it.rvPlaceReviews.adapter = PlaceDetailsReviewsAdapter()
+        }
+
+        onFabCurrentLocationClicked()
+        navigateToRewardCards()
+        navigateToQrCodeScanner()
+        navigateToAddRestaurant()
+        navigateToLevelInfo()
+        displaySearchResultByTitle()
+        initOnCheckedChangeListener()
+        firebaseAuthStateListener()
+        userSignOut()
+        clearSearchBarText()
+        showCursorOnSearchBarClicked()
+
+        clearFilter()
+
+        // Inflate the layout for this fragment
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        i(TAG, "MapsFragment onResume")
+        if (FirebaseAuth.getInstance().currentUser != null) {
+
+            OwasteRepository.initUserLevelWhenBackToMap()
+            binding.progressbarUserExp.max = userData?.level?.times(100) ?: 0
+        }
+        binding.let {
+
+            it.cbLv1.isChecked = false
+            it.cbLv2.isChecked = false
+            it.cbLv3.isChecked = false
+            it.cbLv4.isChecked = false
+            it.cbLv5.isChecked = false
+        }
+    }
+
     @SuppressLint("MissingPermission")
     private fun getLocation() {
 
@@ -170,106 +249,19 @@ class MapsFragment :
 
                 val gpsAccuracy = locationGps?.accuracy
                 val networkAccuracy = locationNetwork?.accuracy
-                if (locationGps != null && locationNetwork != null) {
-                    if (gpsAccuracy != null && networkAccuracy != null) {
-                        if (gpsAccuracy > networkAccuracy) {
-                            i(TAG, "Network Latitude :" + locationNetwork!!.latitude)
-                            i(TAG, "Network Longitude :" + locationNetwork!!.longitude)
-                        } else {
-                            i(TAG, "Gps Latitude :" + locationGps!!.latitude)
-                            i(TAG, "Gps Longitude :" + locationGps!!.longitude)
-                        }
+                if (locationGps != null && locationNetwork != null && gpsAccuracy != null && networkAccuracy != null) {
+
+                    if (gpsAccuracy > networkAccuracy) {
+                        i(TAG, "Network Latitude :" + locationNetwork!!.latitude)
+                        i(TAG, "Network Longitude :" + locationNetwork!!.longitude)
+                    } else {
+                        i(TAG, "Gps Latitude :" + locationGps!!.latitude)
+                        i(TAG, "Gps Longitude :" + locationGps!!.longitude)
                     }
                 }
             }
         } else {
             binding.fabCurrentLocation.setImageResource(R.drawable.ic_location_service_off)
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-            i(TAG, "MapsFragment onAttach")
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        viewModel = ViewModelProviders.of(this)
-            .get(MapsViewModel::class.java)
-
-        mapFragment = SupportMapFragment()
-        childFragmentManager.beginTransaction().replace(R.id.fl_map, mapFragment).commitNow()
-
-        mapFragment.getMapAsync(this) // return OnMapReadyCallback
-        mapView = mapFragment.view
-        i("Eltin", "mapView=$mapView")
-
-        quickPermissionsOptions = QuickPermissionsOptions(
-        permanentlyDeniedMessage = getString(R.string.permanently_denied_message),
-        rationaleMethod = { rationaleCallback(it) },
-        permanentDeniedMethod = { permissionPermanentlyDenied(it) },
-        permissionsDeniedMethod = { whenPermissionsAreDenied(it)}
-    )
-        onCheckedChangeListener = viewModel.onCheckedChangeListener()
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        val mapFragment = childFragmentManager
-//            .findFragmentById(R.id.fl_map) as SupportMapFragment
-//
-//        mapFragment.getMapAsync(this)
-//
-//        mapView = mapFragment.view
-
-        viewModel.getRestaurantsFromFirestore()
-        i(TAG, "LiveData<List<Restaurant>> = ${viewModel.restaurants.value}")
-
-        binding = FragmentMapsBinding.inflate(inflater, container, false)
-
-        binding.let {
-            it.lifecycleOwner = this
-            it.viewModel = this@MapsFragment.viewModel
-            it.rvPlacePhoto.adapter = PlaceDetailsPhotoAdapter()
-            it.rvPlaceReviews.adapter = PlaceDetailsReviewsAdapter()
-        }
-
-        onFabCurrentLocationClicked()
-        navigateToRewardCards()
-        navigateToQrCodeScanner()
-        navigateToAddRestaurant()
-        navigateToLevelInfo()
-        displaySearchResultByTitle()
-        initOnCheckedChangeListener()
-        firebaseAuthStateListener()
-        userSignOut()
-        initPlaceApiCLient()
-        clearSearchBarText()
-        showClearSymbolOnSearchBarClicked()
-        handlePlaceCommentVisibility()
-        clearFilter()
-
-        // Inflate the layout for this fragment
-        return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        i(TAG, "MapsFragment onResume")
-        if (FirebaseAuth.getInstance().currentUser != null) {
-
-            OwasteRepository.initUserLevelWhenBackToMap()
-            binding.progressbarUserExp.max = userData?.level?.times(100) ?: 0
-        }
-        binding.let {
-
-            it.cbLv1.isChecked = false
-            it.cbLv2.isChecked = false
-            it.cbLv3.isChecked = false
-            it.cbLv4.isChecked = false
-            it.cbLv5.isChecked = false
         }
     }
 
@@ -319,6 +311,7 @@ class MapsFragment :
             i(TAG, "map clicked !")
             binding.clInCvPlaceDetails.visibility = View.GONE
             binding.autoCompleteTvSearchBar.isCursorVisible = false
+            handlePlaceCommentVisibility()
         }
     }
 
@@ -330,9 +323,10 @@ class MapsFragment :
 
             runWithPermissions(
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION, options = quickPermissionsOptions
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                options = quickPermissionsOptions
             ) {
-                if ( !hasGps && !hasNetwork) {
+                if (!hasGps && !hasNetwork) {
 
                     showDialogIfLocationServiceOff()
                     getLocation()
@@ -501,24 +495,24 @@ class MapsFragment :
                     viewModel.getCurrentUserExpToUpdateProgressBar(OnSuccessListener { document ->
                         userData = document.toObject(User::class.java)
                         i(TAG, "userData = $userData")
-                        userData?.let {
+                        userData?.let { user ->
 
                             val totalExp = Integer.parseInt(document.get(EXP).toString())
-                            val displayExp = totalExp - 100 * ( (1 + (userData?.level?.minus(1))!!) * (userData!!.level - 1) / 2 )
+                            val displayExp = totalExp - 100 * ( (1 + (user.level.minus(1))) * (user.level - 1) / 2 )
 
                             binding.let {
 
                                 it.progressbarUserExp.progress = displayExp
-                                it.progressbarUserExp.max = userData!!.level * 100
+                                it.progressbarUserExp.max = user.level * 100
                                 it.progressbarUserExp.visibility = View.VISIBLE
-                                it.txtUserExpGoal.text = (userData!!.level * 100).toString()
+                                it.txtUserExpGoal.text = (user.level * 100).toString()
                                 it.txtUserExpGoal.visibility = View.VISIBLE
                                 it.txtUserCurrentExp.text = displayExp.toString()
                                 it.txtUserCurrentExp.visibility = View.VISIBLE
                                 it.txtUserExpSlash.visibility = View.VISIBLE
                                 i(TAG, "totalExp = $totalExp, displayExp = $displayExp")
 
-                                when (userData!!.level) {
+                                when (user.level) {
                                     1 -> it.txtUserLevel.text = getString(R.string.user_level_1)
                                     2 -> it.txtUserLevel.text = getString(R.string.user_level_2)
                                     3 -> it.txtUserLevel.text = getString(R.string.user_level_3)
@@ -563,21 +557,6 @@ class MapsFragment :
             }
     }
 
-    private fun initPlaceApiCLient() {
-        // Initialize the SDK
-        Places.initialize(this.requireContext(), BuildConfig.API_KEY)
-        //Create a new Places client instance
-        val placesClient = Places.createClient(this.requireContext())
-    }
-
-    private fun getPlaceDetails() {
-        // Define a Place ID
-        val placeId = ""
-
-        // Specify the fields to return
-        val placeFields = listOf(Place.Field.RATING)
-    }
-
     // use for loop to initialize multiple checkboxes.setOnCheckedChangeListener
     private fun initOnCheckedChangeListener() {
         val ids = intArrayOf(
@@ -616,6 +595,7 @@ class MapsFragment :
         marker?.let {
 
             viewModel.resetRestaurantDetailsToNull()
+            handlePlaceCommentVisibility()
             binding.let {
 
                 it.txtPlaceName.text = marker.title
@@ -630,6 +610,10 @@ class MapsFragment :
                 it.txtIsPlaceOpen.visibility = View.GONE
                 it.rvPlacePhoto.visibility = View.GONE
                 it.txtDotBetweenTypePriceLevel.visibility = View.GONE
+                it.rvPlaceReviews.visibility = View.GONE
+//                it.txtPlaceDetiailShowReviews.visibility = View.GONE
+//                it.imgExpandReviewsArrow.visibility = View.GONE
+//                it.imgSeparation.visibility = View.GONE
 
                 it.cvPlaceDetails.visibility = View.VISIBLE
                 it.progressbarPlaceDetails.visibility = View.VISIBLE
@@ -882,7 +866,7 @@ class MapsFragment :
         }
     }
 
-    private fun showClearSymbolOnSearchBarClicked() {
+    private fun showCursorOnSearchBarClicked() {
 
         binding.autoCompleteTvSearchBar.setOnClickListener {
 
