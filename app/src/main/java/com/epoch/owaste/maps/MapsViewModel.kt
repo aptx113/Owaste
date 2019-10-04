@@ -51,10 +51,6 @@ class MapsViewModel : ViewModel() {
     val reviews: LiveData<List<PlaceReviews>>
         get() = _reviews
 
-//    private var viewModelJob = Job()
-
-//    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
     init {
         i(TAG, "LiveData<List<Restaurant>> = ${restaurants.value}")
     }

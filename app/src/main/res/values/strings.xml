@@ -88,6 +88,6 @@
     <string name="on_commit_new_restaurant">感謝您的協助！審核結果會寄送到您的信箱</string>
 
     <string name="add_points_n_exp_1">點數新增成功！經驗值 + </string>
-    <string name="add_points_n_exp_2">　exp！</string>
+    <string name="add_points_n_exp_2"> ！</string>
 
 </resources>
