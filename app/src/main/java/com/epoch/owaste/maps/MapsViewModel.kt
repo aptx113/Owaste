@@ -2,22 +2,16 @@ package com.epoch.owaste.maps
 
 import android.util.Log.*
 import android.widget.CompoundButton
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.epoch.owaste.Owaste
 import com.epoch.owaste.OwasteApi
 import com.epoch.owaste.R
 import com.epoch.owaste.data.*
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.*
-import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsOptions
-import com.livinglifetechway.quickpermissions_kotlin.util.QuickPermissionsRequest
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.collections.ArrayList
@@ -35,9 +29,9 @@ class MapsViewModel : ViewModel() {
     val restaurants: LiveData<List<Restaurant>>
         get() = _restaurants
 
-    private val _dataList = MutableLiveData<List<Restaurant>>()
-    private val dataList: LiveData<List<Restaurant>>
-        get() = _dataList
+    private val _filterDataList = MutableLiveData<List<Restaurant>>()
+    private val filterDataList: LiveData<List<Restaurant>>
+        get() = _filterDataList
 
     private val _placeDetails = MutableLiveData<PlaceDetails>()
     val placeDetails: LiveData<PlaceDetails>
@@ -88,7 +82,7 @@ class MapsViewModel : ViewModel() {
                     val restaurant = doc.toObject(Restaurant::class.java)
                     savedRestaurantList.add(restaurant)
                 }
-                _dataList.value = savedRestaurantList
+                _filterDataList.value = savedRestaurantList
                 _restaurants.value = savedRestaurantList
                 i(TAG, "savedRestaurantsList = ${_restaurants.value}")
             }
@@ -100,11 +94,11 @@ class MapsViewModel : ViewModel() {
     fun onCheckedChangeListener() = CompoundButton.OnCheckedChangeListener { checkBox, isChecked ->
 
         // move outside
-        val level1 = dataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
-        val level2 = dataList.value?.filter { it.level == 2 } as ArrayList<Restaurant>
-        val level3 = dataList.value?.filter { it.level == 3 } as ArrayList<Restaurant>
-        val level4 = dataList.value?.filter { it.level == 4 } as ArrayList<Restaurant>
-        val level5 = dataList.value?.filter { it.level == 5 } as ArrayList<Restaurant>
+        val level1 = filterDataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
+        val level2 = filterDataList.value?.filter { it.level == 2 } as ArrayList<Restaurant>
+        val level3 = filterDataList.value?.filter { it.level == 3 } as ArrayList<Restaurant>
+        val level4 = filterDataList.value?.filter { it.level == 4 } as ArrayList<Restaurant>
+        val level5 = filterDataList.value?.filter { it.level == 5 } as ArrayList<Restaurant>
 
         i(TAG, "lv1 = $level1")
         i(TAG, "lv2 = $level2")

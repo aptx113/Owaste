@@ -16,8 +16,8 @@ android {
         applicationId "com.epoch.owaste"
         minSdkVersion 26
         targetSdkVersion 29
-        versionCode 5
-        versionName "1.013"
+        versionCode 6
+        versionName "1.014"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     dataBinding {

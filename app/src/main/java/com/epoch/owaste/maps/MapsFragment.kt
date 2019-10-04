@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context.LOCATION_SERVICE
-import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -28,7 +27,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.epoch.owaste.BuildConfig
 import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.data.Restaurant
@@ -42,8 +40,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
@@ -396,7 +392,7 @@ class MapsFragment :
 
         val levelInfoDialog = Dialog(this.requireContext())
         levelInfoDialog.setCancelable(true)
-        levelInfoDialog.setContentView(R.layout.fragment_restaurant_level_info)
+        levelInfoDialog.setContentView(R.layout.fragment_restaurant_level_info_dialog)
 
         binding.fabLevelInfo.setOnClickListener {
             levelInfoDialog.show()

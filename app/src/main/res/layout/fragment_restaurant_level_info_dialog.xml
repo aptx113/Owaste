@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        tools:context=".RestaurantLevelInfoFragment">
+        tools:context=".RestaurantLevelInfoDialogFragment">
 
         <ImageView
             android:id="@+id/img_table_info"
-            android:layout_width="wrap_content"
-            android:layout_height="270dp"
-            android:src="@drawable/table_level_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/table_level_info_1"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
