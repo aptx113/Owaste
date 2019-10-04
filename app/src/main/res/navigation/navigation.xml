@@ -38,9 +38,9 @@
         app:destination="@id/newRestaurantDialogFragment" />
     <fragment
         android:id="@+id/restaurantLevelInfoFragment"
-        android:name="com.epoch.owaste.RestaurantLevelInfoFragment"
+        android:name="com.epoch.owaste.RestaurantLevelInfoDialogFragment"
         android:label="RestaurantLevelInfoFragment"
-        tools:layout="@layout/fragment_restaurant_level_info" />
+        tools:layout="@layout/fragment_restaurant_level_info_dialog" />
     <action
         android:id="@+id/action_global_restaurantLevelInfoFragment"
         app:destination="@id/restaurantLevelInfoFragment" />
