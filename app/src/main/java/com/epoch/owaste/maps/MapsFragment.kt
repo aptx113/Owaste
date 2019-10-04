@@ -269,13 +269,13 @@ class MapsFragment :
 
         // this will be called when permission is denied once or more time.
         i(TAG, "rationaleCallback : this will be called when permission is denied once or more time")
-        AlertDialog.Builder(this.requireContext())
-            .setTitle(getString(R.string.rationale_callback_title))
-            .setMessage(getString(R.string.rationale_callback_message))
-            .setPositiveButton(getString(R.string.rationale_callback_positive_button)) { _, _ -> req.proceed() }
-            .setNegativeButton(getString(R.string.rationale_callback_negative_button)) { _, _ -> req.cancel() }
-            .setCancelable(false)
-            .show()
+//        AlertDialog.Builder(this.requireContext())
+//            .setTitle(getString(R.string.rationale_callback_title))
+//            .setMessage(getString(R.string.rationale_callback_message))
+//            .setPositiveButton(getString(R.string.rationale_callback_positive_button)) { _, _ -> req.proceed() }
+//            .setNegativeButton(getString(R.string.rationale_callback_negative_button)) { _, _ -> req.cancel() }
+//            .setCancelable(false)
+//            .show()
     }
 
     fun permissionPermanentlyDenied(req: QuickPermissionsRequest) {
