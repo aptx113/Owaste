@@ -127,6 +127,8 @@ class MapsFragment :
             it.rvPlaceReviews.adapter = PlaceDetailsReviewsAdapter()
         }
 
+        binding.checkBox.setOnClickListener { i(TAG, "chekckBox isCheck = ${checkBox.isChecked}") }
+
         onFabCurrentLocationClicked()
         navigateToRewardCards()
         navigateToQrCodeScanner()

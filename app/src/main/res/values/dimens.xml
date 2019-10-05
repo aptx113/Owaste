@@ -14,8 +14,8 @@
     <dimen name="add_new_restaurant_edittext">1dp</dimen>
     <dimen name="add_new_restaurant_edittext_padding">8dp</dimen>
     <dimen name="add_new_restaurant_edittext_corner">10dp</dimen>
-    <dimen name="checkbox_width">30dp</dimen>
-    <dimen name="checkbox_height">20dp</dimen>
+    <dimen name="checkbox_width">60dp</dimen>
+    <dimen name="checkbox_height">25dp</dimen>
     <dimen name="ic_clear_search_bar">25dp</dimen>
     <dimen name="place_review_profile_pic">40dp</dimen>
     <dimen name="reward_card_decor">16dp</dimen>
