@@ -1,9 +1,9 @@
 # Owaste - "Always Zero Waste"
-幫助使用者在外食時也能輕鬆實踐減塑生活的一份用餐指南
+一份幫助使用者在外食時也能輕鬆實踐減塑生活的用餐指南
 
-<a href='https://play.google.com/store/apps/details?id=com.epoch.owaste&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="70" width="170"/></a>
+<img height="70" width="70" align="top" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/owaste_icon_v1.6.png?alt=media&token=e4f7e9c8-af5d-46d2-88ab-611e552b2632'/> <a href='https://play.google.com/store/apps/details?id=com.epoch.owaste&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="70" width="170"/></a>
 
-## Features 功能介紹
+### Features 功能介紹
 
 1\. 餐廳減塑分級 : 依據餐廳使用一次性餐具的情形將其分為 5 個等級
 
@@ -25,7 +25,7 @@
 
 <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/4.jpg?alt=media&token=672239ba-f7e9-43d5-adde-b47722da40fc'/>
 
-## 使用技術 Implementation
+### **使用技術 Implementation**
 * **Design Patterns** - MVVM, Observer
 * **Jetpack - ViewModel**, Navigation, LiveData, Data Binding
 * **Networking** - RESTful APIs, Retrofit2, Moshi
@@ -33,14 +33,14 @@
 * **3rd Parties** - Google Maps SDK, Places API, Glide, Google Place Photo Service
 * **Data Management** - Firestore, Firebase Authentication, Crashlytics
 
-## 環境需求 Requirement
+### 環境需求 Requirement
 * Android Studio 3.5+
 * Android SDK 26+
 * Gradle 5.1.1+
 
-## 版本更新 Release
+### 版本更新 Release
 
 * 1.016 - 2019/10/17
 
-## 聯絡資訊 Contact
+### 聯絡資訊 Contact
 <owaste.epoch@gmail.com>
