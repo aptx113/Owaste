@@ -1,7 +1,7 @@
-# Owaste - "Always Zero Waste"
+# Owaste - "Always Zero Waste" <img height="70" width="70" align="center" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/owaste_icon_v1.6.png?alt=media&token=e4f7e9c8-af5d-46d2-88ab-611e552b2632'/>
 一份幫助使用者在外食時也能輕鬆實踐減塑生活的用餐指南
 
-<img height="70" width="70" align="top" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/owaste_icon_v1.6.png?alt=media&token=e4f7e9c8-af5d-46d2-88ab-611e552b2632'/> <a href='https://play.google.com/store/apps/details?id=com.epoch.owaste&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="70" width="170"/></a>
+<a href='https://play.google.com/store/apps/details?id=com.epoch.owaste&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height="70" width="170"/></a>
 
 ### Features 功能介紹
 
