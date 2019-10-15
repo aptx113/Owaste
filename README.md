@@ -19,7 +19,7 @@
 
 4\. 用餐集點及使用者經驗值累計 **［會員專屬功能］**：Google 登入後的會員可以在用餐時掃描店家 QR code 集點兌換實質回饋，同時依用餐店家等級增加相對應的經驗值，經驗值可幫助使用者了解自己的外食減塑程度。
 
-<img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/2.jpg?alt=media&token=8214a2dc-b77c-4893-947f-e1ef738d9642'/> <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/5.jpg?alt=media&token=93be32ff-9901-43b4-9924-fddb65ac3e8c'/> <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/6.jpg?alt=media&token=1862dae7-0999-46e4-8c57-aeb302725710'/>
+<img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/2.jpg?alt=media&token=8214a2dc-b77c-4893-947f-e1ef738d9642'/> <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/5.jpg?alt=media&token=93be32ff-9901-43b4-9924-fddb65ac3e8c'/> <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/8.jpg?alt=media&token=58dadb4f-084b-4703-9dbd-03c9658ed2ae'/>
 
 5\. 新增尚未收錄之店家 **［會員專屬功能］**：會員可提交審核新開幕或尚未收錄的店家
 
