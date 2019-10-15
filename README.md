@@ -27,14 +27,14 @@
 
 ## 使用技術 Implementation
 
-## 開發環境
+## 環境需求 Requirement
 * Android Studio 3.5+
 * Android SDK 26+
 * Gradle 5.1.1+
 
-## 版本更新
+## 版本更新 Release
 
 * 1.016 - 2019/10/17
 
-## 聯絡資訊
+## 聯絡資訊 Contact
 <epoch.owaste@gmail.com>
