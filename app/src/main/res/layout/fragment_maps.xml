@@ -444,18 +444,6 @@
                         map:layout_constraintStart_toStartOf="parent"
                         map:srcCompat="@drawable/under_line_for_showing_comment" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox"
-                        android:layout_width="60dp"
-                        android:layout_height="25dp"
-                        android:layout_marginEnd="8dp"
-                        android:drawableEnd="@drawable/icons8_sprout_50"
-                        android:scaleX="0.8"
-                        android:scaleY="0.8"
-                        map:layout_constraintBottom_toBottomOf="@+id/txt_place_detiail_show_reviews"
-                        map:layout_constraintEnd_toStartOf="@+id/txt_place_detiail_show_reviews"
-                        map:layout_constraintTop_toTopOf="@+id/txt_place_detiail_show_reviews" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>

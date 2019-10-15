@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.collections.ArrayList
+import kotlin.math.exp
 
 class MapsViewModel : ViewModel() {
 
@@ -188,4 +189,5 @@ class MapsViewModel : ViewModel() {
 
         OwasteRepository.getCurrentUserExpToUpdateProgressBar(listener)
     }
+
 }
