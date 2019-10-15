@@ -40,7 +40,7 @@
 
 ### 版本更新 Release
 
-* 1.016 - 2019/10/17
+* 1.016 - 2019/10/07
 
 ### 聯絡資訊 Contact
 <owaste.epoch@gmail.com>
