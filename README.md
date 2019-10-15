@@ -26,6 +26,12 @@
 <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/4.jpg?alt=media&token=672239ba-f7e9-43d5-adde-b47722da40fc'/>
 
 ## 使用技術 Implementation
+* **Design Patterns** - MVVM, Observer
+* **Jetpack - ViewModel**, Navigation, LiveData, Data Binding
+* **Networking** - RESTful APIs, Retrofit2, Moshi
+* **User Interface** - RecyclerView, ConstraintLayout
+* **3rd Parties** - Google Maps SDK, Places API, Glide, Google Place Photo Service
+* **Data Management** - Firestore, Firebase Authentication, Crashlytics
 
 ## 環境需求 Requirement
 * Android Studio 3.5+
@@ -37,4 +43,4 @@
 * 1.016 - 2019/10/17
 
 ## 聯絡資訊 Contact
-<epoch.owaste@gmail.com>
+<owaste.epoch@gmail.com>
