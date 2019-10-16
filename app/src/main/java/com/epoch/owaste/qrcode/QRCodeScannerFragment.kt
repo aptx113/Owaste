@@ -56,10 +56,11 @@ class QRCodeScannerFragment : Fragment() {
         val windowHeight = metrics.heightPixels
         val windowWidth = metrics.widthPixels
 
+        i(TAG, "surfaceview = $windowWidth, ${binding.svQrCodeScanner.layoutParams.height}")
         cameraSource = CameraSource.Builder(this.requireContext(), barcodeDetector)
-            .setRequestedPreviewSize(windowWidth, windowHeight)
-            .setAutoFocusEnabled(true)
-            .build()
+//                .setRequestedPreviewSize(windowWidth, binding.svQrCodeScanner.layoutParams.height)
+                .setAutoFocusEnabled(true)
+                .build()
 
         qrCodeScanner.holder.addCallback(object : SurfaceHolder.Callback {
 

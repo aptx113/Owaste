@@ -40,5 +40,8 @@ class RewardCardFragment : Fragment() {
         return binding.root
     }
 
+    fun getExpSumTest(expList: List<Int>): Int {
 
+        return expList.sum()
+    }
 }
