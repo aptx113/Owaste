@@ -38,9 +38,9 @@
 * **Data Management** - Firestore, Firebase Authentication, Crashlytics
 
 ### 環境需求 Requirement
-* Android Studio 3.5+
+* Android Studio 3.5.0+
 * Android SDK 26+
-* Gradle 5.1.1+
+* Gradle 5.4.1+
 
 ### 版本更新 Release
 
