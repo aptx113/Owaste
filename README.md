@@ -44,7 +44,7 @@
 
 ### Release 版本更新
 
-* 1.016 - 2019/10/07
+* 1.017 - 2019/10/16
 
 ### Contact 聯絡資訊
 <owaste.epoch@gmail.com>
