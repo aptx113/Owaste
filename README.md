@@ -21,6 +21,10 @@
 
 <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/2.jpg?alt=media&token=8214a2dc-b77c-4893-947f-e1ef738d9642'/> <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/5.jpg?alt=media&token=93be32ff-9901-43b4-9924-fddb65ac3e8c'/> <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/8.jpg?alt=media&token=58dadb4f-084b-4703-9dbd-03c9658ed2ae'/>
 
+測試用 QR code 
+
+<img height="150" width="150" align="top" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/a11b5c%E5%96%9C%E6%86%A8%E5%85%92ENJOY%20%E8%87%BA%E5%8C%97%E9%A4%90%E5%BB%B3.png?alt=media&token=b713d0b6-7aa3-4587-baff-dfd3c3816ee2'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img height="150" width="150" align="top" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/a2b4cAWESOME%20BURGER.PNG?alt=media&token=4bad09c1-9a3b-4e26-97f9-ae562cd41433'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img height="150" width="150" align="top" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/a14b4c%E7%B4%85%E5%A0%82%E6%96%B0%E5%B7%9D%E5%91%B3%E9%A4%90%E5%BB%B3.png?alt=media&token=c0c607af-1eb4-4ec3-9911-d5ed9867273c'/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img height="150" width="150" align="top" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/a49b3c%E6%8B%89%E4%BA%9E%E6%BC%A2%E5%A0%A1%20%E8%BF%B4%E9%BE%8D%E5%85%89%E5%95%9F.png?alt=media&token=cd7d089b-236d-4921-ba33-050c90c2d2cd'/>
+
 5\. 新增尚未收錄之店家 **［會員專屬功能］**：會員可提交審核新開幕或尚未收錄的店家
 
 <img height="336.9" width="162" src='https://firebasestorage.googleapis.com/v0/b/owaste.appspot.com/o/4.jpg?alt=media&token=672239ba-f7e9-43d5-adde-b47722da40fc'/>
