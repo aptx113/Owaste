@@ -108,13 +108,6 @@ class MapsFragment :
             permissionsDeniedMethod = { whenPermissionsAreDenied(it)}
         )
         onCheckedChangeListener = viewModel.onCheckedChangeListener()
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        val mapFragment = childFragmentManager
-//            .findFragmentById(R.id.fl_map) as SupportMapFragment
-//
-//        mapFragment.getMapAsync(this)
-//
-//        mapView = mapFragment.view
 
         viewModel.getRestaurantsFromFirestore()
         i(TAG, "LiveData<List<Restaurant>> = ${viewModel.restaurants.value}")
@@ -791,6 +784,9 @@ class MapsFragment :
         val markerLv5 =
             Bitmap.createScaledBitmap(bitmapDrawLv5.toBitmap(), width, height, false)
 
+            i(TAG, "viewModel.restaurants.value = ${viewModel.restaurants.value}")
+            i(TAG, "viewModel.filterDataList.value = ${viewModel.filterDataList.value}")
+            i(TAG, "viewModel.savedRestaurantsList.value = ${viewModel.savedRestaurantList}")
         for (i in 0 until viewModel.restaurants.value!!.size) {
             val latLng =
                 LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
@@ -925,9 +921,7 @@ class MapsFragment :
 
         binding.txtClearFilter.setOnClickListener {
 
-            addMarkersToMap()
-            i(TAG, "map clears !")
-            i(TAG, "marker list = $markersList")
+            i(TAG, "filter cleared !")
             binding.let {
 
                 it.cbLv1.isChecked = false
@@ -936,6 +930,13 @@ class MapsFragment :
                 it.cbLv4.isChecked = false
                 it.cbLv5.isChecked = false
             }
+
+            viewModel.clearFilter()
+            viewModel.filterDataList.observe(this, Observer {
+
+                i(TAG, "viewModel.filterDataList.value changed !")
+                addMarkersToMap()
+            })
         }
     }
 }
