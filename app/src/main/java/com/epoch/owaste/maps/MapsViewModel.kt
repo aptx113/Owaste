@@ -1,5 +1,6 @@
 package com.epoch.owaste.maps
 
+import android.content.SharedPreferences
 import android.util.Log.*
 import android.widget.CompoundButton
 import androidx.lifecycle.LiveData
@@ -23,6 +24,7 @@ class MapsViewModel : ViewModel() {
     private val RESTAURANT = "restaurants"
     private var firestoreDb = FirebaseFirestore.getInstance()
 
+    val savedRestaurantList: MutableList<Restaurant> = mutableListOf()
     // filter the markers according to checkbox status
     private val filterResultList: MutableList<Restaurant> = mutableListOf()
 
@@ -31,7 +33,7 @@ class MapsViewModel : ViewModel() {
         get() = _restaurants
 
     private val _filterDataList = MutableLiveData<List<Restaurant>>()
-    private val filterDataList: LiveData<List<Restaurant>>
+    val filterDataList: LiveData<List<Restaurant>>
         get() = _filterDataList
 
     private val _placeDetails = MutableLiveData<PlaceDetails>()
@@ -73,8 +75,6 @@ class MapsViewModel : ViewModel() {
                 _restaurants.value = null
                 return@EventListener
             }
-
-            val savedRestaurantList: MutableList<Restaurant> = mutableListOf()
 
             value?.let {
 
@@ -192,4 +192,9 @@ class MapsViewModel : ViewModel() {
         OwasteRepository.getCurrentUserExpToUpdateProgressBar(listener)
     }
 
+    fun clearFilter() {
+
+        _restaurants.value = savedRestaurantList
+        i(TAG, "restaurants.value = ${restaurants.value}")
+    }
 }
