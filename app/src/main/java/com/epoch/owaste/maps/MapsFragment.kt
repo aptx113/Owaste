@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.epoch.owaste.R
+import com.epoch.owaste.add.NewRestaurantDialogFragment
 import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.data.Restaurant
 import com.epoch.owaste.data.User
@@ -372,9 +373,8 @@ class MapsFragment :
 
     private fun navigateToAddRestaurant() {
 
-        val restaurantDialog = Dialog(this.requireContext())
-        restaurantDialog.setCancelable(true)
-        restaurantDialog.setContentView(R.layout.fragment_new_restaurant_dialog)
+        val restaurantDialog = NewRestaurantDialogFragment()
+        restaurantDialog.isCancelable = true
 
         binding.fabAddRestaurant.setOnClickListener {
 
@@ -383,7 +383,8 @@ class MapsFragment :
                 Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
                     .show()
             } else {
-                restaurantDialog.show()
+                fragmentManager?.let { it -> restaurantDialog.show(it, "reataurantDialog") }
+                i(TAG, "restaurantDialog show")
             }
         }
     }

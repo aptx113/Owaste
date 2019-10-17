@@ -168,6 +168,7 @@ class MapsViewModel : ViewModel() {
                 i(TAG, "photos = ${photos.value}")
                 _reviews.value = placeDetails.value?.reviews
                 i(TAG, "reviews = ${reviews.value}")
+
             } catch (e: Exception) {
                 i(TAG, "exception = ${e.message}")
             }
@@ -183,6 +184,7 @@ class MapsViewModel : ViewModel() {
             .whereEqualTo("name", title)
             .get()
             .addOnSuccessListener(listener)
+
     }
 
     fun getCurrentUserExpToUpdateProgressBar(listener: OnSuccessListener<DocumentSnapshot>) {

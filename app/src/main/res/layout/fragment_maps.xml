@@ -502,7 +502,7 @@
                         android:hint="@string/search_title"
                         android:imeActionLabel="Done"
                         android:imeOptions="actionDone"
-                        android:maxLines="1"
+                        android:singleLine="true"
                         map:layout_constraintEnd_toStartOf="@+id/img_clear_search_text"
                         map:layout_constraintStart_toStartOf="@+id/cl_searchbar_seperation"
                         map:layout_constraintTop_toTopOf="parent" />

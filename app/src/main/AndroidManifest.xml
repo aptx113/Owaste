@@ -23,7 +23,8 @@
         <activity android:name=".MainActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppTheme"
-                  android:configChanges="orientation|keyboardHidden">
+                  android:configChanges="orientation|keyboardHidden"
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

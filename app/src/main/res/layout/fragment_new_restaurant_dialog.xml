@@ -347,7 +347,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:src="@android:drawable/ic_menu_close_clear_cancel"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/edittxt_new_name"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -1,6 +1,8 @@
 package com.epoch.owaste.add
 
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log.i
 import androidx.fragment.app.Fragment
@@ -27,6 +29,7 @@ class NewRestaurantDialogFragment : DialogFragment() {
     ): View? {
         setStyle(STYLE_NO_FRAME, R.style.add_new_restaurant_dialog)
 
+        dialog?.window?.setBackgroundDrawableResource(R.color.transparent_CC000000)
         binding = FragmentNewRestaurantDialogBinding.inflate(inflater, container, false)
 
         binding.imgExpand.setOnClickListener {
@@ -46,9 +49,26 @@ class NewRestaurantDialogFragment : DialogFragment() {
         }
 
         binding.btnCommit.setOnClickListener {
-            i("Eltin_", "commit !")
-            Toast.makeText(this.context, getString(R.string.on_commit_new_restaurant), Toast.LENGTH_SHORT).show()
-            this.dismiss()
+            if (
+                binding.edittxtNewAddress.text.isNotEmpty() &&
+                binding.edittxtNewName.text.isNotEmpty() &&
+                binding.edittxtNewTel.text.isNotEmpty()
+            ) {
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.on_commit_new_restaurant),
+                    Toast.LENGTH_SHORT
+                ).show()
+                i("Eltin_", "new restaurant committed !")
+                this.dismiss()
+            } else {
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.on_commit_new_restaurant_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+                i("Eltin_", "new resaurant committed error!")
+            }
         }
         // Inflate the layout for this fragment
         return binding.root
