@@ -323,7 +323,7 @@ class MapsFragment :
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 options = quickPermissionsOptions
             ) {
-                if (!hasGps && !hasNetwork) {
+                if (locationGps == null && locationNetwork == null) {
 
                     showDialogIfLocationServiceOff()
                     getLocation()
@@ -383,6 +383,7 @@ class MapsFragment :
                 Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
                     .show()
             } else {
+
                 fragmentManager?.let { it -> restaurantDialog.show(it, "reataurantDialog") }
                 i(TAG, "restaurantDialog show")
             }
