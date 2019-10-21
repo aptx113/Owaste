@@ -105,7 +105,7 @@ class MapsFragment :
             permanentlyDeniedMessage = getString(R.string.permanently_denied_message),
             rationaleMethod = { rationaleCallback(it) },
             permanentDeniedMethod = { permissionPermanentlyDenied(it) },
-            permissionsDeniedMethod = { whenPermissionsAreDenied(it)}
+            permissionsDeniedMethod = { whenPermissionsAreDenied(it) }
         )
         onCheckedChangeListener = viewModel.onCheckedChangeListener()
 
@@ -179,27 +179,39 @@ class MapsFragment :
                     LOCATION_UPDATE_MIN_DISTANCE,
                     object : LocationListener {
                         override fun onLocationChanged(location: Location?) {
-                        if (location != null) {
-                            locationGps = location
-                            map.animateCamera(CameraUpdateFactory
-                                .newLatLngZoom(LatLng(location.latitude, location.longitude), 17F))
+                            if (location != null) {
+                                locationGps = location
+                                map.animateCamera(
+                                    CameraUpdateFactory
+                                        .newLatLngZoom(
+                                            LatLng(
+                                                location.latitude,
+                                                location.longitude
+                                            ), 17F
+                                        )
+                                )
+                            }
                         }
-                    }
 
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+                        override fun onStatusChanged(
+                            provider: String?,
+                            status: Int,
+                            extras: Bundle?
+                        ) {
 
-                    }
+                        }
 
-                    override fun onProviderEnabled(provider: String?) {
+                        override fun onProviderEnabled(provider: String?) {
 
-                    }
+                        }
 
-                    override fun onProviderDisabled(provider: String?) {
+                        override fun onProviderDisabled(provider: String?) {
 
-                    }
-                })
+                        }
+                    })
 
-                val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val localGpsLocation =
+                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (localGpsLocation != null) {
                     locationGps = localGpsLocation
                 }
@@ -211,28 +223,40 @@ class MapsFragment :
                     LOCATION_UPDATE_MIN_TIME,
                     LOCATION_UPDATE_MIN_DISTANCE,
                     object : LocationListener {
-                    override fun onLocationChanged(location: Location?) {
-                        if (location != null) {
-                            locationNetwork = location
-                            map.animateCamera(CameraUpdateFactory
-                                .newLatLngZoom(LatLng(location.latitude, location.longitude), 17F))
+                        override fun onLocationChanged(location: Location?) {
+                            if (location != null) {
+                                locationNetwork = location
+                                map.animateCamera(
+                                    CameraUpdateFactory
+                                        .newLatLngZoom(
+                                            LatLng(
+                                                location.latitude,
+                                                location.longitude
+                                            ), 17F
+                                        )
+                                )
+                            }
                         }
-                    }
 
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+                        override fun onStatusChanged(
+                            provider: String?,
+                            status: Int,
+                            extras: Bundle?
+                        ) {
 
-                    }
+                        }
 
-                    override fun onProviderEnabled(provider: String?) {
+                        override fun onProviderEnabled(provider: String?) {
 
-                    }
+                        }
 
-                    override fun onProviderDisabled(provider: String?) {
+                        override fun onProviderDisabled(provider: String?) {
 
-                    }
-                })
+                        }
+                    })
 
-                val localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                val localNetworkLocation =
+                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if (localNetworkLocation != null) {
                     locationNetwork = localNetworkLocation
                 }
@@ -258,7 +282,10 @@ class MapsFragment :
     private fun rationaleCallback(req: QuickPermissionsRequest) {
 
         // this will be called when permission is denied once or more time.
-        i(TAG, "rationaleCallback : this will be called when permission is denied once or more time")
+        i(
+            TAG,
+            "rationaleCallback : this will be called when permission is denied once or more time"
+        )
 //        AlertDialog.Builder(this.requireContext())
 //            .setTitle(getString(R.string.rationale_callback_title))
 //            .setMessage(getString(R.string.rationale_callback_message))
@@ -272,7 +299,10 @@ class MapsFragment :
 
         // this will be called when some/all permissions required by the method are permanently
         // denied.
-        i(TAG, "permissionPermanentlyDenied : this will be called when some/all permissions required by the method are permanently denied")
+        i(
+            TAG,
+            "permissionPermanentlyDenied : this will be called when some/all permissions required by the method are permanently denied"
+        )
         AlertDialog.Builder(this.requireContext())
             .setTitle(getString(R.string.permission_permanently_denied_title))
             .setMessage(getString(R.string.permission_permanently_denied_message))
@@ -285,7 +315,10 @@ class MapsFragment :
     fun whenPermissionsAreDenied(req: QuickPermissionsRequest) {
 
         // handle something when permissions are not granted and the request method cannot be called.
-        i(TAG, "whenPermissionsAreDenied : handle something when permissions are not granted and the request method cannot be called")
+        i(
+            TAG,
+            "whenPermissionsAreDenied : handle something when permissions are not granted and the request method cannot be called"
+        )
         AlertDialog.Builder(this.requireContext())
             .setTitle(getString(R.string.when_permissions_are_denied_title))
             .setMessage(getString(R.string.when_permissions_are_denied_message))
@@ -342,7 +375,11 @@ class MapsFragment :
 
             if (binding.clProfile.isClickable) {
 
-                Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.login_hint_on_fab_clicked),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             } else {
                 this.findNavController().navigate(R.id.action_global_rewardCardFragment)
@@ -356,7 +393,11 @@ class MapsFragment :
 
             if (binding.clProfile.isClickable) {
 
-                Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.login_hint_on_fab_clicked),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             } else {
                 this.findNavController().navigate(R.id.action_global_QRCodeScannerFragment)
@@ -373,7 +414,11 @@ class MapsFragment :
 
             if (binding.clProfile.isClickable) {
 
-                Toast.makeText(this.context, getString(R.string.login_hint_on_fab_clicked), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.login_hint_on_fab_clicked),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             } else {
 
@@ -393,6 +438,7 @@ class MapsFragment :
             levelInfoDialog.show()
         }
     }
+
     private fun showDialogIfLocationServiceOff() {
 
         AlertDialog.Builder(this.requireContext())
@@ -402,20 +448,31 @@ class MapsFragment :
                 getLocation()
             }
             .setNegativeButton(getString(R.string.if_location_service_off_negative_button)) { _, _ ->
-                Toast.makeText(this.context, getString(R.string.if_location_service_off_negative_button_clicked), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.if_location_service_off_negative_button_clicked),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             .create()
             .show()
     }
 
-    private fun showMarkerSearchedByTitle (title: String) {
+    private fun showMarkerSearchedByTitle(title: String) {
 
         i(TAG, "search " + binding.autoCompleteTvSearchBar.text.toString())
-        if ( !binding.autoCompleteTvSearchBar.text.isNullOrEmpty() ) {
+        if (!binding.autoCompleteTvSearchBar.text.isNullOrEmpty()) {
 
             for (marker in markersList) {
 
                 marker.isVisible = marker.title.equals(title, true)
+//                map.animateCamera(
+//                    CameraUpdateFactory.newLatLngZoom(
+//                        LatLng(marker.position.latitude, marker.position.longitude),
+//                        map.cameraPosition.zoom
+//                    ),
+//                    500, null
+//                )
 //                if (marker.title.equals(title, true)) {
 //
 //                    marker.isVisible = marker.title.equals(title, true)
@@ -423,14 +480,16 @@ class MapsFragment :
 //                } else {
 //                    Toast.makeText(this.requireContext(), "尚未收錄此店家，歡迎使用新增功能！", Toast.LENGTH_LONG).show()
 //                }
-    //            if (binding.autoCompleteTvSearchBar.text.toString().isEmpty()) {
-    //                marker.isVisible = true
-    //            }
             }
         } else {
-            Toast.makeText(this.requireContext(), getString(R.string.empty_search), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this.requireContext(),
+                getString(R.string.empty_search),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
+
     private fun firebaseAuthStateListener() {
 
         authProvider = listOf(
@@ -460,7 +519,8 @@ class MapsFragment :
                                 .setAlwaysShowSignInMethodScreen(false)
                                 .setIsSmartLockEnabled(false, true)
                                 .build()
-                            startActivityForResult(intent,
+                            startActivityForResult(
+                                intent,
                                 RC_SIGN_IN
                             )
                         }
@@ -469,7 +529,7 @@ class MapsFragment :
 //                    Toast.makeText(this.context, "登入成功 ! ", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    OwasteRepository.initCurrentUserIfFirstTime {  }
+                    OwasteRepository.initCurrentUserIfFirstTime { }
 
                     i(TAG, "current user = ${user?.email}")
 
@@ -489,7 +549,8 @@ class MapsFragment :
                         userData?.let { user ->
 
                             val totalExp = Integer.parseInt(document.get(EXP).toString())
-                            val displayExp = totalExp - 100 * ( (1 + (user.level.minus(1))) * (user.level - 1) / 2 )
+                            val displayExp =
+                                totalExp - 100 * ((1 + (user.level.minus(1))) * (user.level - 1) / 2)
 
                             binding.let {
 
@@ -539,6 +600,7 @@ class MapsFragment :
             true
         }
     }
+
     private fun firebaseSignOut() {
 
         AuthUI.getInstance()
@@ -580,8 +642,10 @@ class MapsFragment :
 
     override fun onMarkerClick(marker: Marker?): Boolean {
 
-        map.animateCamera(CameraUpdateFactory
-            .newLatLngZoom(marker?.position, map.cameraPosition.zoom), 500, null)
+        map.animateCamera(
+            CameraUpdateFactory
+                .newLatLngZoom(marker?.position, map.cameraPosition.zoom), 500, null
+        )
 
         marker?.let {
 
@@ -611,92 +675,99 @@ class MapsFragment :
                 it.clInCvPlaceDetails.visibility = View.VISIBLE
             }
 
-            viewModel.getClickedRestaurantFromFirestoreByName(marker.title, OnSuccessListener { querySnapshot ->
+            viewModel.getClickedRestaurantFromFirestoreByName(
+                marker.title,
+                OnSuccessListener { querySnapshot ->
 
-                if (!querySnapshot.isEmpty) {
+                    if (!querySnapshot.isEmpty) {
 
-                    i(TAG, "QuerySnapshot = ${querySnapshot.toObjects(Restaurant::class.java)}")
+                        i(TAG, "QuerySnapshot = ${querySnapshot.toObjects(Restaurant::class.java)}")
 
-                    val placeIdOfClickedRestaurant = querySnapshot.toObjects(Restaurant::class.java)[0].placeId
-                    viewModel.getPlaceDetails(placeIdOfClickedRestaurant)
+                        val placeIdOfClickedRestaurant =
+                            querySnapshot.toObjects(Restaurant::class.java)[0].placeId
+                        viewModel.getPlaceDetails(placeIdOfClickedRestaurant)
 
-                    viewModel.placeDetails.observe(this, Observer { place ->
+                        viewModel.placeDetails.observe(this, Observer { place ->
 
-                        place?.let { details ->
-                            i(TAG, "viewModel.placeDetails = ${viewModel.placeDetails.value}")
-
-                            binding.let {
-
-                                it.progressbarPlaceDetails.visibility = View.GONE
-                                it.txtPlaceDetiailShowReviews.visibility = View.VISIBLE
-                                it.imgExpandReviewsArrow.visibility = View.VISIBLE
-    //                            binding.imgRestaurantLevel.visibility = View.VISIBLE
-                            }
-
-                            if (details.photos != null) {
-                                binding.rvPlacePhoto.visibility = View.VISIBLE
-                            }
-                            if (details.rating != null) {
+                            place?.let { details ->
+                                i(TAG, "viewModel.placeDetails = ${viewModel.placeDetails.value}")
 
                                 binding.let {
 
-                                    it.ratingbarPlaceRating.rating = details.rating
-                                    it.ratingbarPlaceRating.visibility = View.VISIBLE
-                                    it.txtRating.text = details.rating.toString()
-                                    it.txtRating.visibility = View.VISIBLE
+                                    it.progressbarPlaceDetails.visibility = View.GONE
+                                    it.txtPlaceDetiailShowReviews.visibility = View.VISIBLE
+                                    it.imgExpandReviewsArrow.visibility = View.VISIBLE
+                                    //                            binding.imgRestaurantLevel.visibility = View.VISIBLE
                                 }
-                            }
-                            if (details.user_ratings_total != null) {
 
-                                binding.let {
-
-                                    it.txtRatingTotal.text = details.user_ratings_total.toString()
-                                    it.txtRatingTotal.visibility = View.VISIBLE
-                                    it.txtRatingTotalRight.visibility = View.VISIBLE
-                                    it.txtRatingTotalLeft.visibility = View.VISIBLE
+                                if (details.photos != null) {
+                                    binding.rvPlacePhoto.visibility = View.VISIBLE
                                 }
-                            }
-                            if (details.price_level != null && details.price_level != 0 && details.price_level != 1) {
-
-                                binding.let {
-
-                                    when (details.price_level) {
-                                        2 -> it.txtPriceLevel.text = getString(R.string.price_level_2)
-                                        3 -> it.txtPriceLevel.text = getString(R.string.price_level_3)
-                                        4 -> it.txtPriceLevel.text = getString(R.string.price_level_4)
-                                    }
-                                    it.txtPriceLevel.visibility = View.VISIBLE
-                                    it.txtDotBetweenTypePriceLevel.visibility = View.VISIBLE
-                                }
-                            }
-                            if (details.opening_hours != null) {
-
-                                binding.txtIsPlaceOpen.visibility = View.VISIBLE
-                                if (details.opening_hours.open_now) {
+                                if (details.rating != null) {
 
                                     binding.let {
 
-                                        it.txtIsPlaceOpen.text = getString(R.string.place_open)
-                                        it.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.darker_green_FF658540))
+                                        it.ratingbarPlaceRating.rating = details.rating
+                                        it.ratingbarPlaceRating.visibility = View.VISIBLE
+                                        it.txtRating.text = details.rating.toString()
+                                        it.txtRating.visibility = View.VISIBLE
+                                    }
+                                }
+                                if (details.user_ratings_total != null) {
+
+                                    binding.let {
+
+                                        it.txtRatingTotal.text =
+                                            details.user_ratings_total.toString()
+                                        it.txtRatingTotal.visibility = View.VISIBLE
+                                        it.txtRatingTotalRight.visibility = View.VISIBLE
+                                        it.txtRatingTotalLeft.visibility = View.VISIBLE
+                                    }
+                                }
+                                if (details.price_level != null && details.price_level != 0 && details.price_level != 1) {
+
+                                    binding.let {
+
+                                        when (details.price_level) {
+                                            2 -> it.txtPriceLevel.text =
+                                                getString(R.string.price_level_2)
+                                            3 -> it.txtPriceLevel.text =
+                                                getString(R.string.price_level_3)
+                                            4 -> it.txtPriceLevel.text =
+                                                getString(R.string.price_level_4)
+                                        }
+                                        it.txtPriceLevel.visibility = View.VISIBLE
+                                        it.txtDotBetweenTypePriceLevel.visibility = View.VISIBLE
+                                    }
+                                }
+                                if (details.opening_hours != null) {
+
+                                    binding.txtIsPlaceOpen.visibility = View.VISIBLE
+                                    if (details.opening_hours.open_now) {
+
+                                        binding.let {
+
+                                            it.txtIsPlaceOpen.text = getString(R.string.place_open)
+                                            it.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.darker_green_FF658540))
+                                        }
+                                    } else {
+
+                                        binding.let {
+
+                                            it.txtIsPlaceOpen.text = getString(R.string.place_close)
+                                            it.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.quantum_vanillared400))
+                                        }
                                     }
                                 } else {
-
-                                    binding.let {
-
-                                        it.txtIsPlaceOpen.text = getString(R.string.place_close)
-                                        it.txtIsPlaceOpen.setTextColor(resources.getColor(R.color.quantum_vanillared400))
-                                    }
+                                    binding.txtIsPlaceOpen.visibility = View.INVISIBLE
                                 }
-                            } else {
-                                binding.txtIsPlaceOpen.visibility = View.INVISIBLE
                             }
-                        }
-                    })
-                    dismissPlaceDetailOnMapClicked()
-                } else {
-                    i(TAG, "QuerySnapshot = null")
-                }
-            })
+                        })
+                        dismissPlaceDetailOnMapClicked()
+                    } else {
+                        i(TAG, "QuerySnapshot = null")
+                    }
+                })
         }
 
         return true
@@ -724,18 +795,21 @@ class MapsFragment :
         // include all places we have markers for on the map
         if (viewModel.restaurants.value != null) {
 
-        // create bounds that encompass every location we reference
-        val boundsBuilder = LatLngBounds.Builder()
+            // create bounds that encompass every location we reference
+            val boundsBuilder = LatLngBounds.Builder()
 
             i(TAG, "viewModel apply : ${viewModel.restaurants.apply { this.value?.size }}")
             for (i in 0 until viewModel.restaurants.value!!.size) {
 
                 val latLng =
-                    LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
+                    LatLng(
+                        viewModel.restaurants.value!![i].lat,
+                        viewModel.restaurants.value!![i].lng
+                    )
                 i(TAG, "LatLng = $latLng")
                 boundsBuilder.include(latLng)
             }
-        // Add several markers and move the camera
+            // Add several markers and move the camera
             val bounds = boundsBuilder.build()
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.center, 10f), 3000, null)
         }
@@ -748,12 +822,17 @@ class MapsFragment :
 
         try {
             val isSuccess = googleMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(this.context,
+                MapStyleOptions.loadRawResourceStyle(
+                    this.context,
                     R.raw.style_maps
                 )
             )
             if (!isSuccess)
-                Toast.makeText(this.context, getString(R.string.map_style_failed), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.map_style_failed),
+                    Toast.LENGTH_SHORT
+                ).show()
         } catch (e: Resources.NotFoundException) {
             e.printStackTrace()
         }
@@ -784,9 +863,9 @@ class MapsFragment :
         val markerLv5 =
             Bitmap.createScaledBitmap(bitmapDrawLv5.toBitmap(), width, height, false)
 
-            i(TAG, "viewModel.restaurants.value = ${viewModel.restaurants.value}")
-            i(TAG, "viewModel.filterDataList.value = ${viewModel.filterDataList.value}")
-            i(TAG, "viewModel.savedRestaurantsList.value = ${viewModel.savedRestaurantList}")
+        i(TAG, "viewModel.restaurants.value = ${viewModel.restaurants.value}")
+        i(TAG, "viewModel.filterDataList.value = ${viewModel.filterDataList.value}")
+        i(TAG, "viewModel.savedRestaurantsList.value = ${viewModel.savedRestaurantList}")
         for (i in 0 until viewModel.restaurants.value!!.size) {
             val latLng =
                 LatLng(viewModel.restaurants.value!![i].lat, viewModel.restaurants.value!![i].lng)
@@ -824,7 +903,8 @@ class MapsFragment :
     private fun getLocationPermission() = runWithPermissions(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION,
-        options = quickPermissionsOptions){
+        options = quickPermissionsOptions
+    ) {
 
         //Google Map 中顯示裝置位置，且裝置移動會跟著移動的那個藍點
         map.isMyLocationEnabled = true

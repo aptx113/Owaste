@@ -94,7 +94,6 @@ class MapsViewModel : ViewModel() {
 
     fun onCheckedChangeListener() = CompoundButton.OnCheckedChangeListener { checkBox, isChecked ->
 
-        // move outside
         val level1 = filterDataList.value?.filter { it.level == 1 } as ArrayList<Restaurant>
         val level2 = filterDataList.value?.filter { it.level == 2 } as ArrayList<Restaurant>
         val level3 = filterDataList.value?.filter { it.level == 3 } as ArrayList<Restaurant>
