@@ -90,5 +90,7 @@
 
     <string name="add_points_n_exp_1">點數新增成功！經驗值 + </string>
     <string name="add_points_n_exp_2"> ！</string>
+    <string name="add_cards_n_exp">新增店家集點卡！經驗值 + </string>
+
 
 </resources>

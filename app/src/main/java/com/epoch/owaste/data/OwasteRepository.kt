@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.epoch.owaste.Owaste
 import com.epoch.owaste.R
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -25,24 +26,22 @@ object OwasteRepository {
     private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private val currentUserDocRef: DocumentReference
-        get() = firestoreInstance.document("users/${FirebaseAuth.getInstance().currentUser?.uid
-                ?: throw NullPointerException("UID is null.")}")
+        get() = firestoreInstance.document(
+            "users/${FirebaseAuth.getInstance().currentUser?.uid
+                ?: throw NullPointerException("UID is null.")}"
+        )
 
-    val _currentQRCodeLevel = MutableLiveData<String>()
+    private val _currentQRCodeLevel = MutableLiveData<String>()
     val currentQRCodeLevel: LiveData<String>
         get() = _currentQRCodeLevel
 
-    val _currentQRCodeCardId = MutableLiveData<String>()
+    private val _currentQRCodeCardId = MutableLiveData<String>()
     val currentQRCodeCardId: LiveData<String>
         get() = _currentQRCodeCardId
 
-    val _currentQRCodeRestaurantName = MutableLiveData<String>()
+    private val _currentQRCodeRestaurantName = MutableLiveData<String>()
     val currentQRCodeRestaurantName: LiveData<String>
         get() = _currentQRCodeRestaurantName
-
-    val _allRewardCards = MutableLiveData<List<RewardCard>>()
-    val allRewardCards: LiveData<List<RewardCard>>
-        get() = _allRewardCards
 
     fun initCurrentUserIfFirstTime(onComplete: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener { documentSnapshot ->
@@ -54,13 +53,13 @@ object OwasteRepository {
                 )
                 currentUserDocRef.set(newUser).addOnSuccessListener {
                     onComplete()
-                    i(TAG,"currentUserDocRef = ${currentUserDocRef.id}")
+                    i(TAG, "currentUserDocRef = ${currentUserDocRef.id}")
                 }
-            }
-            else
+            } else
                 onComplete()
         }
     }
+
     fun onQRCodeScannedUpdateCard() {
         currentUserDocRef.collection(REWARD_CARD)
             .whereEqualTo(CARD_ID, currentQRCodeCardId.value?.toLong())
@@ -80,6 +79,13 @@ object OwasteRepository {
                         .addOnSuccessListener {
                             i(TAG, "Add new reward card, document UID = ${it.id}")
                         }
+                    Toast.makeText(
+                        Owaste.instance.applicationContext,
+                        Owaste.instance.getString(R.string.add_cards_n_exp) + currentQRCodeLevel.value!!.toLong() * 10 + Owaste.instance.getString(
+                            R.string.add_points_n_exp_2
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
 
                     i(TAG, "get QuerySnapshot = ${querySnapshot.toObjects(RewardCard::class.java)}")
@@ -95,7 +101,12 @@ object OwasteRepository {
                                 getCardIdDocRef
                                     .update(mapOf(POINTS to currentPoints.plus(1)))
                                     .addOnSuccessListener {
-                                        i(TAG, "get QuerySnapshot updated = ${querySnapshot.toObjects(RewardCard::class.java)}")
+                                        i(
+                                            TAG,
+                                            "get QuerySnapshot updated = ${querySnapshot.toObjects(
+                                                RewardCard::class.java
+                                            )}"
+                                        )
                                     }
                             }
                         }
@@ -104,7 +115,8 @@ object OwasteRepository {
                         Owaste.instance.getString(R.string.add_points_n_exp_1) +
                                 currentQRCodeLevel.value!!.toLong() * 10 +
                                 Owaste.instance.getString(R.string.add_points_n_exp_2),
-                        Toast.LENGTH_SHORT).show()
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
@@ -118,11 +130,13 @@ object OwasteRepository {
 
                 i(TAG, "total Exp = $totalExp")
 
-                currentUserDocRef.update(mapOf(
+                currentUserDocRef.update(
+                    mapOf(
                         EXP to totalExp.plus(currentQRCodeLevel.value!!.toLong() * 10)
-                    )).addOnSuccessListener {
+                    )
+                ).addOnSuccessListener {
 
-                i(TAG, "total Exp updated = $totalExp")
+                    i(TAG, "total Exp updated = $totalExp")
                 }
             }
     }
@@ -149,8 +163,8 @@ object OwasteRepository {
                 }
                 currentUserDocRef.update(mapOf(LEVEL to userLevel))
                     .addOnSuccessListener {
-                    i(TAG, "current level = $userLevel")
-                }
+                        i(TAG, "current level = $userLevel")
+                    }
             }
     }
 
@@ -163,5 +177,32 @@ object OwasteRepository {
     fun getCurrentUserExpToUpdateProgressBar(listener: OnSuccessListener<DocumentSnapshot>) {
 
         currentUserDocRef.get().addOnSuccessListener(listener)
+    }
+
+    fun getCurrentQRCodeLevel(result: String?) {
+
+        _currentQRCodeLevel.value = result
+        i(
+            TAG,
+            "OwasteRepository.currentQRCodeLevel.value = ${OwasteRepository.currentQRCodeLevel.value}"
+        )
+    }
+
+    fun getCurrentQRCodeCardId(result: String?) {
+
+        _currentQRCodeCardId.value = result
+        i(
+            TAG,
+            "OwasteRepository.currentQRCodeCardId.value = ${OwasteRepository.currentQRCodeCardId.value}"
+        )
+    }
+
+    fun getCurrentQRCodeRestaurantName(result: String?) {
+
+        _currentQRCodeRestaurantName.value = result
+        i(
+            TAG,
+            "OwasteRepository.currentQRCodeRestaurantName.value = ${OwasteRepository.currentQRCodeRestaurantName.value}"
+        )
     }
 }

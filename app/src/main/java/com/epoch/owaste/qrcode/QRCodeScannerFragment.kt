@@ -4,6 +4,7 @@ package com.epoch.owaste.qrcode
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.util.Log.i
 import android.util.SparseArray
@@ -12,6 +13,8 @@ import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.util.size
+import androidx.navigation.fragment.findNavController
+import com.epoch.owaste.R
 import com.epoch.owaste.data.OwasteRepository
 import com.epoch.owaste.databinding.FragmentQrcodeScannerBinding
 import com.google.android.gms.vision.CameraSource
@@ -59,8 +62,8 @@ class QRCodeScannerFragment : Fragment() {
         i(TAG, "surfaceview = $windowWidth, ${binding.svQrCodeScanner.layoutParams.height}")
         cameraSource = CameraSource.Builder(this.requireContext(), barcodeDetector)
 //                .setRequestedPreviewSize(windowWidth, binding.svQrCodeScanner.layoutParams.height)
-                .setAutoFocusEnabled(true)
-                .build()
+            .setAutoFocusEnabled(true)
+            .build()
 
         qrCodeScanner.holder.addCallback(object : SurfaceHolder.Callback {
 
@@ -68,27 +71,35 @@ class QRCodeScannerFragment : Fragment() {
                 if (ActivityCompat.checkSelfPermission(
                         this@QRCodeScannerFragment.requireContext(),
                         Manifest.permission.CAMERA
-                    ) != PackageManager.PERMISSION_GRANTED) {
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
 
                     try {
                         runWithPermissions(Manifest.permission.CAMERA) {
 
                             cameraSource.start(surfaceHolder)
                             i(TAG, "好啦准你開相機")
-                            i(TAG, "window width = $windowWidth , " +
-                            "window height = $windowHeight")
+                            i(
+                                TAG, "window width = $windowWidth , " +
+                                        "window height = $windowHeight"
+                            )
                         }
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
                 } else {
 
-                        cameraSource.start(surfaceHolder)
-                        i(TAG, "VIP pass 相機直接開起來")
+                    cameraSource.start(surfaceHolder)
+                    i(TAG, "VIP pass 相機直接開起來")
                 }
             }
 
-            override fun surfaceChanged(surfaceHolder: SurfaceHolder?, format: Int, width: Int, height: Int) {
+            override fun surfaceChanged(
+                surfaceHolder: SurfaceHolder?,
+                format: Int,
+                width: Int,
+                height: Int
+            ) {
             }
 
             override fun surfaceDestroyed(surfaceHolder: SurfaceHolder?) {
@@ -110,29 +121,40 @@ class QRCodeScannerFragment : Fragment() {
 
                     scanResult.post(Runnable {
 
-                            val result: String? = qrcode?.valueAt(0)?.displayValue
-                            // get level and card Id of the restaurants from QR code
-                            OwasteRepository._currentQRCodeCardId.value =
-                                result?.let {
-                                    it.substring(it.indexOf("a") + 1, it.indexOf("b"))
-                                }
-                            OwasteRepository._currentQRCodeLevel.value =
-                                result?.let {
-                                    it.substring(it.indexOf("b") + 1, it.indexOf("c"))
-                                }
-                            OwasteRepository._currentQRCodeRestaurantName.value =
-                                result?.let {
-                                    it.substring(it.indexOf("c") + 1)
-                                }
+                        barcodeDetector.release()
 
-                            i(TAG, "OwasteRepository._currentLevelsOfAllCards.value = ${OwasteRepository._currentQRCodeLevel.value}")
-                            i(TAG, "OwasteRepository._currentQRCodeCardId.value = ${OwasteRepository._currentQRCodeCardId.value}")
-                            i(TAG, "OwasteRepository._currentQRCodeRestaurantName.value = ${OwasteRepository._currentQRCodeRestaurantName.value}")
+                        val result: String? = qrcode?.valueAt(0)?.displayValue
 
-                            barcodeDetector.release()
-                            OwasteRepository.onQRCodeScannedUpdateCard()
-                            OwasteRepository.onQRCodeScannedUpdateExp()
+                        // get level, card Id and name of the restaurants from QR code
+                        val levelResult = result?.let {
+                            it.substring(it.indexOf("b") + 1, it.indexOf("c"))
                         }
+
+                        val cardIdResult = result?.let {
+                            it.substring(it.indexOf("a") + 1, it.indexOf("b"))
+                        }
+
+                        val nameResult = result?.let {
+                            it.substring(it.indexOf("c") + 1)
+                        }
+
+                        OwasteRepository.let {
+                            it.getCurrentQRCodeLevel(levelResult)
+                            it.getCurrentQRCodeCardId(cardIdResult)
+                            it.getCurrentQRCodeRestaurantName(nameResult)
+                            it.onQRCodeScannedUpdateCard()
+                            it.onQRCodeScannedUpdateExp()
+                        }
+
+                        Handler().postDelayed(
+
+                            Runnable {
+                                this@QRCodeScannerFragment.findNavController().navigate(R.id.action_global_mapsFragment)
+                                i(TAG, "delay")
+                            },
+                            2500
+                        )
+                    }
                     )
                 }
             }
