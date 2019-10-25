@@ -146,7 +146,44 @@ class MapsFragment :
         if (FirebaseAuth.getInstance().currentUser != null) {
 
             OwasteRepository.initUserLevelWhenBackToMap()
-            binding.progressbarUserExp.max = userData?.level?.times(100) ?: 0
+//            binding.progressbarUserExp.max = userData?.level?.times(100) ?: 0
+            viewModel.getCurrentUserExpToUpdateProgressBar(OnSuccessListener { document ->
+                userData = document.toObject(User::class.java)
+                i(TAG, "userData = $userData")
+                userData?.let { user ->
+
+                    val totalExp = Integer.parseInt(document.get(EXP).toString())
+                    val displayExp =
+                        totalExp - 100 * ((1 + (user.level.minus(1))) * (user.level - 1) / 2)
+
+                    binding.let {
+
+                        it.progressbarUserExp.progress = displayExp
+                        it.progressbarUserExp.max = user.level * 100
+                        it.progressbarUserExp.visibility = View.VISIBLE
+                        it.txtUserExpGoal.text = (user.level * 100).toString()
+                        it.txtUserExpGoal.visibility = View.VISIBLE
+                        it.txtUserCurrentExp.text = displayExp.toString()
+                        it.txtUserCurrentExp.visibility = View.VISIBLE
+                        it.txtUserExpSlash.visibility = View.VISIBLE
+                        i(TAG, "totalExp = $totalExp, displayExp = $displayExp")
+
+                        when (user.level) {
+                            1 -> it.txtUserLevel.text = getString(R.string.user_level_1)
+                            2 -> it.txtUserLevel.text = getString(R.string.user_level_2)
+                            3 -> it.txtUserLevel.text = getString(R.string.user_level_3)
+                            4 -> it.txtUserLevel.text = getString(R.string.user_level_4)
+                            5 -> it.txtUserLevel.text = getString(R.string.user_level_5)
+                            6 -> it.txtUserLevel.text = getString(R.string.user_level_6)
+                            7 -> it.txtUserLevel.text = getString(R.string.user_level_7)
+                            8 -> it.txtUserLevel.text = getString(R.string.user_level_8)
+                            9 -> it.txtUserLevel.text = getString(R.string.user_level_9)
+                            10 -> it.txtUserLevel.text = getString(R.string.user_level_10)
+                        }
+                        it.txtUserLevel.visibility = View.VISIBLE
+                    }
+                }
+            })
         }
         binding.let {
 
@@ -541,7 +578,7 @@ class MapsFragment :
                         it.txtProfileName.text = user?.displayName
                         it.txtUserLevel.visibility = View.VISIBLE
                     }
-                    Glide.with(this).load(user?.photoUrl).into(img_profile)
+                    user?.let { Glide.with(this).load(user.photoUrl).into(img_profile) }
 
                     viewModel.getCurrentUserExpToUpdateProgressBar(OnSuccessListener { document ->
                         userData = document.toObject(User::class.java)
