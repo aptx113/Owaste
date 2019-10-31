@@ -23,11 +23,15 @@ class NewRestaurantDialogFragment : DialogFragment() {
 
     lateinit var binding: FragmentNewRestaurantDialogBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NO_FRAME, R.style.add_new_restaurant_dialog)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setStyle(STYLE_NO_FRAME, R.style.add_new_restaurant_dialog)
 
         dialog?.window?.setBackgroundDrawableResource(R.color.transparent_CC000000)
         binding = FragmentNewRestaurantDialogBinding.inflate(inflater, container, false)
@@ -73,6 +77,4 @@ class NewRestaurantDialogFragment : DialogFragment() {
         // Inflate the layout for this fragment
         return binding.root
     }
-
-
 }
